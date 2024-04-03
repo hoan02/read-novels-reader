@@ -8,6 +8,7 @@ import { ToasterProvider } from "@/lib/providers/ToasterProvider";
 import { ThemeProvider } from "@/lib/providers/ThemeProvider";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
+import Banner from "@/components/layouts/Banner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -40,9 +41,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header />
-            {children}
-            <Footer />
+            <div className="max-lg:flex-col">
+              <Header />
+              <Banner />
+              <div>{children}</div>
+              <Footer />
+            </div>
           </ThemeProvider>
         </body>
       </html>

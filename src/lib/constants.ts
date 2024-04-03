@@ -1,3 +1,13 @@
+import {
+  SquareUser,
+  SquareLibrary,
+  Settings,
+  ScanBarcode,
+  BellRing,
+  MessageSquareWarning,
+} from "lucide-react";
+import { MenuIconType } from "./types";
+
 export const statusErrorTitles: { [key: number]: string } = {
   400: "Bad Request",
   401: "Unauthorized",
@@ -10,7 +20,10 @@ export const statusErrorTitles: { [key: number]: string } = {
   504: "Gateway Timeout",
 };
 
-export const novelGenres = [
+export const novelGenres: {
+  name: string;
+  slug: string;
+}[] = [
   { name: "Kiếm hiệp", slug: "kiem-hiep" },
   { name: "Huyền Huyễn", slug: "huyen-huyen" },
   { name: "Võng Du", slug: "vong-du" },
@@ -23,3 +36,50 @@ export const novelGenres = [
   { name: "Đã sử", slug: "da-su" },
   { name: "Huyền Nghi", slug: "huyen-nghi" },
 ];
+
+export const novelRanks: {
+  name: string;
+  slug: string;
+}[] = [
+  { name: "Thịnh hành", slug: "thinh-hanh" },
+  { name: "Đọc nhiều", slug: "doc-nhieu" },
+  { name: "Tặng thưởng", slug: "tang-thuong" },
+  { name: "Đề cử", slug: "de-cu" },
+  { name: "Yêu thích", slug: "yeu-thich" },
+  { name: "Thảo luận", slug: "thao-luan" },
+];
+
+export const menuAccount: MenuIconType[] = [
+  {
+    icon: SquareUser,
+    name: "Hồ sơ",
+    slug: "/tai-khoan/ho-so",
+  },
+  {
+    icon: SquareLibrary,
+    name: "Tủ truyện",
+    slug: "/tai-khoan/tu-truyen",
+  },
+  {
+    icon: Settings,
+    name: "Cài đặt",
+    slug: "/tai-khoan/cai-dat",
+  },
+  {
+    icon: ScanBarcode,
+    name: "Mua kẹo",
+    slug: "/tai-khoan/mua-keo",
+  },
+  {
+    icon: BellRing,
+    name: "Thông báo",
+    slug: "/tai-khoan/thong-bao",
+  },
+  {
+    icon: MessageSquareWarning,
+    name: "Trợ giúp & Báo lỗi",
+    slug: "/tai-khoan/ho-tro",
+  },
+];
+
+export const subMenuAccount = menuAccount.slice(0, 4);

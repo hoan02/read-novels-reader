@@ -1,3 +1,23 @@
+import { LucideIcon } from "lucide-react";
+
+type MenuType = {
+  name: string;
+  slug: string;
+};
+
+type MenuIconType = MenuType & {
+  icon: LucideIcon;
+};
+
+type UserType = {
+  clerkId: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  avatar: string;
+};
+
 type NovelType = {
   _id: string;
   novelName: string;
