@@ -1,7 +1,7 @@
 "use server";
 
 import { connectToDB } from "@/lib/mongodb/mongoose";
-import Rating from "@/lib/models/rating.model";
+import Rating from "@/lib/models/review.model";
 import Novel from "@/lib/models/novel.model";
 import { auth } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";

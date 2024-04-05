@@ -13,7 +13,6 @@ export const getChapter = async (novelSlug: string, chapterIndex: number) => {
     });
 
     if (!chapter) return createResponse(null, "Không tìm thấy chương!", 404);
-
     return createResponse(chapter, "Success!", 200);
   } catch (err) {
     console.log(err);

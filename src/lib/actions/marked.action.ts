@@ -4,7 +4,7 @@ import { connectToDB } from "@/lib/mongodb/mongoose";
 import { auth } from "@clerk/nextjs";
 import Marked from "@/lib/models/marked.model";
 
-export const createOrUpdateMark = async (novelSlug: string, chapterNumber: number) => {
+export const createOrUpdateMark = async (novelSlug: string, chapterIndex: number) => {
   try {
     const { userId } = auth();
     await connectToDB();
@@ -13,7 +13,7 @@ export const createOrUpdateMark = async (novelSlug: string, chapterNumber: numbe
         clerkId: userId,
         novelSlug,
       },
-      { $set: { chapterNumber } },
+      { $set: { chapterIndex } },
       { upsert: true }
     );
     return { success: true, message: "Đánh dấu thành công!" };

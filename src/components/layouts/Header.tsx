@@ -8,7 +8,6 @@ import { novelGenres, novelRanks, subMenuAccount } from "@/lib/constants";
 import InputSearch from "@/components/custom-ui/InputSearch";
 import { Bell, CircleChevronUp, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import clsx from "clsx";
 
 import {
   Menubar,
@@ -60,7 +59,7 @@ const Header = () => {
                   <div className="flex items-center">
                     <div className="text-sm">{fullName}</div>
                     <Avatar className="mx-2">
-                      <AvatarImage src={avatar} alt="avatar" />
+                      <AvatarImage src={avatar} alt="avatar"/>
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                   </div>
@@ -89,10 +88,12 @@ const Header = () => {
                     })}
                     {isSignedIn && (
                       <div className="w-full pt-2 border-t-2 border-gray-400">
-                        <button className="flex text-red-600 gap-4">
-                          <LogOut />
-                          Đăng xuất
-                        </button>
+                        <SignOutButton>
+                          <button className="flex text-red-600 gap-4">
+                            <LogOut />
+                            Đăng xuất
+                          </button>
+                        </SignOutButton>
                       </div>
                     )}
                   </div>

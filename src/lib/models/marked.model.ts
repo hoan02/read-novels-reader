@@ -10,7 +10,7 @@ const markedSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    chapterNumber: {
+    chapterIndex: {
       type: Number,
       default: 0,
     },

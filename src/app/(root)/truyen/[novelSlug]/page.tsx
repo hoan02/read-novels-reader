@@ -1,174 +1,145 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { CldImage } from "next-cloudinary";
-import { Rating, Chip, Button, Skeleton, LinearProgress } from "@mui/material";
-import { FaFlag } from "react-icons/fa";
-import { PiSunglassesFill } from "react-icons/pi";
-import { HiOutlineBookmark } from "react-icons/hi";
-import TabsDetailsNovel from "@/components/novel/details/TabsDetailsNovel";
+import { currentUser } from "@clerk/nextjs";
+import { Flag, Glasses, Bookmark } from "lucide-react";
+import { getNovel } from "@/lib/data/novel.data";
+import { Button } from "@/components/ui/button";
+import { getMarked } from "@/lib/data/marked.data";
 
-const SingleNovelPage = () => {
-  const { novelSlug } = useParams();
+const SingleNovelPage = async ({
+  params,
+}: {
+  params: { novelSlug: string };
+}) => {
+  const user = await currentUser();
+  let marked, markedMessage, markedStatus;
+  const {
+    data: novel,
+    message: novelMessage,
+    status: novelStatus,
+  } = await getNovel(params.novelSlug);
+  if (user) {
+    const resMarked = await getMarked(params.novelSlug);
+    marked = resMarked.data;
+    markedMessage = resMarked.message;
+    markedStatus = resMarked.status;
+  }
 
-  const { data: novel, isLoading: novelLoading } = useQuery({
-    queryKey: ["novel", `${novelSlug}`],
-    queryFn: () => fetch(`/api/novels/${novelSlug}`).then((res) => res.json()),
-  });
-
-  const { data: markedData, isSuccess: markedSuccess } = useQuery({
-    queryKey: [`"marked", ${novelSlug}`],
-    queryFn: () => fetch(`/api/marked/${novelSlug}`).then((res) => res.json()),
-  });
-
-  if (novelLoading)
+  if (novelStatus === 200) {
     return (
-      <div className="bg-white shadow-md p-4 rounded-xl">
-        <div className="flex gap-4 mb-4">
-          <Skeleton variant="rectangular" width={240} height={320} />
-          <div className="space-y-4">
-            <Skeleton variant="rounded" width={600} height={50} />
-            <Skeleton variant="rounded" width={600} height={50} />
-            <Skeleton variant="rounded" width={600} height={50} />
+      <div className="lg:min-w-[1280px] bg-white shadow-md p-4 rounded-xl">
+        <div className="flex gap-4">
+          <div className="w-[240-px] h-[320px]">
+            <Image
+              alt={novel.novelName}
+              src={novel.urlCover}
+              width={240}
+              height={320}
+              className="w-full h-full"
+            />
+          </div>
+          <div className="flex-1 mx-4">
+            <div className="flex gap-2 items-center">
+              <h1 className="text-2xl font-semibold text-green-800">
+                {novel.novelName}
+              </h1>
+              <Flag />
+            </div>
+            <div className="flex gap-2 items-center my-6">
+              {novel.genres.map((genre) => {
+                return (
+                  <div key={genre.value} className="border-2 border-blue-800 text-blue-800 px-2 py-1 rounded-full">
+                    {genre.label}
+                  </div>
+                );
+              })}
+              <div className="border-2 border-green-700 text-green-700 px-2 py-1 rounded-full">
+                {novel.state}
+              </div>
+              <div className="border-2 border-red-700 text-red-700 px-2 py-1 rounded-full">
+                {novel.author}
+              </div>
+            </div>
+            <div className="flex gap-6 my-6">
+              <div>
+                <p className="font-bold">{novel.chapterCount}</p>
+                <p>Chương</p>
+              </div>
+
+              <div>
+                <p className="font-bold">{novel.readCount}</p>
+                <p>Lượt đọc</p>
+              </div>
+              <div>
+                <p className="font-bold">{novel.nominationCount}</p>
+                <p>Đề cử</p>
+              </div>
+            </div>
+            <div className="my-4 flex items-center text-sm">
+              <div className="flex">
+                {[...Array(10)].map((_, i) => (
+                  <svg
+                    key={i}
+                    className={`h-6 w-6 ${
+                      i < Math.round(novel.rating)
+                        ? "text-yellow-500"
+                        : "text-gray-300"
+                    }`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M10 15.27L16.18 21l-1.64-7.03L22 9.24l-7.19-.61L10 2 7.19 8.63 0 9.24l5.46 4.73L3.82 21z" />
+                  </svg>
+                ))}
+              </div>
+              <span className="ml-4 font-semibold">{novel.rating}/10</span>
+              <span className="ml-1">{`(${novel.nominations} đánh giá)`}</span>
+            </div>
+            {user ? (
+              <div className="flex gap-6">
+                {marked.chapterIndex === 0 ? (
+                  <Link href={`/truyen/${params.novelSlug}/1`}>
+                    <Button className="w-[150px] rounded">
+                      <Glasses size={30} />
+                      Đọc truyện
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/truyen/${params.novelSlug}/${marked.chapterIndex}`}
+                  >
+                    <Button className="w-[150px] rounded">
+                      <Glasses size={30} />
+                      Đọc tiếp
+                    </Button>
+                  </Link>
+                )}
+                <Button className="w-[150px] rounded">
+                  <Bookmark size={30} />
+                  Đánh dấu
+                </Button>
+                <Button className="w-[150px] rounded">
+                  <Image src="/candy.png" alt="candy" width={24} height={24} />
+                  Đề cử
+                </Button>
+              </div>
+            ) : (
+              <Link href={`/truyen/${params.novelSlug}/1`}>
+                <Button className="w-[150px] rounded">
+                  <Glasses size={30} />
+                  Đọc truyện
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
-        <LinearProgress />
+        {/* <div className="mt-10">
+        <TabsDetailsNovel novel={novel} />
+      </div> */}
       </div>
     );
-
-  return (
-    <div className="bg-white shadow-md p-4 rounded-xl">
-      <div className="flex gap-4">
-        <div className="w-[240-px] h-[320px]">
-          <CldImage
-            alt={novel.name}
-            src={novel.urlCover}
-            crop="fill"
-            width={240}
-            height={320}
-            className="w-full h-full"
-          />
-        </div>
-        <div className="flex-1 mx-4">
-          <div className="flex gap-2 items-center">
-            <h1 className="text-2xl font-semibold text-green-800">
-              {novel.name}
-            </h1>
-            <FaFlag />
-          </div>
-          <div className="flex gap-2 items-center my-6">
-            <Chip
-              label={novel.type}
-              variant="outlined"
-              style={{ color: "#0000AA", borderColor: "#0000AA" }}
-            />
-            <Chip
-              label={novel.state}
-              variant="outlined"
-              style={{ color: "#009900", borderColor: "#009900" }}
-            />
-            <Chip
-              label={novel.author}
-              variant="outlined"
-              style={{ color: "#990000", borderColor: "#990000" }}
-            />
-          </div>
-          <div className="flex gap-6 my-6">
-            <div>
-              <p className="font-bold">{novel.numberOfChapter}</p>
-              <p>Chương</p>
-            </div>
-
-            <div>
-              <p className="font-bold">{novel.reads}</p>
-              <p>Lượt đọc</p>
-            </div>
-            <div>
-              <p className="font-bold">123</p>
-              <p>Đề cử</p>
-            </div>
-          </div>
-          <div className="my-4 flex items-center text-sm">
-            <Rating
-              precision={0.5}
-              defaultValue={novel.rating}
-              max={10}
-              readOnly
-            />
-            <span className="ml-4 font-semibold">{novel.rating}/10</span>
-            <span className="ml-1">{`(${novel.nominations} đánh giá)`}</span>
-          </div>
-          {markedSuccess && (
-            <div className="flex gap-6">
-              {markedData.chapterNumber === 0 ? (
-                <Link href={`/truyen/${novelSlug}/1`}>
-                  <Button
-                    variant="contained"
-                    style={{
-                      width: "150px",
-                      borderRadius: "30px",
-                      textTransform: "none",
-                      fontSize: "16px",
-                    }}
-                    startIcon={<PiSunglassesFill size={30} />}
-                  >
-                    Đọc truyện
-                  </Button>
-                </Link>
-              ) : (
-                <Link href={`/truyen/${novelSlug}/${markedData.chapterNumber}`}>
-                  <Button
-                    variant="contained"
-                    style={{
-                      width: "150px",
-                      borderRadius: "30px",
-                      textTransform: "none",
-                      fontSize: "16px",
-                    }}
-                    startIcon={<PiSunglassesFill size={30} />}
-                  >
-                    Đọc tiếp
-                  </Button>
-                </Link>
-              )}
-              <Button
-                variant="outlined"
-                style={{
-                  width: "150px",
-                  borderRadius: "30px",
-                  textTransform: "none",
-                  fontSize: "16px",
-                }}
-                startIcon={<HiOutlineBookmark size={24} />}
-              >
-                Đánh dấu
-              </Button>
-              <Button
-                variant="outlined"
-                style={{
-                  width: "150px",
-                  borderRadius: "30px",
-                  textTransform: "none",
-                  fontSize: "16px",
-                }}
-                startIcon={
-                  <Image src="/candy.png" alt="candy" width={24} height={24} />
-                }
-              >
-                Đề cử
-              </Button>
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="mt-10">
-        <TabsDetailsNovel novel={novel} />
-      </div>
-    </div>
-  );
+  }
 };
 
 export default SingleNovelPage;

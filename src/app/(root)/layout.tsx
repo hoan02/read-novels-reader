@@ -41,10 +41,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="max-lg:flex-col">
+            <div className="max-lg:flex-col w-full relative">
               <Header />
               <Banner />
-              <div>{children}</div>
+              <main className="absolute xl:top-[300px] sm:top-[200px] w-full flex justify-center">
+                <div className="lg:max-w-screen-xl">{children}</div>
+              </main>
               <Footer />
             </div>
           </ThemeProvider>

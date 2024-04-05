@@ -43,10 +43,7 @@ const novelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    nominations: {
-      type: Number,
-      default: 0,
-    },
+   
     reviews: {
       count: {
         type: Number,
@@ -81,6 +78,10 @@ const novelSchema = new mongoose.Schema(
         default: 0,
       },
     },
+    nominationCount: {
+      type: Number,
+      default: 0,
+    },
     readCount: {
       type: Number,
       default: 0,
@@ -113,7 +114,7 @@ const novelSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-novelSchema.index({ name: "text" });
+novelSchema.index({ novelName: "text" });
 
 const Novel = mongoose.models?.Novel || mongoose.model("Novel", novelSchema);
 
