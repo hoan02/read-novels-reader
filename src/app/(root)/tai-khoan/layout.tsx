@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { menuAccount } from "@/lib/constants";
+import { MenuIconType } from "@/lib/types";
 
 interface AccountLayoutProps {
   children: ReactNode;
@@ -17,6 +18,7 @@ export default function AccountLayout({ children }: AccountLayoutProps) {
       <div className="w-1/5 border-r-2 ">
         <div>
           {menuAccount?.map((item: MenuIconType) => {
+            const Icon = item.icon;
             return (
               <div
                 className={`flex gap-4 p-4 ${
@@ -24,7 +26,7 @@ export default function AccountLayout({ children }: AccountLayoutProps) {
                 }`}
                 key={item.slug}
               >
-                {item.icon}
+                <Icon />
                 <Link href={item.slug}>{item.name}</Link>
               </div>
             );

@@ -12,9 +12,15 @@ import Fan from "./Fan";
 import Comment from "./Comment";
 import RatingNovel from "./RatingNovel";
 import MenuChapter from "@/components/novel/MenuChapter";
-import { NovelType } from "@/lib/types";
+import { ChapterType, NovelType } from "@/lib/types";
 
-const TabsDetailsNovel = ({ novel }: { novel: NovelType }) => {
+const TabsDetailsNovel = ({
+  novel,
+  chapters,
+}: {
+  novel: NovelType;
+  chapters: ChapterType[];
+}) => {
   const [value, setValue] = useState("gioi-thieu");
 
   const handleChange = (event: any, newValue: string) => {
@@ -26,7 +32,7 @@ const TabsDetailsNovel = ({ novel }: { novel: NovelType }) => {
       label: "Giới thiệu",
       value: "gioi-thieu",
       chip: null,
-      content: <Intro text={novel.description} />,
+      content: <Intro novel={novel} />,
     },
     {
       label: "Đánh giá",
@@ -38,7 +44,7 @@ const TabsDetailsNovel = ({ novel }: { novel: NovelType }) => {
       label: "Danh sách chương",
       value: "danh-sach-chuong",
       chip: novel.chapterCount,
-      content: <MenuChapter />,
+      content: <MenuChapter chapters={chapters} />,
     },
     {
       label: "Bình luận",

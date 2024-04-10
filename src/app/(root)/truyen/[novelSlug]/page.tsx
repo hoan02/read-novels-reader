@@ -9,6 +9,7 @@ import Error from "@/components/layouts/Error";
 import { getMarked } from "@/lib/data/marked.data";
 import { NovelType } from "@/lib/types";
 import { Suspense } from "react";
+import { getChapters } from "@/lib/data/chapter.data";
 
 const Loading = () => {
   return (
@@ -117,6 +118,8 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
     novelSlug
   );
 
+  const { data: chapters } = await getChapters(novelSlug);
+
   if (status !== 200) {
     return <Error message={message} status={status} />;
   }
@@ -193,7 +196,7 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
         </div>
       </div>
       <div className="mt-10">
-        <TabsDetailsNovel novel={novel} />
+        <TabsDetailsNovel novel={novel} chapters={chapters} />
       </div>
     </div>
   );

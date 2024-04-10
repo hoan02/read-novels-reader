@@ -34,6 +34,14 @@ interface StateType {
   color: string;
 }
 
+interface FormDataType {
+  novelSlug: string;
+  valueCharacter: number;
+  valuePlot: number;
+  valueWorld: number;
+  ratingContent: string;
+}
+
 const labels = {
   1: "1/10",
   2: "2/10",
@@ -117,7 +125,7 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
 
   // Create or Update Rating
   const handleCreateOrUpdateRating = useMutation({
-    mutationFn: (formData) => {
+    mutationFn: (formData: FormDataType) => {
       return createOrUpdateRating(formData);
     },
     onSuccess: (res) => {
@@ -156,7 +164,7 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
                   max={10}
                   icon={<Laugh color="green" />}
                   emptyIcon={<Laugh />}
-                  onChange={(event, newValue) => {
+                  onChange={(event, newValue: any) => {
                     setValueCharacter(newValue);
                   }}
                   onChangeActive={(event, newHover) => {
@@ -164,8 +172,11 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
                   }}
                 />
                 {valueCharacter !== null &&
-                  labels[
-                    hoverCharacter !== -1 ? hoverCharacter : valueCharacter
+                  (labels as { [key: string]: string })[
+                    (hoverCharacter !== -1
+                      ? hoverCharacter
+                      : valueCharacter
+                    ).toString()
                   ]}
               </div>
               <div className="p-2 flex items-center gap-4">
@@ -176,7 +187,7 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
                   max={10}
                   icon={<FileText color="green" />}
                   emptyIcon={<FileText />}
-                  onChange={(event, newValue) => {
+                  onChange={(event, newValue: any) => {
                     setValuePlot(newValue);
                   }}
                   onChangeActive={(event, newHover) => {
@@ -184,7 +195,9 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
                   }}
                 />
                 {valuePlot !== null &&
-                  labels[hoverPlot !== -1 ? hoverPlot : valuePlot]}
+                  (labels as { [key: string]: string })[
+                    (hoverPlot !== -1 ? hoverPlot : valuePlot).toString()
+                  ]}
               </div>
               <div className="p-2 flex items-center gap-4">
                 <p className="w-[160px]">Bố cục thế giới</p>
@@ -194,7 +207,7 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
                   max={10}
                   icon={<Grid2X2 color="green" />}
                   emptyIcon={<Grid2X2 />}
-                  onChange={(event, newValue) => {
+                  onChange={(event, newValue: any) => {
                     setValueWorld(newValue);
                   }}
                   onChangeActive={(event, newHover) => {
@@ -202,7 +215,9 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
                   }}
                 />
                 {valueWorld !== null &&
-                  labels[hoverWorld !== -1 ? hoverWorld : valueWorld]}
+                  (labels as { [key: string]: string })[
+                    (hoverWorld !== -1 ? hoverWorld : valueWorld).toString()
+                  ]}
               </div>
             </div>
             <div className="w-1/3 flex items-center gap-4">

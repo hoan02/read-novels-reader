@@ -30,3 +30,24 @@ export const getMarked = async (novelSlug: string) => {
     return createResponse(null, "Error", 500);
   }
 };
+
+export const getRecentlyReadNovels = async (limit?: number) => {
+  try {
+    const { userId } = auth();
+    await connectToDB();
+    let query = Marked.find({
+      clerkId: userId,
+    }).sort({ lastReadAt: -1 });
+
+    if (limit) {
+      query = query.limit(limit);
+    }
+
+    let marked = await query.exec();
+
+    return createResponse(marked, "Success!", 200);
+  } catch (err) {
+    console.log(err);
+    return createResponse(null, "Error", 500);
+  }
+};

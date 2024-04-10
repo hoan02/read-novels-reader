@@ -2,40 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { LinearProgress } from "@mui/material";
 import { ArrowDownUp } from "lucide-react";
 import formatTimeAgo from "@/utils/formatTimeAgo";
 import { ChapterType } from "@/lib/types";
-import { getChapters } from "@/lib/data/chapter.data";
 
-const MenuChapter = () => {
-  const { novelSlug }: { novelSlug: string } = useParams();
+const MenuChapter = ({ chapters }: { chapters: ChapterType[] }) => {
   const [ascending, setAscending] = useState(true);
-
-  const {
-    data: chapters,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: [`chapter-${novelSlug}`],
-    queryFn: () => getChapters(novelSlug).then((res) => res.data),
-  });
 
   const sortedChapters = ascending ? chapters : chapters.slice().reverse();
 
   const handleSortToggle = () => {
     setAscending((prevAscending) => !prevAscending);
   };
-
-  if (isLoading) {
-    return <LinearProgress />;
-  }
-
-  if (isError) {
-    return <div>Chapters not found</div>;
-  }
 
   return (
     <div className="p-4 font-source-sans-pro">
@@ -53,7 +31,7 @@ const MenuChapter = () => {
           return (
             <Link
               key={index}
-              href={`/truyen/${novelSlug}/${chapter.chapterIndex}`}
+              href={`/truyen/${chapter.novelSlug}/${chapter.chapterIndex}`}
               className="text-sm text-gray-00 flex justify-between hover:text-green-600 border-b border-dotted"
             >
               <p>{`Chương ${chapter.chapterIndex}: ${chapter.chapterName}`}</p>
