@@ -28,7 +28,6 @@ type NovelType = {
   urlCover: string;
   uploader: string;
   description: string;
-  nominations: number;
   reviews: {
     count: number;
     avgScore: number;
@@ -39,6 +38,7 @@ type NovelType = {
     totalScorePlot: number;
     totalScoreWorld: number;
   };
+  nominationCount: number;
   readCount: number;
   chapterCount: number;
   commentCount: number;

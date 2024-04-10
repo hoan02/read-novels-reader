@@ -2,13 +2,40 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import formatTimeAgo from "@/utils/formatTimeAgo";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { LinearProgress } from "@mui/material";
 import { ArrowDownUp } from "lucide-react";
+import formatTimeAgo from "@/utils/formatTimeAgo";
 import { ChapterType } from "@/lib/types";
+import { getChapters } from "@/lib/data/chapter.data";
 
-const MenuChapter = (chapters: [ChapterType]) => {
+const MenuChapter = () => {
+  const { novelSlug }: { novelSlug: string } = useParams();
   const [ascending, setAscending] = useState(true);
+
+  const {
+    data: chapters,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [`chapter-${novelSlug}`],
+    queryFn: () => getChapters(novelSlug).then((res) => res.data),
+  });
+
   const sortedChapters = ascending ? chapters : chapters.slice().reverse();
+
+  const handleSortToggle = () => {
+    setAscending((prevAscending) => !prevAscending);
+  };
+
+  if (isLoading) {
+    return <LinearProgress />;
+  }
+
+  if (isError) {
+    return <div>Chapters not found</div>;
+  }
 
   return (
     <div className="p-4 font-source-sans-pro">
@@ -16,7 +43,7 @@ const MenuChapter = (chapters: [ChapterType]) => {
         <p className="text-xl font-semibold">Danh sách chương</p>
         <button
           className="text-blue-500 hover:text-blue-700"
-          onClick={() => setAscending(!ascending)}
+          onClick={handleSortToggle}
         >
           <ArrowDownUp />
         </button>
@@ -26,7 +53,7 @@ const MenuChapter = (chapters: [ChapterType]) => {
           return (
             <Link
               key={index}
-              href={`/truyen/${chapter.novelSlug}/${chapter.chapterIndex}`}
+              href={`/truyen/${novelSlug}/${chapter.chapterIndex}`}
               className="text-sm text-gray-00 flex justify-between hover:text-green-600 border-b border-dotted"
             >
               <p>{`Chương ${chapter.chapterIndex}: ${chapter.chapterName}`}</p>

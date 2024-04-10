@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { statusErrorTitles } from "@/lib/constants";
-import { Button } from "../ui/button";
+import { Button } from "@mui/material";
 
 interface IPropsError {
   status?: number;
@@ -27,7 +27,7 @@ const Error = ({
         <p className="text-lg md:text-xl lg:text-2xl text-gray-500 my-12">
           {message}
         </p>
-        <Button className="bg-blue-500 hover:bg-blue-600" onClick={() => router.back()}>Go Back</Button>
+        <Button onClick={() => router.back()}>Go Back</Button>
       </div>
       <div className="w-1/2 lg:h-full flex lg:items-end justify-center p-4">
         <svg

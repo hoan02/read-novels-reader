@@ -8,6 +8,7 @@ import createResponse from "@/utils/createResponse";
 export const getMarked = async (novelSlug: string) => {
   try {
     const { userId } = auth();
+    if (!userId) return createResponse(null, "Unauthorized!", 401);
     await connectToDB();
     let marked = await Marked.findOne({
       clerkId: userId,
@@ -15,12 +16,12 @@ export const getMarked = async (novelSlug: string) => {
     });
 
     if (!marked) {
-      marked = new Marked({
+      const newMarked = {
         clerkId: userId,
         novelSlug,
         chapterIndex: 0,
-      });
-      await marked.save();
+      };
+      return createResponse(newMarked, "Success!", 200);
     }
 
     return createResponse(marked, "Success!", 200);

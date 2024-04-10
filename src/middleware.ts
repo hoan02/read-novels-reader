@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
 
 export default authMiddleware({
-  publicRoutes: ["/", "/truyen(.*)", "/api/webhook(.*)"],
+  publicRoutes: ["/", "/truyen(.*)", "/api/webhook(.*)", "/api(.*)"],
 });
 
 export const config = {

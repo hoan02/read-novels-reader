@@ -3,105 +3,149 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useUser, useAuth, SignOutButton } from "@clerk/nextjs";
-import MenuBar from "@/components/custom-ui/MenuBar";
+import { Bell, CircleChevronUp, LogOut, UserRoundCog } from "lucide-react";
+
 import { novelGenres, novelRanks, subMenuAccount } from "@/lib/constants";
 import InputSearch from "@/components/custom-ui/InputSearch";
-import { Bell, CircleChevronUp, LogOut } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
+import Badge from "@mui/material/Badge";
+import Avatar from "@mui/material/Avatar";
 
 const Header = () => {
   const { isLoaded, isSignedIn, user } = useUser();
+  const { orgRole } = useAuth();
   const fullName = user?.fullName;
   const avatar = user?.imageUrl;
 
   return (
-    <div className="w-full bg-green-1 h-[60px]">
-      <div className="max-w-screen-xl h-full mx-auto flex items-center gap-4 justify-between">
-        <Link href="/">
-          <Image src="/logo.png" alt="logo" width={60} height={60} />
-        </Link>
+    <div className="w-full flex justify-center bg-green-300 ">
+      <div className="max-w-7xl w-full p-4 mx-auto h-16 flex justify-between items-center text-gray-700 text-sx font-semibold">
         <div className="flex">
-          <MenuBar name="Thể loại" items={novelGenres} />
-          <MenuBar name="Bảng xếp hạng" items={novelRanks} />
-        </div>
-        <InputSearch />
-        <div>
-          <a
-            href="https://writer.doctruyen.io.vn"
-            target="_blank"
-            className="flex gap-2"
-          >
-            <CircleChevronUp size={24} />
-            Đăng truyện
-          </a>
-        </div>
-        {!isLoaded || !isSignedIn ? (
-          <div className="flex gap-4 mx-4 font-medium">
-            <Link href="/sign-in">Đăng nhập</Link>
-            <Link href="/sign-up">Đăng ký</Link>
-          </div>
-        ) : (
-          <>
-            <div>
-              <Bell />
+          <Link href="/">
+            <Image src="/logo.png" alt="logo" width={68} height={68} />
+          </Link>
+          <div className="flex ml-6">
+            <div className="parent relative hover:bg-green-500 hover:text-white cursor-pointer">
+              <div className="hover-parent h-16 flex">
+                <div className="my-auto m-6 ">Thể loại</div>
+              </div>
+              <div className="child absolute hidden z-50 w-80 bg-white mt-0.5 font-medium text-gray-700">
+                <div className="grid grid-cols-2 p-2">
+                  {novelGenres?.map((item, index) => {
+                    return (
+                      <div
+                        className="px-4 py-1 hover:text-green-500"
+                        key={index}
+                      >
+                        {item.name}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
-            <Menubar className="bg-green-1 border-0">
-              <MenubarMenu>
-                <MenubarTrigger className="h-[60px] rounded-none">
-                  <div className="flex items-center">
-                    <div className="text-sm">{fullName}</div>
-                    <Avatar className="mx-2">
-                      <AvatarImage src={avatar} alt="avatar"/>
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                  </div>
-                </MenubarTrigger>
-                <MenubarContent>
-                  <div className="p-2 space-y-2">
-                    <div className="flex text-sm h-10 justify-center items-center">
-                      <Image
-                        src="/candy.png"
-                        alt="candy"
-                        width={24}
-                        height={24}
-                      />
-                      10
+
+            <div className="parent relative hover:bg-green-500 hover:text-white cursor-pointer">
+              <div className="hover-parent h-16 flex">
+                <div className="my-auto w-40 pl-6">Bảng xếp hạng</div>
+              </div>
+              <div className="child absolute hidden z-50 w-40 bg-white mt-0.5 font-medium text-gray-700">
+                <div className="grid grid-cols-1 p-2">
+                  {novelRanks?.map((item, index) => {
+                    return (
+                      <div
+                        className="px-4 py-1 hover:text-green-500"
+                        key={index}
+                      >
+                        {item.name}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1 mx-10 relative max-w-md">
+          <InputSearch />
+        </div>
+
+        <div className="flex gap-6">
+          <div className="flex my-auto">
+            <Link href="/writer" className="flex gap-2">
+              <CircleChevronUp size={24} />
+              Đăng truyện
+            </Link>
+          </div>
+
+          {!isLoaded || !isSignedIn ? (
+            <div className="flex gap-4 mx-4 font-medium">
+              <Link href="/sign-in">Đăng nhập</Link>
+              <Link href="/sign-up">Đăng ký</Link>
+            </div>
+          ) : (
+            <>
+              <Badge className="flex my-auto" badgeContent={4} color="primary">
+                <Bell size={24} />
+              </Badge>
+              <div className="parent w-48 relative hover:bg-green-500 hover:text-white cursor-pointer">
+                <div className="hover-parent h-16 flex justify-end">
+                  <div className="w-full flex my-auto">
+                    <div className="grid columns-1 m-auto">
+                      <div className="text-sm">{fullName}</div>
                     </div>
-                    {subMenuAccount?.map((item) => {
+                    <Avatar className="mx-2" src={avatar} alt="avatar" />
+                  </div>
+                </div>
+                <div className="child absolute hidden z-50 w-48 bg-white mt-0.5 font-medium text-gray-700">
+                  <div className="grid grid-cols-1 p-4 gap-4 shadow-md">
+                    <div className="mx-auto">
+                      <div className="text-sm text-red-500 mb-2">
+                        {orgRole === "org:admin"
+                          ? "Admin"
+                          : orgRole === "org:writer"
+                          ? "Nhà sáng tác"
+                          : "Đọc giả"}
+                      </div>
+                      <div className="flex text-sm">
+                        <Image
+                          src="/candy.png"
+                          alt="candy"
+                          width={24}
+                          height={24}
+                        />
+                        10
+                      </div>
+                    </div>
+                    {subMenuAccount?.map((item, index) => {
                       const Icon = item.icon;
                       return (
-                        <Link href={item.slug} key={item.slug}>
-                          <MenubarItem className="flex gap-4 text-green-500 cursor-pointer">
-                            <Icon size={20} />
-                            {item.name}
-                          </MenubarItem>
-                        </Link>
+                        <div className="flex gap-4" key={index}>
+                          <Icon size={24} />
+                          <Link href={item.slug}>{item.name}</Link>
+                        </div>
                       );
                     })}
-                    {isSignedIn && (
-                      <div className="w-full pt-2 border-t-2 border-gray-400">
-                        <SignOutButton>
-                          <button className="flex text-red-600 gap-4">
-                            <LogOut />
-                            Đăng xuất
-                          </button>
-                        </SignOutButton>
+                    {orgRole === "org:admin" && (
+                      <div className="flex gap-4 text-blue-600">
+                        <UserRoundCog size={24} />
+                        <Link href="/admin">Quản lý</Link>
                       </div>
                     )}
+                    {isSignedIn && (
+                      <SignOutButton>
+                        <button className="flex text-red-600 gap-4 pt-2 border-t-2 border-gray-400">
+                          <LogOut size={24} />
+                          Đăng xuất
+                        </button>
+                      </SignOutButton>
+                    )}
                   </div>
-                </MenubarContent>
-              </MenubarMenu>
-            </Menubar>
-          </>
-        )}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
