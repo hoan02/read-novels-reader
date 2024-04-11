@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 
 import { toast } from "react-hot-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { NovelType } from "@/lib/types";
 import { createOrUpdateRating } from "@/lib/actions/review.action";
 
@@ -84,8 +83,6 @@ const states: StateType[] = [
 ];
 
 const RatingNovel = ({ novel }: { novel: NovelType }) => {
-  const { novelSlug } = useParams();
-  const queryClient = useQueryClient();
   const [rating, setRating] = useState(0);
   const [valueCharacter, setValueCharacter] = useState(0);
   const [valuePlot, setValuePlot] = useState(0);
@@ -124,15 +121,11 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
   };
 
   // Create or Update Rating
-  const handleCreateOrUpdateRating = useMutation({
-    mutationFn: (formData: FormDataType) => {
-      return createOrUpdateRating(formData);
-    },
-    onSuccess: (res) => {
-      toast.success(res.message);
-      queryClient.invalidateQueries({ queryKey: [`review-${novelSlug}`] });
-    },
-  });
+  const handleCreateOrUpdateRating = async (formData: any) => {
+    const res = await createOrUpdateRating(formData);
+    if (res.success) toast.success(res.message);
+    else toast.error(res.message);
+  };
 
   const handleConfirmSubmit = async () => {
     setOpenDialog(false);
@@ -144,7 +137,7 @@ const RatingNovel = ({ novel }: { novel: NovelType }) => {
       ratingContent,
     };
     try {
-      handleCreateOrUpdateRating.mutate(formData);
+      handleCreateOrUpdateRating(formData);
     } catch (error) {
       console.error("Error submitting rating:", error);
     }

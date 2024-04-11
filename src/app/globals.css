@@ -33,3 +33,25 @@
 .cl-userButtonPopoverCard {
   width: 280px;
 }
+
+.premium-banner {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-banner::before {
+  content: "premium";
+  position: absolute;
+  font-size: 12px;
+  top: 10px;
+  right: -50px;
+  transform: rotate(45deg);
+  background-image: linear-gradient(to right, #8e2de2, #4a00e0);
+  color: white;
+  padding: 5px 50px;
+}
+
+.premium-banner:hover {
+  border: 1px solid #8e2de2;
+  transform: translateY(-2px); /* Hiệu ứng nổi bật */
+}

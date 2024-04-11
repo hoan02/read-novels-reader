@@ -1,6 +1,6 @@
-import Guide from "@/components/layouts/Guide";
-import ListNovel from "@/components/layouts/ListNovel";
-import ListReading from "@/components/layouts/ListReading";
+import Guide from "@/components/custom-ui/Guide";
+import ListNovel from "@/components/custom-ui/ListNovel";
+import ListReading from "@/components/custom-ui/ListReading";
 
 const HomePage = () => {
   return (

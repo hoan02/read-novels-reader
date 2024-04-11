@@ -2,7 +2,7 @@
 
 import { connectToDB } from "@/lib/mongodb/mongoose";
 import { auth } from "@clerk/nextjs";
-import Marked from "@/lib/models/marked.model";
+import Marked from "@/lib/models/bookmark.model";
 import createResponse from "@/utils/createResponse";
 
 export const getMarked = async (novelSlug: string) => {

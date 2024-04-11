@@ -9,7 +9,6 @@ import CustomThemeProvider from "@/lib/providers/CustomThemeProvider";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import Banner from "@/components/layouts/Banner";
-import QueryProvider from "@/lib/providers/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -25,7 +24,6 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <ClerkVIProvider>
-        <QueryProvider>
           <AppRouterCacheProvider>
             <CustomThemeProvider>
               <body className={inter.className}>
@@ -41,7 +39,6 @@ export default function RootLayout({
               </body>
             </CustomThemeProvider>
           </AppRouterCacheProvider>
-        </QueryProvider>
       </ClerkVIProvider>
     </html>
   );

@@ -2,9 +2,12 @@
 
 import { connectToDB } from "@/lib/mongodb/mongoose";
 import { auth } from "@clerk/nextjs";
-import Marked from "@/lib/models/marked.model";
+import Marked from "@/lib/models/bookmark.model";
 
-export const createOrUpdateMark = async (novelSlug: string, chapterIndex: number) => {
+export const createOrUpdateMark = async (
+  novelSlug: string,
+  chapterIndex: number
+) => {
   try {
     const { userId } = auth();
     await connectToDB();

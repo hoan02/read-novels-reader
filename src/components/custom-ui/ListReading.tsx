@@ -1,10 +1,11 @@
-import { getRecentlyReadNovels } from "@/lib/data/marked.data";
 import { NovelType } from "@/lib/types";
 import Image from "next/image";
-import Error from "./Error";
+import Error from "../layouts/Error";
+import { getRecentlyReadNovels } from "@/lib/data/marked.data";
 
 const ListReading = async () => {
   const { data: readNovel, message, status } = await getRecentlyReadNovels(5);
+  console.log(readNovel);
   if (status === 200) {
     return (
       <div className="pb-4 border-b-2 border-gray-100">

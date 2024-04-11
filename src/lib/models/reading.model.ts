@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const markedSchema = new mongoose.Schema(
+const readingSchema = new mongoose.Schema(
   {
     clerkId: {
       type: String,
@@ -18,7 +18,7 @@ const markedSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Marked =
-  mongoose.models?.Marked || mongoose.model("Marked", markedSchema);
+const Reading =
+  mongoose.models?.Reading || mongoose.model("Reading", readingSchema);
 
-export default Marked;
+export default Reading;
