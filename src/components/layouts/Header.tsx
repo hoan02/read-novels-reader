@@ -72,7 +72,11 @@ const Header = () => {
 
         <div className="flex gap-6">
           <div className="flex my-auto">
-            <Link href="/writer" className="flex gap-2">
+            <Link
+              href="https://writer.doctruyen.io.vn/"
+              className="flex gap-2"
+              target="_blank"
+            >
               <CircleChevronUp size={24} />
               Đăng truyện
             </Link>
@@ -129,7 +133,7 @@ const Header = () => {
                     {orgRole === "org:admin" && (
                       <div className="flex gap-4 text-blue-600">
                         <UserRoundCog size={24} />
-                        <Link href="/admin">Quản lý</Link>
+                        <Link href="https://admin.doctruyen.io.vn/" target="_blank">Quản lý</Link>
                       </div>
                     )}
                     {isSignedIn && (
