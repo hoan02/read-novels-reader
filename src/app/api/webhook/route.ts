@@ -1,6 +1,8 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+
 import { createOrUpdateUser, deleteUser } from "@/lib/actions/user.action";
 
 export async function POST(req: Request) {
@@ -21,7 +23,7 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error occured -- no svix headers", {
+    return new NextResponse("Error occured -- no svix headers", {
       status: 400,
     });
   }
@@ -44,7 +46,7 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
+    return new NextResponse("Error occured", {
       status: 400,
     });
   }
@@ -72,7 +74,7 @@ export async function POST(req: Request) {
         email: email_addresses[0].email_address,
       });
 
-      return new Response("User is created or updated", {
+      return new NextResponse("User is created or updated", {
         status: 200,
       });
     }
@@ -83,19 +85,21 @@ export async function POST(req: Request) {
         await deleteUser(id);
       }
 
-      return new Response("User is deleted", {
+      return new NextResponse("User is deleted", {
         status: 200,
       });
     }
 
     // Invalid event type
-    return new Response("Invalid event type", {
+    return new NextResponse("Invalid event type", {
       status: 400,
     });
   } catch (err) {
     console.error("Error processing webhook:", err);
-    return new Response("Error occurred", {
+    return new NextResponse("Error occurred", {
       status: 500,
     });
   }
 }
+
+export const dynamic = "force-dynamic"

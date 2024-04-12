@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkVIProvider>
-      <html lang="vi">
+      <html lang="vi" suppressHydrationWarning>
         <body
           className={`${inter.className} h-screen w-screen flex items-center`}
         >

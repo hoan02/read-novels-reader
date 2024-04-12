@@ -3,6 +3,7 @@
 import { connectToDB } from "@/lib/mongodb/mongoose";
 import { auth } from "@clerk/nextjs";
 import Marked from "@/lib/models/bookmark.model";
+import { revalidatePath } from "next/cache";
 
 export const createOrUpdateMark = async (
   novelSlug: string,
@@ -19,6 +20,7 @@ export const createOrUpdateMark = async (
       { $set: { chapterIndex } },
       { upsert: true }
     );
+    revalidatePath("/");
     return { success: true, message: "Đánh dấu thành công!" };
   } catch (error) {
     console.error(error);

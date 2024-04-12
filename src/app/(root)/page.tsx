@@ -1,8 +1,11 @@
+import { currentUser } from "@clerk/nextjs";
 import Guide from "@/components/custom-ui/Guide";
 import ListNovel from "@/components/custom-ui/ListNovel";
 import ListReading from "@/components/custom-ui/ListReading";
 
-const HomePage = () => {
+const HomePage = async () => {
+  const user = await currentUser();
+
   return (
     <div className="bg-white shadow p-4 rounded-xl">
       <div className="flex gap-4">
@@ -10,7 +13,7 @@ const HomePage = () => {
           <ListNovel />
         </div>
         <div className="w-1/4">
-          <ListReading />
+          {user && <ListReading />}
           <Guide />
         </div>
       </div>

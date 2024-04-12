@@ -62,7 +62,6 @@ const PaymentPage = () => {
 
   const cancelOrderHandle = async () => {
     const res = await cancelOrder(orderCode!);
-    console.log(res);
     router.push(`/payment/result?orderCode=${orderCode}`);
   };
   const handleClickOpen = () => {

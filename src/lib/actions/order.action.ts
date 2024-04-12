@@ -15,7 +15,6 @@ export const createOrder = async (order: string) => {
 
   try {
     const paymentLinkRes = await PayOs.createPaymentLink(body);
-    // console.log(paymentLinkRes);
     const res = {
       error: 0,
       message: "Success",
