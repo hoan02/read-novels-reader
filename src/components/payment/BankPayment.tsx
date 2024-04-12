@@ -1,8 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Box, Typography, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import QRCode from "qrcode.react";
 
 // import io from "socket.io-client";
@@ -12,9 +12,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Check } from "lucide-react";
+import { Check, Share2, Download } from "lucide-react";
 import { toast } from "react-hot-toast";
-// import { toJpeg } from "html-to-image";
+import { toJpeg } from "html-to-image";
 import { cancelOrder } from "@/lib/actions/order.action";
 
 const BankPayment = ({ props }: any) => {
@@ -44,57 +44,57 @@ const BankPayment = ({ props }: any) => {
     setOpen(false);
   };
 
-  // const downloadQRCode = async () => {
-  //   var node = document.getElementById("my-node");
+  const downloadQRCode = async () => {
+    var node = document.getElementById("my-node");
+    if (!node) return;
+    toJpeg(node, { quality: 0.95 })
+      .then(function (dataUrl) {
+        // download(dataUrl, "my-node.png");
+        const link = document.createElement("a");
+        link.download = `${props.accountNumber}_${props.bin}_${props.amount}_${props.orderCode}_Qrcode.png`;
+        link.href = dataUrl;
+        link.click();
+        link.remove();
+      })
+      .catch(function (error) {
+        console.error("oops, something went wrong!", error);
+      });
+  };
 
-  //   toJpeg(node, { quality: 0.95 })
-  //     .then(function (dataUrl) {
-  //       // download(dataUrl, "my-node.png");
-  //       const link = document.createElement("a");
-  //       link.download = `${props.accountNumber}_${props.bin}_${props.amount}_${props.orderCode}_Qrcode.png`;
-  //       link.href = dataUrl;
-  //       link.click();
-  //       link.remove();
-  //     })
-  //     .catch(function (error) {
-  //       console.error("oops, something went wrong!", error);
-  //     });
-  // };
+  useEffect(() => {
+    if (!props?.bin) return;
+    (async () => {
+      getListBank()
+        .then((res) => {
+          const bank = res.data.filter((bank) => bank.bin === props.bin);
+          setBank(bank[0]);
+        })
+        .catch((err) => console.log(err));
+    })();
+    socket.on("paymentUpdated", (data) => {
+      if (data.orderId === props.orderCode) {
+        setIsCheckout(true);
+        socket.emit("leaveOrderRoom", props.orderCode);
 
-  // useEffect(() => {
-  //   if (!props?.bin) return;
-  //   (async () => {
-  //     getListBank()
-  //       .then((res) => {
-  //         const bank = res.data.filter((bank) => bank.bin === props.bin);
-  //         setBank(bank[0]);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   })();
-  //   socket.on("paymentUpdated", (data) => {
-  //     if (data.orderId === props.orderCode) {
-  //       setIsCheckout(true);
-  //       socket.emit("leaveOrderRoom", props.orderCode);
+        setTimeout(() => {
+          navigate("/result", {
+            state: {
+              orderCode: props.orderCode,
+            },
+          });
+        }, 3000);
+      }
 
-  //       setTimeout(() => {
-  //         navigate("/result", {
-  //           state: {
-  //             orderCode: props.orderCode,
-  //           },
-  //         });
-  //       }, 3000);
-  //     }
+      // Cập nhật trạng thái đơn hàng trên giao diện người dùng
+    });
 
-  //     // Cập nhật trạng thái đơn hàng trên giao diện người dùng
-  //   });
+    socket.emit("joinOrderRoom", props.orderCode);
 
-  //   socket.emit("joinOrderRoom", props.orderCode);
-
-  //   // Gửi yêu cầu rời khỏi phòng orderId khi component bị hủy
-  //   return () => {
-  //     socket.emit("leaveOrderRoom", props.orderCode);
-  //   };
-  // }, []);
+    // Gửi yêu cầu rời khỏi phòng orderId khi component bị hủy
+    return () => {
+      socket.emit("leaveOrderRoom", props.orderCode);
+    };
+  }, []);
 
   return (
     <Box
@@ -308,10 +308,10 @@ const BankPayment = ({ props }: any) => {
             style={{ borderRadius: 10, width: "100%", height: "100%" }}
             className="!bg-gradient-to-br from-green-200 via-purple-200 to-green-200"
           />
-          {/* <Box component={"div"} className="flex flex-row gap-10 pt-10">
+          <Box component={"div"} className="flex flex-row gap-10 pt-10">
             <Button
               variant="outlined"
-              startIcon={<DownloadIcon />}
+              startIcon={<Download />}
               color="inherit"
               onClick={downloadQRCode}
             >
@@ -320,11 +320,11 @@ const BankPayment = ({ props }: any) => {
             <Button
               variant="outlined"
               color="inherit"
-              startIcon={<ShareIcon />}
+              startIcon={<Share2 />}
             >
               <Typography className="normal-case">Chia sẻ</Typography>
             </Button>
-          </Box> */}
+          </Box>
         </Box>
       </Dialog>
     </Box>

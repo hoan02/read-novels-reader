@@ -25,7 +25,7 @@ const ListReading = async () => {
               />
               <div className="ml-4 flex-grow">
                 <p className="text-sm font-semibold hover:text-green-500 cursor-pointer">
-                  {novel.novelName.length > 28
+                  {novel.novelName?.length > 28
                     ? novel.novelName.substring(0, 28) + "..."
                     : novel.novelName}
                 </p>

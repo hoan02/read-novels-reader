@@ -9,8 +9,8 @@ export const createOrder = async (order: string) => {
     orderCode: Number(String(new Date().getTime()).slice(-6)),
     amount: order === "month" ? 29000 : 259000,
     description: order === "month" ? "PREMIUM1T" : "PREMIUM1Y",
-    cancelUrl: "http://localhost:3000/payment",
-    returnUrl: "http://localhost:3000/payment",
+    cancelUrl: `${process.env.PUBLIC_URL}payment/result`,
+    returnUrl: `${process.env.PUBLIC_URL}payment/result`,
   };
 
   try {
@@ -84,3 +84,4 @@ export const confirmWebhook = async (webhookUrl: string) => {
     };
   }
 };
+

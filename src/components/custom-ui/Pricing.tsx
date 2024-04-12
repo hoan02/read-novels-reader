@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { Info } from "lucide-react";
 import { motion } from "framer-motion";
+import { usePayOS } from "payos-checkout";
+
 import { fadeIn } from "@/utils/variants";
 import ButtonPayment from "./ButtonPayment";
-
 const Pricing = () => {
   return (
-    <div className="py-[5rem] md:px-14 p-4 max-w-screen-2xl mx-auto">
+    <div id="pricing" className="py-[5rem] md:px-14 p-4 max-w-screen-2xl mx-auto">
       <div className="text-center">
         <h2 className="md:text-5xl md:leading-tight text-2xl font-extrabold bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text mb-2">
           Trải nghiệm đọc truyện không quảng cáo, đọc trước các chương sắp ra
@@ -30,8 +30,8 @@ const Pricing = () => {
           <h3 className="text-3xl font-bold text-center text-[#010851]">
             Hạng Đồng
           </h3>
-          <p className="mt-5 text-center text-secondary text-3xl font-bold">
-            0đ
+          <p className="mt-5 text-center text-secondary text-xl font-bold">
+            Miễn phí
           </p>
           <ul className="mt-4 space-y-2 px-4">
             <li className="flex items-center">
@@ -45,6 +45,10 @@ const Pricing = () => {
             <li className="flex items-center">
               <Info className="mr-2 text-xl text-green-500" />
               Bình luận
+            </li>
+            <li className="flex items-center">
+              <Info className="mr-2 text-xl text-green-500" />
+              Đánh dấu
             </li>
           </ul>
         </div>
@@ -75,7 +79,16 @@ const Pricing = () => {
             </li>
             <li className="flex items-center">
               <Info className="mr-2 text-xl text-green-500" />
+              Không quảng cáo
+            </li>
+            <li className="flex items-center">
+              <Info className="mr-2 text-xl text-green-500" />
               Thông báo ra chương mới
+            </li>
+
+            <li className="flex items-center">
+              <Info className="mr-2 text-xl text-green-500" />
+              Khung bạc (avatar)
             </li>
           </ul>
 
@@ -110,7 +123,15 @@ const Pricing = () => {
             </li>
             <li className="flex items-center">
               <Info className="mr-2 text-xl text-green-500" />
+              Không quảng cáo
+            </li>
+            <li className="flex items-center">
+              <Info className="mr-2 text-xl text-green-500" />
               Thông báo ra chương mới
+            </li>
+            <li className="flex items-center">
+              <Info className="mr-2 text-xl text-green-500" />
+              Khung vàng (avatar)
             </li>
           </ul>
 
