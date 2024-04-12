@@ -49,7 +49,7 @@ export const getRecentlyReadNovels = async (limit?: number) => {
 
     // Fetch the novel data for each marked item
     const markedWithNovels = await Promise.all(
-      marked.map(async (mark) => {
+      marked.map(async (mark: any) => {
         const novel = await Novel.findOne({ novelSlug: mark.novelSlug });
         return {
           ...mark._doc,
