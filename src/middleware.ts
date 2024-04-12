@@ -1,7 +1,7 @@
 import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
 
 export default authMiddleware({
-  publicRoutes: ["/", "/truyen(.*)", "/api/webhook(.*)", "/api(.*)"],
+  publicRoutes: ["/", "/truyen(.*)", "/api(.*)", "/api/webhooks/:path"],
 });
 
 export const config = {
