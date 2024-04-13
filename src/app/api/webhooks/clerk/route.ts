@@ -1,23 +1,22 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
 
 import { createOrUpdateUser, deleteUser } from "@/lib/actions/user.action";
 
 export async function GET() {
-  return NextResponse.json("Welcome to the Webhook CLERK API!", {
+  return new Response("Welcome to the Webhook CLERK API!", {
     status: 200,
   });
 }
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-  const clerkSecret = process.env.CLERK_WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
-  if (!clerkSecret) {
+  if (!WEBHOOK_SECRET) {
     throw new Error(
-      "Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
+      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
     );
   }
 
@@ -29,7 +28,7 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new NextResponse("Error occured -- no svix headers", {
+    return new Response("Error occured -- no svix headers", {
       status: 400,
     });
   }
@@ -39,7 +38,7 @@ export async function POST(req: Request) {
   const body = JSON.stringify(payload);
 
   // Create a new Svix instance with your secret.
-  const wh = new Webhook(clerkSecret);
+  const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
 
@@ -52,7 +51,7 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error verifying webhook:", err);
-    return new NextResponse("Error occured", {
+    return new Response("Error occured", {
       status: 400,
     });
   }
@@ -80,7 +79,7 @@ export async function POST(req: Request) {
         email: email_addresses[0].email_address,
       });
 
-      return new NextResponse("User is created or updated", {
+      return new Response("User is created or updated", {
         status: 200,
       });
     }
@@ -91,18 +90,18 @@ export async function POST(req: Request) {
         await deleteUser(id);
       }
 
-      return new NextResponse("User is deleted", {
+      return new Response("User is deleted", {
         status: 200,
       });
     }
 
     // Invalid event type
-    return new NextResponse("Invalid event type", {
+    return new Response("Invalid event type", {
       status: 400,
     });
   } catch (err) {
     console.error("Error processing webhook:", err);
-    return new NextResponse("Error occurred", {
+    return new Response("Error occurred", {
       status: 500,
     });
   }
