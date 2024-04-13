@@ -28,10 +28,10 @@ const ButtonPayment = ({ order }: { order: string }) => {
           orderCode,
           qrCode,
         } = response.data;
-        window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
-        // router.push(
-        //   `/payment?bin=${bin}&accountNumber=${accountNumber}&accountName=${accountName}&amount=${amount}&description=${description}&orderCode=${orderCode}&qrCode=${qrCode}`
-        // );
+        // window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
+        router.push(
+          `/payment?bin=${bin}&accountNumber=${accountNumber}&accountName=${accountName}&amount=${amount}&description=${description}&orderCode=${orderCode}&qrCode=${qrCode}`
+        );
       }
     } catch (error) {
       console.log(error);

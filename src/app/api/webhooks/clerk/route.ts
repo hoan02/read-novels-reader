@@ -5,6 +5,12 @@ import { NextResponse } from "next/server";
 
 import { createOrUpdateUser, deleteUser } from "@/lib/actions/user.action";
 
+export async function GET() {
+  return NextResponse.json("Welcome to the Webhook CLERK API!", {
+    status: 200,
+  });
+}
+
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const clerkSecret = process.env.CLERK_WEBHOOK_SECRET;

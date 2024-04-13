@@ -66,21 +66,3 @@ export const cancelOrder = async (orderId: string) => {
   }
 };
 
-export const confirmWebhook = async (webhookUrl: string) => {
-  try {
-    await PayOs.confirmWebhook(webhookUrl);
-    return {
-      error: 0,
-      message: "ok",
-      data: null,
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      error: -1,
-      message: "failed",
-      data: null,
-    };
-  }
-};
-
