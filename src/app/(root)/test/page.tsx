@@ -1,24 +1,44 @@
 "use client";
 
-import { confirmWebhook } from "@/lib/actions/payment.action";
-import { Button } from "@mui/material";
+import { socket } from "@/socket";
+import { useEffect, useState } from "react";
 
-const page = () => {
-  const handleConfirm = async () => {
-    await confirmWebhook("https://doctruyen.io.vn/api/webhooks/payos");
-  };
+export default function Home() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [transport, setTransport] = useState("N/A");
+
+  useEffect(() => {
+    if (socket.connected) {
+      onConnect();
+    }
+
+    function onConnect() {
+      setIsConnected(true);
+      setTransport(socket.io.engine.transport.name);
+
+      socket.io.engine.on("upgrade", (transport: any) => {
+        setTransport(transport.name);
+      });
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+      setTransport("N/A");
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, []);
+
   return (
-    <div className="bg-white h-[300px] flex justify-center">
-      <div className="mt-20 space-y-10">
-        <h1 className="text-3xl">Test Webhook payos</h1>
-        <div className="flex justify-center">
-          <Button variant="outlined" onClick={() => handleConfirm()}>
-            Send
-          </Button>
-        </div>
-      </div>
+    <div>
+      <p>Status: { isConnected ? "connected" : "disconnected" }</p>
+      <p>Transport: { transport }</p>
     </div>
   );
-};
-
-export default page;
+}

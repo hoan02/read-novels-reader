@@ -8,7 +8,9 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const payload = await req.json();
+  console.log(payload);
   if (!payload.data) {
+    console.log("Error");
   }
 
   return NextResponse.json(

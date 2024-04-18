@@ -33,7 +33,7 @@ const PaymentPage = () => {
   const description = searchParams.get("description");
   const orderCode = searchParams.get("orderCode");
   const qrCode = searchParams.get("qrCode");
-  const socketUrl = process.env.SOCKET_IO_URL;
+  const socket = io(process.env.SOCKET_IO_URL!);
 
   // if (
   //   !bin ||
@@ -89,31 +89,26 @@ const PaymentPage = () => {
       });
   };
 
-  // useEffect(() => {
-  //   const socket = io(socketUrl!);
+  useEffect(() => {
+    socket.on("paymentUpdated", (data) => {
+      if (data.orderId === orderCode) {
+        setIsCheckout(true);
+        socket.emit("leaveOrderRoom", orderCode);
 
-  //   socket.on("connect", () => {
-  //     socket.emit("joinOrderRoom", orderCode);
-  //   });
+        setTimeout(() => {
+          router.push(`/payment/results?orderCode=${orderCode}`);
+        }, 3000);
+      }
+      // Cập nhật trạng thái đơn hàng trên giao diện người dùng
+    });
 
-  //   socket.on("paymentUpdated", (data) => {
-  //     if (data.orderId === orderCode) {
-  //       setIsCheckout(true);
-  //       socket.emit("leaveOrderRoom", orderCode);
+    socket.emit("joinOrderRoom", orderCode);
 
-  //       setTimeout(() => {
-  //         router.push(`/payment/results?orderCode=${orderCode}`);
-  //       }, 3000);
-  //     }
-  //   });
-
-  //   // Cleanup
-  //   return () => {
-  //     socket.emit("leaveOrderRoom", orderCode);
-  //     socket.off("paymentUpdated");
-  //     socket.close();
-  //   };
-  // }, [orderCode]); // Re-run effect when orderCode changes
+    // Gửi yêu cầu rời khỏi phòng orderId khi component bị hủy
+    return () => {
+      socket.emit("leaveOrderRoom", orderCode);
+    };
+  }, []);
 
   return (
     <Box

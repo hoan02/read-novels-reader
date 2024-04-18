@@ -2,10 +2,11 @@
   "name": "reader",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.2",
     "react-hot-toast": "^2.4.1",
+    "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "svix": "^1.21.0",
     "tailwind-merge": "^2.2.2",
