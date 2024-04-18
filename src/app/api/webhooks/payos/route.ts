@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -8,7 +9,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const payload = await req.json();
-  console.log(payload);
+  cookies().set("name", payload);
   if (!payload.data) {
     console.log("Error");
   }
