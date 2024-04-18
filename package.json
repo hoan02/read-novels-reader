@@ -19,6 +19,7 @@
     "@mui/material": "^5.15.15",
     "@mui/material-nextjs": "^5.15.11",
     "@payos/node": "^1.0.6",
+    "@vercel/speed-insights": "^1.0.10",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.0.28",
     "html-to-image": "^1.11.11",

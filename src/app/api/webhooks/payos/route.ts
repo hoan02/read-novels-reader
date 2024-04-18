@@ -9,7 +9,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const payload = await req.json();
-  cookies().set("name", payload);
+  cookies().set("PayOS", JSON.stringify(payload), { path: "/" });
   if (!payload.data) {
     console.log("Error");
   }
