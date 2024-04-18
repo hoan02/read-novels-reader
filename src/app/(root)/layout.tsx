@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import "../globals.css";
@@ -23,22 +24,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
+      <SpeedInsights />
       <ClerkVIProvider>
-          <AppRouterCacheProvider>
-            <CustomThemeProvider>
-              <body className={inter.className}>
-                <ToasterProvider />
-                <div className="max-lg:flex-col w-full relative">
-                  <Header />
-                  <Banner />
-                  <main className="max-w-7xl mx-auto p-4 relative top-52">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
-              </body>
-            </CustomThemeProvider>
-          </AppRouterCacheProvider>
+        <AppRouterCacheProvider>
+          <CustomThemeProvider>
+            <body className={inter.className}>
+              <ToasterProvider />
+              <div className="max-lg:flex-col w-full relative">
+                <Header />
+                <Banner />
+                <main className="max-w-7xl mx-auto p-4 relative top-52">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </body>
+          </CustomThemeProvider>
+        </AppRouterCacheProvider>
       </ClerkVIProvider>
     </html>
   );

@@ -5,7 +5,6 @@ import { getRecentlyReadNovels } from "@/lib/data/marked.data";
 
 const ListReading = async () => {
   const { data: readNovel, message, status } = await getRecentlyReadNovels(5);
-  console.log("ListReading: ", readNovel);
   if (status === 200) {
     return (
       <div className="pb-4 border-b-2 border-gray-100">
