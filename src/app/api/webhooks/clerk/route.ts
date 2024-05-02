@@ -70,9 +70,15 @@ export async function POST(req: Request) {
         email_addresses,
       } = eventData;
 
+      if (!username || !first_name || !last_name) {
+        return new Response("Error occured", {
+          status: 400,
+        });
+      }
+
       await createOrUpdateUser({
         clerkId: id,
-        username: username ? username : "",
+        username: username,
         firstName: first_name,
         lastName: last_name,
         avatar: image_url,
