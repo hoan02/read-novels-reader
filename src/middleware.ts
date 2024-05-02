@@ -1,10 +1,18 @@
-import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default authMiddleware({
-  // publicRoutes: ["/", "/truyen(.*)", "/api(.*)", "/api/webhooks/:path"],
-  publicRoutes: ["/", "/(truyen|api)(.*)"],
-});
+const isProtectedRoute = createRouteMatcher([
+  "/tai-khoan(.*)",
+  "/payment(.*)",
+  "/premium(.*)",
+]);
+
+export default clerkMiddleware(
+  (auth, req) => {
+    if (isProtectedRoute(req)) auth().protect();
+  },
+  { debug: process.env.NODE_ENV === "development" }
+);
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };

@@ -1,7 +1,7 @@
 "use server";
 
-import { connectToDB } from "@/lib/mongodb/mongoose";
-import { auth } from "@clerk/nextjs";
+import connectToDB from "@/lib/mongodb/mongoose";
+import { auth } from "@clerk/nextjs/server";
 
 import Marked from "@/lib/models/bookmark.model";
 import Novel from "../models/novel.model";

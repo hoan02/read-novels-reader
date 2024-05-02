@@ -1,4 +1,4 @@
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import Guide from "@/components/custom-ui/Guide";
 import ListNovel from "@/components/custom-ui/ListNovel";
 import ListReading from "@/components/custom-ui/ListReading";

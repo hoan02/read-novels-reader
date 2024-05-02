@@ -1,5 +1,5 @@
 import User from "@/lib/models/user.model";
-import { connectToDB } from "@/lib/mongodb/mongoose";
+import connectToDB from "@/lib/mongodb/mongoose";
 import { UserType } from "../types";
 
 export const getUserById = async (id: string) => {

@@ -1,6 +1,6 @@
 "use server";
 
-import { connectToDB } from "@/lib/mongodb/mongoose";
+import connectToDB from "@/lib/mongodb/mongoose";
 import Chapter from "@/lib/models/chapter.model";
 import createResponse from "@/utils/createResponse";
 

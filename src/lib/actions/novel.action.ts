@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@clerk/nextjs";
-import { connectToDB } from "@/lib/mongodb/mongoose";
+import { auth } from "@clerk/nextjs/server";
+import connectToDB from "@/lib/mongodb/mongoose";
 import Novel from "@/lib/models/novel.model";
 import Chapter from "../models/chapter.model";
 
