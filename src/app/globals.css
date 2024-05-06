@@ -16,23 +16,27 @@
   width: 100%;
 }
 
-.cl-card {
+.cl-cardBox {
   width: 100%;
 }
 
-.cl-signIn-root,
+.cl-userProfile-root {
+  border: none;
+}
+
+/* .cl-signIn-root,
 .cl-signUp-root {
   margin: 220px auto 0;
   width: 440px;
-}
+} */
 
 .cl-organizationSwitcherPopoverActionButton__createOrganization {
   display: none;
 }
 
-.cl-userButtonPopoverCard {
+/* .cl-userButtonPopoverCard {
   width: 280px;
-}
+} */
 
 .premium-banner {
   position: relative;

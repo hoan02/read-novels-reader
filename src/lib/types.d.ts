@@ -1,5 +1,10 @@
 import { LucideIcon } from "lucide-react";
 
+type ErrorType = {
+  message: string;
+  status: number | null;
+};
+
 type MenuType = {
   name: string;
   slug: string;
@@ -51,13 +56,13 @@ type NovelType = {
 };
 
 type ChapterType = {
-  _id: String;
-  novelSlug: String;
-  chapterName: String;
-  chapterIndex: Number;
-  content: String;
-  state: String;
-  isLock: Boolean;
-  isPublic: Boolean;
+  _id: string;
+  novelSlug: string;
+  chapterName: string;
+  chapterIndex: number;
+  content: string;
+  state: string;
+  isLock: boolean;
+  isPublic: boolean;
   publishedDate: Date | null;
 };

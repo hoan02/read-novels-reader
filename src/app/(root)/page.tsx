@@ -1,11 +1,8 @@
-import { currentUser } from "@clerk/nextjs/server";
 import Guide from "@/components/custom-ui/Guide";
 import ListNovel from "@/components/custom-ui/ListNovel";
 import ListReading from "@/components/custom-ui/ListReading";
 
 const HomePage = async () => {
-  const user = await currentUser();
-
   return (
     <div className="bg-white shadow p-4 rounded-xl">
       <div className="flex gap-4">
@@ -13,7 +10,7 @@ const HomePage = async () => {
           <ListNovel />
         </div>
         <div className="w-1/4">
-          {user && <ListReading />}
+          <ListReading />
           <Guide />
         </div>
       </div>
@@ -22,3 +19,5 @@ const HomePage = async () => {
 };
 
 export default HomePage;
+
+export const dynamic = "force-dynamic";

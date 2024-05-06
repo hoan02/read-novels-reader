@@ -133,7 +133,12 @@ const Header = () => {
                     {orgRole === "org:admin" && (
                       <div className="flex gap-4 text-blue-600">
                         <UserRoundCog size={24} />
-                        <Link href="https://admin.doctruyen.io.vn/" target="_blank">Quản lý</Link>
+                        <Link
+                          href="https://admin.doctruyen.io.vn/"
+                          target="_blank"
+                        >
+                          Quản lý
+                        </Link>
                       </div>
                     )}
                     {isSignedIn && (

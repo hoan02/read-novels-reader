@@ -1,4 +1,6 @@
-// "use client";
+import ListReading from "@/components/custom-ui/ListReading";
+import { getRecentlyReadNovels } from "@/lib/data/marked.data";
+import { unstable_cache } from "next/cache";
 
 // import { socket } from "@/socket";
 // import { useEffect, useState } from "react";
@@ -43,14 +45,16 @@
 //   );
 // }
 
-import { cookies } from 'next/headers'
- 
-export default function Page() {
-  const cookieStore = cookies()
-  return cookieStore.getAll().map((cookie) => (
-    <div key={cookie.name}>
-      <p>Name: {cookie.name}</p>
-      <p>Value: {cookie.value}</p>
-    </div>
-  ))
+const getData = unstable_cache(
+  async () => getRecentlyReadNovels(5),
+  ["novel-reading"]
+);
+
+export default async function Page() {
+  const data = await getRecentlyReadNovels(5);
+  console.log(data);
+
+  return <div>
+    <ListReading />
+  </div>;
 }
