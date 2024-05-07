@@ -33,3 +33,26 @@ export const getNovels = async () => {
     return createResponse(null, "Error", 500);
   }
 };
+
+export const getNovelsByParams = async (searchParams: any) => {
+  try {
+    await connectToDB();
+
+    const query = {
+      isPublic: true,
+      ...(searchParams.type && {
+        "genres.value": {
+          $in: Array.isArray(searchParams.type)
+            ? searchParams.type
+            : [searchParams.type],
+        },
+      }),
+    };
+
+    const novels = await Novel.find(query);
+    return createResponse(novels, "Success", 200);
+  } catch (err) {
+    console.log(err);
+    return createResponse(null, "Error", 500);
+  }
+};

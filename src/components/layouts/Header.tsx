@@ -6,9 +6,9 @@ import { useUser, useAuth, SignOutButton } from "@clerk/nextjs";
 import { Bell, CircleChevronUp, LogOut, UserRoundCog } from "lucide-react";
 
 import { novelGenres, novelRanks, subMenuAccount } from "@/lib/constants";
-import InputSearch from "@/components/custom-ui/InputSearch";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
+import InputSearch from "../search/InputSearch";
 
 const Header = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -32,12 +32,13 @@ const Header = () => {
                 <div className="grid grid-cols-2 p-2">
                   {novelGenres?.map((item, index) => {
                     return (
-                      <div
+                      <Link
                         className="px-4 py-1 hover:text-green-500"
                         key={index}
+                        href={`/tim-truyen?type=${item.slug}`}
                       >
                         {item.name}
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>
@@ -52,12 +53,13 @@ const Header = () => {
                 <div className="grid grid-cols-1 p-2">
                   {novelRanks?.map((item, index) => {
                     return (
-                      <div
+                      <Link
                         className="px-4 py-1 hover:text-green-500"
                         key={index}
+                        href={`/tim-truyen?rank=${item.slug}`}
                       >
                         {item.name}
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>

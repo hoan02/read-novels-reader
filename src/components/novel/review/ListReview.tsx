@@ -25,7 +25,7 @@ const ListReview = ({ novelSlug }: { novelSlug: string }) => {
   }, [novelSlug]);
 
   return (
-    <div className="rounded-lg w-full mt-4 text-gray-600">
+    <div className="rounded-lg w-full mt-4 text-gray-500">
       <div className="mb-2 ml-2 text-lg font-semibold">Tất cả đánh giá:</div>
       {loading ? (
         <LinearProgress />

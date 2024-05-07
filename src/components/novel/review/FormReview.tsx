@@ -96,18 +96,18 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [evaluated, setEvaluated] = useState(false);
 
-  const checkReviewContent = async () => {
-    const { data: dataReview, status } = await checkReview(novelSlug);
-    if (status === 200) {
-      setEvaluated(true);
-      setValueCharacter(dataReview.valueCharacter);
-      setValuePlot(dataReview.valuePlot);
-      setValueWorld(dataReview.valueWorld);
-      setReviewContent(dataReview.reviewContent);
-    }
-  };
-
   useEffect(() => {
+    const checkReviewContent = async () => {
+      const { data: dataReview, status } = await checkReview(novelSlug);
+      if (status === 200) {
+        setEvaluated(true);
+        setValueCharacter(dataReview.valueCharacter);
+        setValuePlot(dataReview.valuePlot);
+        setValueWorld(dataReview.valueWorld);
+        setReviewContent(dataReview.reviewContent);
+      }
+    };
+
     checkReviewContent();
   }, [novelSlug]);
 
@@ -137,7 +137,7 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
     setOpenDialog(true);
   };
 
-  // Create  Review
+  // Create review
   const handleCreateReview = async (formData: any) => {
     const res = await createOrUpdateReview(formData);
     if (res.success) toast.success(res.message);

@@ -46,8 +46,9 @@ const InputSearch = () => {
       />
       {novels.length > 0 && value && (
         <div className="absolute z-50 bg-white w-full mt-3 p-2 rounded-lg text-sm">
-          {novels?.map((novel) => (
+          {novels?.map((novel: any, index: number) => (
             <Link
+              key={index}
               onClick={() => setValue("")}
               href={`/truyen/${novel.novelSlug}`}
               className="block p-2 cursor-pointer hover:bg-slate-50"

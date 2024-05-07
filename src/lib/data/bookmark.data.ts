@@ -9,9 +9,9 @@ import createResponse from "@/utils/createResponse";
 
 export const getMarked = async (novelSlug: string) => {
   try {
+    await connectToDB();
     const { userId } = auth();
     if (!userId) return createResponse(null, "Unauthorized!", 401);
-    await connectToDB();
     let marked = await Bookmark.findOne({
       clerkId: userId,
       novelSlug,
@@ -35,8 +35,8 @@ export const getMarked = async (novelSlug: string) => {
 
 export const getRecentlyReadNovels = async (limit?: number) => {
   try {
-    const { userId } = auth();
     await connectToDB();
+    const { userId } = auth();
     let query = Bookmark.find({
       clerkId: userId,
     }).sort({ updatedAt: -1 });

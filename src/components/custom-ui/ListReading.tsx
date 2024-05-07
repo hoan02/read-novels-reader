@@ -6,7 +6,6 @@ import Image from "next/image";
 import Error from "../layouts/Error";
 import { getRecentlyReadNovels } from "@/lib/data/bookmark.data";
 import { ErrorType } from "@/lib/types";
-import { useAuth } from "@clerk/nextjs";
 
 interface NovelDetail {
   urlCover: string;
@@ -19,11 +18,6 @@ interface NovelDetail {
 const ListReading = () => {
   const [readNovels, setReadNovels] = useState<NovelDetail[]>([]);
   const [error, setError] = useState<ErrorType>({ message: "", status: null });
-  const { isLoaded, userId } = useAuth();
-
-  if (!isLoaded || !userId) {
-    return null;
-  }
 
   useEffect(() => {
     const fetchRecentlyReadNovels = async () => {
