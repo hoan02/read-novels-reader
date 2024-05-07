@@ -3,7 +3,7 @@
 import connectToDB from "@/lib/mongodb/mongoose";
 import { auth } from "@clerk/nextjs/server";
 
-import Marked from "@/lib/models/bookmark.model";
+import Bookmark from "@/lib/models/bookmark.model";
 import Novel from "../models/novel.model";
 import createResponse from "@/utils/createResponse";
 
@@ -12,7 +12,7 @@ export const getMarked = async (novelSlug: string) => {
     const { userId } = auth();
     if (!userId) return createResponse(null, "Unauthorized!", 401);
     await connectToDB();
-    let marked = await Marked.findOne({
+    let marked = await Bookmark.findOne({
       clerkId: userId,
       novelSlug,
     });
@@ -37,9 +37,9 @@ export const getRecentlyReadNovels = async (limit?: number) => {
   try {
     const { userId } = auth();
     await connectToDB();
-    let query = Marked.find({
+    let query = Bookmark.find({
       clerkId: userId,
-    }).sort({ lastReadAt: -1 });
+    }).sort({ updatedAt: -1 });
 
     if (limit) {
       query = query.limit(limit);

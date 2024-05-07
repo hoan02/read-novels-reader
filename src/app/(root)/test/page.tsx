@@ -1,5 +1,6 @@
+import InputSearch from "@/components/custom-ui/InputSearch";
 import ListReading from "@/components/custom-ui/ListReading";
-import { getRecentlyReadNovels } from "@/lib/data/marked.data";
+import { getReviews } from "@/lib/data/review.data";
 import { unstable_cache } from "next/cache";
 
 // import { socket } from "@/socket";
@@ -45,16 +46,8 @@ import { unstable_cache } from "next/cache";
 //   );
 // }
 
-const getData = unstable_cache(
-  async () => getRecentlyReadNovels(5),
-  ["novel-reading"]
-);
-
 export default async function Page() {
-  const data = await getRecentlyReadNovels(5);
+  const data = await getReviews("tu-cam");
   console.log(data);
-
-  return <div>
-    <ListReading />
-  </div>;
+  return <div>{data && data.status} ok</div>;
 }

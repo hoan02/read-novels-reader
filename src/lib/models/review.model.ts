@@ -14,6 +14,10 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    avgScore: {
+      type: Number,
+      default: 0,
+    },
     valuePlot: {
       type: Number,
       required: true,

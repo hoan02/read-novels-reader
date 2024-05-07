@@ -9,8 +9,8 @@ import TabPanel from "@mui/lab/TabPanel";
 import Chip from "@mui/material/Chip";
 import Intro from "./Intro";
 import Fan from "./Fan";
-import Comment from "./Comment";
-import RatingNovel from "./RatingNovel";
+import Comment from "./comment/Comment";
+import Review from "./review/Review";
 import MenuChapter from "@/components/novel/MenuChapter";
 import { ChapterType, NovelType } from "@/lib/types";
 
@@ -37,8 +37,8 @@ const TabsDetailsNovel = ({
     {
       label: "Đánh giá",
       value: "danh-gia",
-      chip: novel.reviews.avgScore,
-      content: <RatingNovel novel={novel} />,
+      chip: novel.reviews.count,
+      content: <Review novel={novel} />,
     },
     {
       label: "Danh sách chương",

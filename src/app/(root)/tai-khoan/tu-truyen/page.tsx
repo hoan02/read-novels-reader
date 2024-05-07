@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import ListReading from "@/components/custom-ui/ListReading";
 
 const NovelShelfPage = () => {
   const [value, setValue] = useState("1");
@@ -20,7 +21,9 @@ const NovelShelfPage = () => {
           <Tab label="Đang đọc" value="1" />
           <Tab label="Đánh dấu" value="2" />
         </TabList>
-        <TabPanel value="1">Đang đọc</TabPanel>
+        <TabPanel value="1">
+          <ListReading />
+        </TabPanel>
         <TabPanel value="2">Đánh dấu</TabPanel>
       </TabContext>
     </div>
