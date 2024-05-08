@@ -1,9 +1,10 @@
+import { NextResponse } from "next/server";
+
 import Order from "@/lib/models/order.model";
 import User from "@/lib/models/user.model";
 import connectToDB from "@/lib/mongodb/mongoose";
 import PayOs from "@/lib/payos/payOs";
-import formatDate from "@/utils/formatDate";
-import { NextResponse } from "next/server";
+import { updateUserMetadata } from "@/lib/actions/clerk.action";
 
 export async function GET() {
   return NextResponse.json("Welcome to the Webhook PAYOS API!", {
@@ -48,10 +49,24 @@ export async function POST(req: Request) {
           endDate.setFullYear(endDate.getFullYear() + 1);
         }
 
+        await updateUserMetadata(existingOrder.clerkId, {
+          "frame_avatar":
+            existingOrder.orderType === "month"
+              ? "reader-vip-1"
+              : "reader-vip-2",
+          "premium.state": true,
+          "premium.startDate": new Date(),
+          "premium.endDate": endDate,
+        });
+
         await User.findOneAndUpdate(
           { clerkId: existingOrder.clerkId },
           {
             $set: {
+              role:
+                existingOrder.orderType === "month"
+                  ? "reader-vip-1"
+                  : "reader-vip-2",
               "premium.state": true,
               "premium.startDate": new Date(),
               "premium.endDate": endDate,

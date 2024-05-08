@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { PencilLine } from "lucide-react";
 
-import { NovelType } from "@/lib/types";
+import { NovelType } from "@/types/types";
 import Error from "@/components/layouts/Error";
 import { Chip, Skeleton } from "@mui/material";
 import { getNovels } from "@/lib/data/novel.data";

@@ -1,6 +1,6 @@
 import { Divider } from "@mui/material";
 
-import { NovelType } from "@/lib/types";
+import { NovelType } from "@/types/types";
 import FormReview from "./FormReview";
 import ListReview from "./ListReview";
 
@@ -8,7 +8,7 @@ const Review = ({ novel }: { novel: NovelType }) => {
   return (
     <div className="flex gap-4 font-source-sans-pro text-green-700">
       <div className="w-2/3">
-        <FormReview novelSlug={novel.novelSlug}/>
+        <FormReview novelSlug={novel.novelSlug} />
         <ListReview novelSlug={novel.novelSlug} />
       </div>
       <div className="w-1/3">

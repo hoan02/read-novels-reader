@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import Error from "@/components/layouts/Error";
 import { getUserInfo } from "@/lib/data/user.data";
-import { UserType } from "@/lib/types";
+import { UserType } from "@/types/types";
 import formatDate from "@/utils/formatDate";
 
 const UpdateAccountComponent = async () => {
@@ -32,7 +32,7 @@ const UpdateAccountComponent = async () => {
           </div>
         ) : (
           <div>
-            <p>Tài khoản chưa được nâng cấp lên Premium</p>
+            <p className="my-4">Tài khoản chưa được nâng cấp lên Premium</p>
             <Link href={`/premium`}>
               <Button variant="contained">Nâng cấp ngay</Button>
             </Link>

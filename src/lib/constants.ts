@@ -6,7 +6,7 @@ import {
   BellRing,
   MessageSquareWarning,
 } from "lucide-react";
-import { MenuIconType } from "./types";
+import { MenuIconType } from "../types/types";
 
 export const statusErrorTitles: { [key: number]: string } = {
   400: "Bad Request",

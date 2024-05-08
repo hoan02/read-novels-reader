@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import { NovelType } from "@/lib/types";
-import { getNovelSearch } from "@/lib/search-auto-complete/search";
+import { NovelType } from "@/types/types";
+import { getNovelSearch } from "@/lib/actions/search.action";
 
 const InputSearch = () => {
   const [value, setValue] = useState("");

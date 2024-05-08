@@ -12,7 +12,7 @@ import Fan from "./Fan";
 import Comment from "./comment/Comment";
 import Review from "./review/Review";
 import MenuChapter from "@/components/novel/MenuChapter";
-import { ChapterType, NovelType } from "@/lib/types";
+import { ChapterType, NovelType } from "@/types/types";
 
 const TabsDetailsNovel = ({
   novel,

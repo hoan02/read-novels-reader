@@ -1,6 +1,6 @@
-import { NovelType } from "@/lib/types";
+import { NovelType } from "@/types/types";
 
-const Intro = ({novel}: {novel: NovelType}) => {
+const Intro = ({ novel }: { novel: NovelType }) => {
   return <div>{novel.description}</div>;
 };
 

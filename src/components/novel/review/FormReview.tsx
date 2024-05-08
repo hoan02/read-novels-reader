@@ -22,7 +22,7 @@ import {
   FileText,
   X,
 } from "lucide-react";
-import { NovelType } from "@/lib/types";
+import { NovelType } from "@/types/types";
 import { createOrUpdateReview } from "@/lib/actions/review.action";
 import { toast } from "react-hot-toast";
 import { checkReview } from "@/lib/data/review.data";

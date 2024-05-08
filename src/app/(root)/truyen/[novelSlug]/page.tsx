@@ -7,7 +7,7 @@ import TabsDetailsNovel from "@/components/novel/TabsDetailsNovel";
 import { getNovel } from "@/lib/data/novel.data";
 import Error from "@/components/layouts/Error";
 import { getMarked } from "@/lib/data/bookmark.data";
-import { NovelType } from "@/lib/types";
+import { NovelType } from "@/types/types";
 import { Suspense } from "react";
 import { getChapters } from "@/lib/data/chapter.data";
 

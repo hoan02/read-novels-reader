@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { menuAccount } from "@/lib/constants";
-import { MenuIconType } from "@/lib/types";
+import { MenuIconType } from "@/types/types";
 
 interface AccountLayoutProps {
   children: ReactNode;

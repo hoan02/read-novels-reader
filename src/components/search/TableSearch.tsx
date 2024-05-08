@@ -1,5 +1,5 @@
 import { getNovelsByParams } from "@/lib/data/novel.data";
-import { NovelType } from "@/lib/types";
+import { NovelType } from "@/types/types";
 import React from "react";
 import Error from "../layouts/Error";
 import Image from "next/image";

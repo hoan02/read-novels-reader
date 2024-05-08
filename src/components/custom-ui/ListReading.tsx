@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Error from "../layouts/Error";
 import { getRecentlyReadNovels } from "@/lib/data/bookmark.data";
-import { ErrorType } from "@/lib/types";
+import { ErrorType } from "@/types/types";
 
 interface NovelDetail {
   urlCover: string;

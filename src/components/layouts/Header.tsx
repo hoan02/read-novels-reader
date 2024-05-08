@@ -1,20 +1,18 @@
-"use client";
+// "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useUser, useAuth, SignOutButton } from "@clerk/nextjs";
+import { SignOutButton } from "@clerk/nextjs";
 import { Bell, CircleChevronUp, LogOut, UserRoundCog } from "lucide-react";
 
 import { novelGenres, novelRanks, subMenuAccount } from "@/lib/constants";
 import Badge from "@mui/material/Badge";
-import Avatar from "@mui/material/Avatar";
 import InputSearch from "../search/InputSearch";
+import AvatarFrame from "../custom-ui/AvatarFrame";
+import { getSessions } from "@/utils/getSession";
 
 const Header = () => {
-  const { isLoaded, isSignedIn, user } = useUser();
-  const { orgRole } = useAuth();
-  const fullName = user?.fullName;
-  const avatar = user?.imageUrl;
+  const { fullName, avatar, role } = getSessions();
 
   return (
     <div className="w-full flex justify-center bg-green-300 ">
@@ -84,7 +82,7 @@ const Header = () => {
             </Link>
           </div>
 
-          {!isLoaded || !isSignedIn ? (
+          {!fullName ? (
             <div className="flex gap-4 mx-4 font-medium">
               <Link href="/sign-in">Đăng nhập</Link>
               <Link href="/sign-up">Đăng ký</Link>
@@ -100,29 +98,13 @@ const Header = () => {
                     <div className="grid columns-1 m-auto">
                       <div className="text-sm">{fullName}</div>
                     </div>
-                    <Avatar className="mx-2" src={avatar} alt="avatar" />
+                    {avatar && (
+                      <AvatarFrame className="mx-2" src={avatar} role={role} size={52}/>
+                    )}
                   </div>
                 </div>
                 <div className="child absolute hidden z-50 w-48 bg-white mt-0.5 font-medium text-gray-700">
                   <div className="grid grid-cols-1 p-4 gap-4 shadow-md">
-                    <div className="mx-auto">
-                      <div className="text-sm text-red-500 mb-2">
-                        {orgRole === "org:admin"
-                          ? "Admin"
-                          : orgRole === "org:writer"
-                          ? "Nhà sáng tác"
-                          : "Đọc giả"}
-                      </div>
-                      <div className="flex text-sm">
-                        <Image
-                          src="/candy.png"
-                          alt="candy"
-                          width={24}
-                          height={24}
-                        />
-                        10
-                      </div>
-                    </div>
                     {subMenuAccount?.map((item, index) => {
                       const Icon = item.icon;
                       return (
@@ -132,7 +114,7 @@ const Header = () => {
                         </div>
                       );
                     })}
-                    {orgRole === "org:admin" && (
+                    {role === "admin" && (
                       <div className="flex gap-4 text-blue-600">
                         <UserRoundCog size={24} />
                         <Link
@@ -143,7 +125,7 @@ const Header = () => {
                         </Link>
                       </div>
                     )}
-                    {isSignedIn && (
+                    {fullName && (
                       <SignOutButton>
                         <button className="flex text-red-600 gap-4 pt-2 border-t-2 border-gray-400">
                           <LogOut size={24} />

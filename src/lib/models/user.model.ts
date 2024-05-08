@@ -27,6 +27,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    metadata: {
+      frameAvatar: {
+        type: String,
+        default: null,
+      },
+    },
+    
     role: {
       type: String,
       enum: ["reader", "writer", "admin"],

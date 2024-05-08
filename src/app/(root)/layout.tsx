@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import "../globals.css";
@@ -23,8 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" suppressHydrationWarning>
-      <SpeedInsights />
+    <html lang="vi" suppressHydrationWarning className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-green-200">
       <ClerkVIProvider>
         <AppRouterCacheProvider>
           <CustomThemeProvider>
