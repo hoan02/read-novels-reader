@@ -4,7 +4,9 @@ import connectToDB from "@/lib/mongodb/mongoose";
 
 export async function GET() {
   await connectToDB();
-  const users = await User.find();
+  const users = await User.find({
+    "premium.state": true,
+  });
   for (const user of users) {
     await user.updatePremiumState();
   }
