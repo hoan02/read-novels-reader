@@ -55,3 +55,5 @@ const UpdateAccountPage = () => {
 };
 
 export default UpdateAccountPage;
+
+export const dynamic = "force-dynamic";

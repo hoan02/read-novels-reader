@@ -3,13 +3,15 @@
 import PayOs from "@/lib/payos/payOs";
 import Order from "../models/order.model";
 import { auth } from "@clerk/nextjs/server";
+import connectToDB from "../mongodb/mongoose";
 
 export const createOrder = async (order: string) => {
+  const orderType = order === "month" ? "PREMIUM1T" : "PREMIUM1Y";
   try {
     const body = {
       orderCode: Number(String(new Date().getTime()).slice(-6)),
       amount: order === "month" ? 29000 : 259000,
-      description: order === "month" ? "PREMIUM1T" : "PREMIUM1Y",
+      description: orderType,
       cancelUrl: `${process.env.PUBLIC_URL}payment/result`,
       returnUrl: `${process.env.PUBLIC_URL}payment/result`,
     };
@@ -17,6 +19,7 @@ export const createOrder = async (order: string) => {
     const paymentLinkRes = await PayOs.createPaymentLink(body);
     await Order.create({
       clerkId: userId,
+      orderType,
       ...paymentLinkRes,
     });
     const res = {
@@ -38,7 +41,9 @@ export const createOrder = async (order: string) => {
 
 export const cancelOrder = async (paymentLinkId: string) => {
   try {
+    await connectToDB();
     const order = await PayOs.cancelPaymentLink(paymentLinkId);
+    await Order.findOneAndUpdate({ paymentLinkId }, { status: "CANCELLED" });
     if (!order) {
       return {
         error: -1,

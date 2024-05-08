@@ -21,7 +21,6 @@ import {
 
 import { cancelOrder } from "@/lib/actions/order.action";
 import { getOrder } from "@/lib/data/order.data";
-import { MB_ACCOUNT_NAME, MB_ACCOUNT_NUMBER, MB_BIN } from "@/app/constant";
 
 const PaymentPage = () => {
   const router = useRouter();
@@ -33,6 +32,7 @@ const PaymentPage = () => {
   const paymentLinkId = searchParams.get("paymentLinkId");
 
   useEffect(() => {
+    let isPaid = false;
     const getOrderData = async () => {
       if (paymentLinkId) {
         const order = await getOrder(paymentLinkId);
@@ -40,15 +40,18 @@ const PaymentPage = () => {
           setOrder(order.data);
           if (order.data.status === "PAID") {
             setIsCheckout(true);
+            isPaid = true;
           }
-        } else {
-          router.push(`/payment/result?paymentLinkId=${paymentLinkId}`);
         }
       }
     };
 
     getOrderData();
-    const intervalId = setInterval(getOrderData, 3000);
+    const intervalId = setInterval(() => {
+      if (!isPaid) {
+        getOrderData();
+      }
+    }, 3000);
     return () => clearInterval(intervalId);
   }, [paymentLinkId]);
 
@@ -77,7 +80,7 @@ const PaymentPage = () => {
       .then(function (dataUrl) {
         // download(dataUrl, "my-node.png");
         const link = document.createElement("a");
-        link.download = `${MB_ACCOUNT_NUMBER}_${MB_BIN}_${order?.amount}_${order?.orderCode}_QrCode.png`;
+        link.download = `${order?.accountNumber}_${order?.bin}_${order?.amount}_${order?.orderCode}_QrCode.png`;
         link.href = dataUrl;
         link.click();
         link.remove();
@@ -138,7 +141,7 @@ const PaymentPage = () => {
                   Chủ tài khoản:
                 </Typography>
                 <Typography className="text-gray-800 !text-sm !font-bold">
-                  {MB_ACCOUNT_NAME}
+                  {order?.accountName}
                 </Typography>
               </Box>
             </Box>
@@ -152,7 +155,7 @@ const PaymentPage = () => {
                   Số tài khoản :
                 </Typography>
                 <Typography className="text-gray-800 !text-sm !font-bold">
-                  {MB_ACCOUNT_NUMBER}
+                  {order?.accountNumber}
                 </Typography>
               </Box>
               <Button
@@ -160,7 +163,7 @@ const PaymentPage = () => {
                 size="small"
                 className="h-7 !bg-purple-200 !object-right !ml-auto !my-auto"
                 sx={{ flex: 2 }}
-                onClick={() => handleCopyText(MB_ACCOUNT_NUMBER)}
+                onClick={() => handleCopyText(order?.accountNumber)}
               >
                 <Typography className="!text-xs !font-bold text-gray-600 normal-case">
                   Sao chép

@@ -6,6 +6,11 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    orderType: {
+      type: String,
+      enum: ["PREMIUM1T", "PREMIUM1Y"],
+      required: true,
+    },
     status: {
       type: String,
       required: true,

@@ -18,3 +18,5 @@ const SearchPage = ({ searchParams }: { searchParams: any }) => {
 };
 
 export default SearchPage;
+
+export const dynamic = "force-dynamic";
