@@ -38,18 +38,24 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    qrCode: {
+      type: String,
+      required: true,
+    },
     checkoutUrl: {
       type: String,
       required: true,
     },
-    reference: {
-      type: String,
-    },
-    transactionDateTime: {
-      type: String,
-    },
-    signature: {
-      type: String,
+    transactions: {
+      description: {
+        type: String,
+      },
+      reference: {
+        type: String,
+      },
+      transactionDateTime: {
+        type: String,
+      },
     },
   },
   { timestamps: true }

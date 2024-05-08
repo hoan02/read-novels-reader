@@ -10,20 +10,26 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const payload = await req.json();
-  console.log(payload);
-  const order = await PayOs.getPaymentLinkInformation(payload.id);
-  if (order) {
-    await Order.findOneAndUpdate(
-      {
-        paymentLinkId: payload.paymentLinkId,
-      },
-      {
-        status: order.status,
-      },
-      {
-        upsert: true,
-      }
+  const verifyPayment = await PayOs.verifyPaymentWebhookData(payload);
+  if (verifyPayment.code === "00") {
+    const order = await PayOs.getPaymentLinkInformation(
+      payload.data.paymentLinkId
     );
+    if (order) {
+      await Order.findOneAndUpdate(
+        {
+          paymentLinkId: payload.paymentLinkId,
+        },
+        {
+          status: order.status,
+          "transactions.description": order.transactions[0].description,
+          "transactions.reference": order.transactions[0].reference,
+          "transactions.transactionDateTime":
+            order.transactions[0].transactionDateTime,
+        },
+        { new: true, upsert: true }
+      );
+    }
   }
 
   return NextResponse.json({ success: true }, { status: 200 });

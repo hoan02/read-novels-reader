@@ -36,9 +36,9 @@ export const createOrder = async (order: string) => {
   }
 };
 
-export const cancelOrder = async (orderId: string) => {
+export const cancelOrder = async (paymentLinkId: string) => {
   try {
-    const order = await PayOs.cancelPaymentLink(orderId);
+    const order = await PayOs.cancelPaymentLink(paymentLinkId);
     if (!order) {
       return {
         error: -1,

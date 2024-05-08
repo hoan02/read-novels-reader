@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import QRCode from "qrcode.react";
 import { toast } from "react-hot-toast";
 import { toJpeg } from "html-to-image";
-import { io, Socket } from "socket.io-client";
 import { Check, Share2, Download } from "lucide-react";
 import {
   Box,
@@ -21,38 +20,37 @@ import {
 } from "@mui/material";
 
 import { cancelOrder } from "@/lib/actions/order.action";
+import { getOrder } from "@/lib/data/order.data";
+import { MB_ACCOUNT_NAME, MB_ACCOUNT_NUMBER, MB_BIN } from "@/app/constant";
 
 const PaymentPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const bin = searchParams.get("bin");
-  const checkoutUrl = searchParams.get("checkoutUrl");
-  const accountNumber = searchParams.get("accountNumber");
-  const accountName = searchParams.get("accountName");
-  const amount = searchParams.get("amount");
-  const description = searchParams.get("description");
-  const orderCode = searchParams.get("orderCode");
-  const qrCode = searchParams.get("qrCode");
-  // const socket = io(process.env.SOCKET_IO_URL!);
-
-  // if (
-  //   !bin ||
-  //   !checkoutUrl ||
-  //   !accountNumber ||
-  //   !accountName ||
-  //   !amount ||
-  //   !description ||
-  //   !orderCode ||
-  //   !qrCode ||
-  //   !socketUrl
-  // ) {
-  //   router.back();
-  //   return null;
-  // }
-
+  const [order, setOrder] = useState<any>();
   const [open, setOpen] = useState(false);
   const [openQR, setOpenQR] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);
+  const paymentLinkId = searchParams.get("paymentLinkId");
+
+  useEffect(() => {
+    const getOrderData = async () => {
+      if (paymentLinkId) {
+        const order = await getOrder(paymentLinkId);
+        if (order.status === 200 && order.data) {
+          setOrder(order.data);
+          if (order.data.status === "PAID") {
+            setIsCheckout(true);
+          }
+        } else {
+          router.push(`/payment/result?paymentLinkId=${paymentLinkId}`);
+        }
+      }
+    };
+
+    getOrderData();
+    const intervalId = setInterval(getOrderData, 3000);
+    return () => clearInterval(intervalId);
+  }, [paymentLinkId]);
 
   const handleCopyText = (textToCopy: string) => {
     // Tạo một textarea ẩn để sao chép nội dung
@@ -61,8 +59,8 @@ const PaymentPage = () => {
   };
 
   const cancelOrderHandle = async () => {
-    const res = await cancelOrder(orderCode!);
-    router.push(`/payment/result?orderCode=${orderCode}`);
+    const res = await cancelOrder(paymentLinkId!);
+    router.push(`/payment/result?paymentLinkId=${paymentLinkId}`);
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -79,7 +77,7 @@ const PaymentPage = () => {
       .then(function (dataUrl) {
         // download(dataUrl, "my-node.png");
         const link = document.createElement("a");
-        link.download = `${accountNumber}_${bin}_${amount}_${orderCode}_QrCode.png`;
+        link.download = `${MB_ACCOUNT_NUMBER}_${MB_BIN}_${order?.amount}_${order?.orderCode}_QrCode.png`;
         link.href = dataUrl;
         link.click();
         link.remove();
@@ -89,26 +87,7 @@ const PaymentPage = () => {
       });
   };
 
-  // useEffect(() => {
-  //   socket.on("paymentUpdated", (data) => {
-  //     if (data.orderId === orderCode) {
-  //       setIsCheckout(true);
-  //       socket.emit("leaveOrderRoom", orderCode);
-
-  //       setTimeout(() => {
-  //         router.push(`/payment/results?orderCode=${orderCode}`);
-  //       }, 3000);
-  //     }
-  //     // Cập nhật trạng thái đơn hàng trên giao diện người dùng
-  //   });
-
-  //   socket.emit("joinOrderRoom", orderCode);
-
-  //   // Gửi yêu cầu rời khỏi phòng orderId khi component bị hủy
-  //   return () => {
-  //     socket.emit("leaveOrderRoom", orderCode);
-  //   };
-  // }, []);
+  console.log(order);
 
   return (
     <Box
@@ -129,7 +108,7 @@ const PaymentPage = () => {
         >
           <Button className="w-full h-full" onClick={() => setOpenQR(true)}>
             <QRCode
-              value={qrCode!}
+              value={order?.qrCode}
               level="M"
               includeMargin={true}
               renderAs="svg"
@@ -159,7 +138,7 @@ const PaymentPage = () => {
                   Chủ tài khoản:
                 </Typography>
                 <Typography className="text-gray-800 !text-sm !font-bold">
-                  {accountName}
+                  {MB_ACCOUNT_NAME}
                 </Typography>
               </Box>
             </Box>
@@ -173,22 +152,20 @@ const PaymentPage = () => {
                   Số tài khoản :
                 </Typography>
                 <Typography className="text-gray-800 !text-sm !font-bold">
-                  {accountNumber}
+                  {MB_ACCOUNT_NUMBER}
                 </Typography>
               </Box>
-              {accountNumber && (
-                <Button
-                  variant="contained"
-                  size="small"
-                  className="h-7 !bg-purple-200 !object-right !ml-auto !my-auto"
-                  sx={{ flex: 2 }}
-                  onClick={() => handleCopyText(accountNumber)}
-                >
-                  <Typography className="!text-xs !font-bold text-gray-600 normal-case">
-                    Sao chép
-                  </Typography>
-                </Button>
-              )}
+              <Button
+                variant="contained"
+                size="small"
+                className="h-7 !bg-purple-200 !object-right !ml-auto !my-auto"
+                sx={{ flex: 2 }}
+                onClick={() => handleCopyText(MB_ACCOUNT_NUMBER)}
+              >
+                <Typography className="!text-xs !font-bold text-gray-600 normal-case">
+                  Sao chép
+                </Typography>
+              </Button>
             </Box>
             <Box component={"div"} className="flex flex-row">
               <Box
@@ -200,22 +177,20 @@ const PaymentPage = () => {
                   Số tiền :
                 </Typography>
                 <Typography className="text-gray-800 !text-sm !font-bold">
-                  {amount} vnd
+                  {order?.amount} vnd
                 </Typography>
               </Box>
-              {amount && (
-                <Button
-                  variant="contained"
-                  size="small"
-                  className="h-7 !bg-purple-200 !object-right !ml-auto !my-auto"
-                  sx={{ flex: 2 }}
-                  onClick={() => handleCopyText(amount)}
-                >
-                  <Typography className="!text-xs !font-bold text-gray-600 normal-case">
-                    Sao chép
-                  </Typography>
-                </Button>
-              )}
+              <Button
+                variant="contained"
+                size="small"
+                className="h-7 !bg-purple-200 !object-right !ml-auto !my-auto"
+                sx={{ flex: 2 }}
+                onClick={() => handleCopyText(order?.amount)}
+              >
+                <Typography className="!text-xs !font-bold text-gray-600 normal-case">
+                  Sao chép
+                </Typography>
+              </Button>
             </Box>
             <Box component={"div"} className="flex flex-row">
               <Box
@@ -227,28 +202,27 @@ const PaymentPage = () => {
                   Nội dung :
                 </Typography>
                 <Typography className="text-gray-800 !text-sm !font-bold ">
-                  {description}
+                  {order?.description}
                 </Typography>
               </Box>
-              {description && (
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{ flex: 2 }}
-                  className="h-7 !bg-purple-200 !object-right !ml-auto !my-auto"
-                  onClick={() => handleCopyText(description)}
-                >
-                  <Typography className="!text-xs !font-bold text-gray-600 normal-case">
-                    Sao chép
-                  </Typography>
-                </Button>
-              )}
+              <Button
+                variant="contained"
+                size="small"
+                sx={{ flex: 2 }}
+                className="h-7 !bg-purple-200 !object-right !ml-auto !my-auto"
+                onClick={() => handleCopyText(order?.description)}
+              >
+                <Typography className="!text-xs !font-bold text-gray-600 normal-case">
+                  Sao chép
+                </Typography>
+              </Button>
             </Box>
           </Box>
 
           <Typography className="!text-sm text-gray-700">
             Lưu ý: Nhập chính xác nội dung{" "}
-            <span className="!font-bold">{description}</span> khi chuyển khoản
+            <span className="!font-bold">{order?.description}</span> khi chuyển
+            khoản
           </Typography>
           <Box component={"div"} className="flex flex-row gap-5 items-center">
             {!isCheckout && (
@@ -318,7 +292,7 @@ const PaymentPage = () => {
           </Typography>
           <QRCode
             id="my-node"
-            value={qrCode!}
+            value={order?.qrCode}
             level="M"
             includeMargin={true}
             renderAs="svg"
