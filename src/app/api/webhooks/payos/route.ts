@@ -2,6 +2,7 @@ import Order from "@/lib/models/order.model";
 import User from "@/lib/models/user.model";
 import connectToDB from "@/lib/mongodb/mongoose";
 import PayOs from "@/lib/payos/payOs";
+import formatDate from "@/utils/formatDate";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -40,8 +41,8 @@ export async function POST(req: Request) {
           { new: true, upsert: true }
         );
 
-        var endDate = new Date();
-        if (existingOrder.orderType === "PREMIUM1T") {
+        let endDate = new Date();
+        if (existingOrder.orderType === "month") {
           endDate.setMonth(endDate.getMonth() + 1);
         } else {
           endDate.setFullYear(endDate.getFullYear() + 1);
@@ -52,8 +53,8 @@ export async function POST(req: Request) {
           {
             $set: {
               "premium.state": true,
-              "premium.startDate": new Date(),
-              "premium.endDate": endDate,
+              "premium.startDate": formatDate(new Date()),
+              "premium.endDate": formatDate(endDate),
             },
           },
           { new: true, upsert: true }

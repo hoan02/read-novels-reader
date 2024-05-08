@@ -1,3 +1,4 @@
+import formatDate from "@/utils/formatDate";
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
@@ -37,16 +38,12 @@ const UserSchema = new mongoose.Schema(
         type: Boolean,
         default: false,
       },
-      orderCode: {
-        type: [Number],
-        default: [],
-      },
       startDate: {
-        type: Date,
+        type: String,
         default: null,
       },
       endDate: {
-        type: Date,
+        type: String,
         default: null,
       },
     },
@@ -55,7 +52,7 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.methods.updatePremiumState = async function () {
-  const now = new Date();
+  const now = formatDate(new Date());
   if (this.premium.startDate && this.premium.endDate) {
     if (now >= this.premium.startDate && now <= this.premium.endDate) {
       this.premium.state = true;
