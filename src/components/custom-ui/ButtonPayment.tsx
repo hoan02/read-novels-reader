@@ -19,8 +19,7 @@ const ButtonPayment = ({ order }: { order: string }) => {
       setLoading(false);
       if (response.paymentLinkId != null) {
         // window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
-        // router.push(`/payment?orderCode=${response.orderCode}`);
-        router.push(`/test?paymentLinkId=${response.paymentLinkId}`);
+        router.push(`/payment?paymentLinkId=${response.paymentLinkId}`);
       }
     } catch (error) {
       console.log(error);
