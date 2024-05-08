@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema(
     },
     orderType: {
       type: String,
-      enum: ["PREMIUM1T", "PREMIUM1Y"],
+      enum: ["month", "year"],
       required: true,
     },
     status: {
