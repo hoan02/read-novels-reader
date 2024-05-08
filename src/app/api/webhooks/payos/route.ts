@@ -13,16 +13,13 @@ export async function POST(req: Request) {
   try {
     await connectToDB();
     const payload = await req.json();
-    const verifyPayment = await PayOs.verifyPaymentWebhookData(payload);
+    const paymentLinkId = payload.data.paymentLinkId;
+    const verifyPayment = PayOs.verifyPaymentWebhookData(payload);
     if (verifyPayment.code === "00") {
-      const order = await PayOs.getPaymentLinkInformation(
-        payload.data.paymentLinkId
-      );
+      const order = await PayOs.getPaymentLinkInformation(paymentLinkId);
       if (order) {
         await Order.findOneAndUpdate(
-          {
-            paymentLinkId: payload.paymentLinkId,
-          },
+          { paymentLinkId },
           {
             $set: {
               status: order.status,
@@ -32,7 +29,6 @@ export async function POST(req: Request) {
                 order.transactions[0].transactionDateTime,
             },
           },
-
           { new: true, upsert: true }
         );
       }
