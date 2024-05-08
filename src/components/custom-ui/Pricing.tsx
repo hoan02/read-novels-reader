@@ -2,7 +2,6 @@
 
 import { Info } from "lucide-react";
 import { motion } from "framer-motion";
-import { usePayOS } from "payos-checkout";
 
 import { fadeIn } from "@/utils/variants";
 import ButtonPayment from "./ButtonPayment";

@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
+import User from "@/lib/models/user.model";
 
 export async function GET() {
-  const result = await fetch(
-    'https://worldtimeapi.org/api/timezone/Asia/Ho_Chi_Minh',
-    {
-      cache: 'no-store',
-    },
-  );
-  const data = await result.json();
- 
-  return NextResponse.json({ datetime: data.datetime });
+  const users = await User.find();
+  for (const user of users) {
+    await user.updatePremiumState();
+  }
+
+  return NextResponse.json({ message: "Success!" });
 }

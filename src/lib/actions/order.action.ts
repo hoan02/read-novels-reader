@@ -1,33 +1,28 @@
 "use server";
 
 import PayOs from "@/lib/payos/payOs";
-// import { auth } from "@clerk/nextjs//server";
+import Order from "../models/order.model";
+import { auth } from "@clerk/nextjs/server";
 
 export const createOrder = async (order: string) => {
-  // const { userId } = auth();
-  const body = {
-    orderCode: Number(String(new Date().getTime()).slice(-6)),
-    amount: order === "month" ? 29000 : 259000,
-    description: order === "month" ? "PREMIUM1T" : "PREMIUM1Y",
-    cancelUrl: `${process.env.PUBLIC_URL}payment/result`,
-    returnUrl: `${process.env.PUBLIC_URL}payment/result`,
-  };
-
   try {
+    const body = {
+      orderCode: Number(String(new Date().getTime()).slice(-6)),
+      amount: order === "month" ? 29000 : 259000,
+      description: order === "month" ? "PREMIUM1T" : "PREMIUM1Y",
+      cancelUrl: `${process.env.PUBLIC_URL}payment/result`,
+      returnUrl: `${process.env.PUBLIC_URL}payment/result`,
+    };
+    const { userId } = auth();
     const paymentLinkRes = await PayOs.createPaymentLink(body);
+    await Order.create({
+      clerkId: userId,
+      ...paymentLinkRes,
+    });
     const res = {
       error: 0,
       message: "Success",
-      data: {
-        bin: paymentLinkRes.bin,
-        checkoutUrl: paymentLinkRes.checkoutUrl,
-        accountNumber: paymentLinkRes.accountNumber,
-        accountName: paymentLinkRes.accountName,
-        amount: paymentLinkRes.amount,
-        description: paymentLinkRes.description,
-        orderCode: paymentLinkRes.orderCode,
-        qrCode: paymentLinkRes.qrCode,
-      },
+      paymentLinkId: paymentLinkRes.paymentLinkId,
     };
     return res;
   } catch (error) {
@@ -35,7 +30,7 @@ export const createOrder = async (order: string) => {
     const res = {
       error: -1,
       message: "fail",
-      data: null,
+      paymentLinkId: null,
     };
     return res;
   }
@@ -65,4 +60,3 @@ export const cancelOrder = async (orderId: string) => {
     };
   }
 };
-

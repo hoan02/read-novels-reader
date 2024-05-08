@@ -1,3 +1,4 @@
+import PayOs from "@/lib/payos/payOs";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -8,8 +9,8 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const payload = await req.json();
-  const data = payload.data;
-  console.log("Ok", payload);
+  const res = await PayOs.verifyPaymentWebhookData(payload);
+  console.log("Ok", res);
   if (!payload.data) {
     console.log("Error");
   }

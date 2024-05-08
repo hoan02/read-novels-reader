@@ -1,34 +1,60 @@
 import mongoose from "mongoose";
 
-const orderSchema = new mongoose.Schema({
-  orderCode: {
-    type: Number,
-    required: true,
+const orderSchema = new mongoose.Schema(
+  {
+    clerkId: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
+    orderCode: {
+      type: Number,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    bin: {
+      type: String,
+      required: true,
+    },
+    accountName: {
+      type: String,
+      required: true,
+    },
+    accountNumber: {
+      type: String,
+      required: true,
+    },
+    paymentLinkId: {
+      type: String,
+      required: true,
+    },
+    checkoutUrl: {
+      type: String,
+      required: true,
+    },
+    reference: {
+      type: String,
+    },
+    transactionDateTime: {
+      type: String,
+    },
+    signature: {
+      type: String,
+    },
   },
-  amount: {
-    type: Number,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  accountNumber: {
-    type: String,
-    required: true,
-  },
-  reference: {
-    type: String,
-  },
-  transactionDateTime: {
-    type: String,
-  },
-  paymentLinkId: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
-const Order = mongoose.model("Order", orderSchema);
+const Order = mongoose.models?.Order || mongoose.model("Order", orderSchema);
 
 export default Order;

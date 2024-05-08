@@ -33,7 +33,7 @@ const PaymentPage = () => {
   const description = searchParams.get("description");
   const orderCode = searchParams.get("orderCode");
   const qrCode = searchParams.get("qrCode");
-  const socket = io(process.env.SOCKET_IO_URL!);
+  // const socket = io(process.env.SOCKET_IO_URL!);
 
   // if (
   //   !bin ||

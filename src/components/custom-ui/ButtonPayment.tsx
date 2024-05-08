@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 import { createOrder } from "@/lib/actions/order.action";
@@ -17,21 +17,10 @@ const ButtonPayment = ({ order }: { order: string }) => {
 
       if (response.error != 0) throw new Error("Call Api failed: ");
       setLoading(false);
-      if (response.data != null) {
-        const {
-          bin,
-          accountNumber,
-          checkoutUrl,
-          accountName,
-          amount,
-          description,
-          orderCode,
-          qrCode,
-        } = response.data;
+      if (response.paymentLinkId != null) {
         // window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
-        router.push(
-          `/payment?bin=${bin}&accountNumber=${accountNumber}&accountName=${accountName}&amount=${amount}&description=${description}&orderCode=${orderCode}&qrCode=${qrCode}`
-        );
+        // router.push(`/payment?orderCode=${response.orderCode}`);
+        router.push(`/test?paymentLinkId=${response.paymentLinkId}`);
       }
     } catch (error) {
       console.log(error);

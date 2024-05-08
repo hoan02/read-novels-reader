@@ -2,9 +2,9 @@
 
 import PayOs from "@/lib/payos/payOs";
 
-export const getOrder = async (orderId: string) => {
+export const getOrder = async (paymentLinkId: string) => {
   try {
-    const order = await PayOs.getPaymentLinkInformation(orderId);
+    const order = await PayOs.getPaymentLinkInformation(paymentLinkId);
     if (!order) {
       return {
         error: -1,
