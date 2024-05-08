@@ -40,20 +40,21 @@ export async function POST(req: Request) {
           { new: true, upsert: true }
         );
 
-        const endDate = new Date(
-          Date.now() +
-            (existingOrder.orderType === "PREMIUM1T"
-              ? new Date().setMonth(new Date().getMonth() + 1)
-              : new Date().setFullYear(new Date().getFullYear() + 1))
-        );
-
         await User.findOneAndUpdate(
           { clerkId: existingOrder.clerkId },
           {
             $set: {
               "premium.state": true,
               "premium.startDate": new Date(),
-              "premium.endDate": endDate,
+            },
+            $setOnInsert: {
+              "premium.endDate": {
+                $dateAdd: {
+                  startDate: new Date(),
+                  unit: existingOrder.orderType,
+                  amount: 1,
+                },
+              },
             },
           },
           { new: true, upsert: true }
