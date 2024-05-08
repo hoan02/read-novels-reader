@@ -1,4 +1,4 @@
-import formatDate from "@/utils/formatDate";
+import { format, parse } from "date-fns";
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
@@ -52,9 +52,17 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.methods.updatePremiumState = async function () {
-  const now = formatDate(new Date());
+  const now = format(new Date(), "dd/MM/yyyy HH:mm");
   if (this.premium.startDate && this.premium.endDate) {
-    if (now >= this.premium.startDate && now <= this.premium.endDate) {
+    const startDate = parse(
+      this.premium.startDate,
+      "dd/MM/yyyy HH:mm",
+      new Date()
+    );
+    const endDate = parse(this.premium.endDate, "dd/MM/yyyy HH:mm", new Date());
+    const nowDate = parse(now, "dd/MM/yyyy HH:mm", new Date());
+
+    if (nowDate >= startDate && nowDate <= endDate) {
       this.premium.state = true;
     } else {
       this.premium.state = false;

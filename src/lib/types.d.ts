@@ -24,8 +24,8 @@ type UserType = {
   role?: "reader" | "writer" | "admin";
   premium?: {
     state: boolean;
-    startDate?: Date | null;
-    endDate?: Date | null;
+    startDate?: string | null;
+    endDate?: string | null;
   };
 };
 

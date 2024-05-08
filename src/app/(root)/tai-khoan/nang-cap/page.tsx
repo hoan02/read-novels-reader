@@ -20,14 +20,8 @@ const UpdateAccountComponent = async () => {
           <div>
             <p>Tài khoản của bạn đã được nâng cấp lên Premium</p>
             <div>
-              <p>
-                Ngày nâng cấp:{" "}
-                {user.premium.startDate && formatDate(user.premium.startDate)}
-              </p>
-              <p>
-                Ngày hết hạn:{" "}
-                {user.premium.endDate && formatDate(user.premium.endDate)}
-              </p>
+              <p>Ngày nâng cấp: {user.premium.startDate}</p>
+              <p>Ngày hết hạn: {user.premium.endDate}</p>
             </div>
           </div>
         ) : (
