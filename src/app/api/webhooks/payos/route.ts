@@ -53,8 +53,8 @@ export async function POST(req: Request) {
           {
             $set: {
               "premium.state": true,
-              "premium.startDate": formatDate(new Date()),
-              "premium.endDate": formatDate(endDate),
+              "premium.startDate": new Date(),
+              "premium.endDate": endDate,
             },
           },
           { new: true, upsert: true }
