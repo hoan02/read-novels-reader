@@ -17,22 +17,23 @@ export async function POST(req: Request) {
         payload.data.paymentLinkId
       );
       if (order) {
-        await Order.findOneAndUpdate(
-          {
-            paymentLinkId: payload.paymentLinkId,
-          },
-          {
-            $set: {
-              status: order.status,
-              "transaction.description": order.transactions[0].description,
-              "transaction.reference": order.transactions[0].reference,
-              "transaction.transactionDateTime":
-                order.transactions[0].transactionDateTime,
-            },
-          },
+        console.log(order.transactions[0].description)
+        // await Order.findOneAndUpdate(
+        //   {
+        //     paymentLinkId: payload.paymentLinkId,
+        //   },
+        //   {
+        //     $set: {
+        //       status: order.status,
+        //       "transaction.description": order.transactions[0].description,
+        //       "transaction.reference": order.transactions[0].reference,
+        //       "transaction.transactionDateTime":
+        //         order.transactions[0].transactionDateTime,
+        //     },
+        //   },
 
-          { new: true, upsert: true }
-        );
+        //   { new: true, upsert: true }
+        // );
       }
     }
   } catch (err) {
