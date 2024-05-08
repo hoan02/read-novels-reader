@@ -1,4 +1,5 @@
 import Order from "@/lib/models/order.model";
+import connectToDB from "@/lib/mongodb/mongoose";
 import PayOs from "@/lib/payos/payOs";
 import { NextResponse } from "next/server";
 
@@ -10,30 +11,30 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    await connectToDB();
     const payload = await req.json();
-    const verifyPayment = PayOs.verifyPaymentWebhookData(payload);
+    const verifyPayment = await PayOs.verifyPaymentWebhookData(payload);
     if (verifyPayment.code === "00") {
       const order = await PayOs.getPaymentLinkInformation(
         payload.data.paymentLinkId
       );
       if (order) {
-        console.log(order.transactions[0].description)
-        // await Order.findOneAndUpdate(
-        //   {
-        //     paymentLinkId: payload.paymentLinkId,
-        //   },
-        //   {
-        //     $set: {
-        //       status: order.status,
-        //       "transaction.description": order.transactions[0].description,
-        //       "transaction.reference": order.transactions[0].reference,
-        //       "transaction.transactionDateTime":
-        //         order.transactions[0].transactionDateTime,
-        //     },
-        //   },
+        await Order.findOneAndUpdate(
+          {
+            paymentLinkId: payload.paymentLinkId,
+          },
+          {
+            $set: {
+              status: order.status,
+              "transaction.description": order.transactions[0].description,
+              "transaction.reference": order.transactions[0].reference,
+              "transaction.transactionDateTime":
+                order.transactions[0].transactionDateTime,
+            },
+          },
 
-        //   { new: true, upsert: true }
-        // );
+          { new: true, upsert: true }
+        );
       }
     }
   } catch (err) {
