@@ -6,8 +6,13 @@ declare global {
     avatar?: string;
     clerkId?: string;
     email?: string;
-    metadata: {
-      frameAvatar?: string;
+    metadata?: {
+      frame_avatar?: string;
+      premium?: {
+        state: boolean;
+        startDate?: Date | null;
+        endDate?: Date | null;
+      };
     };
   }
 

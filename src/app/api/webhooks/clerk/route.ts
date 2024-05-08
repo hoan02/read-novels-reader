@@ -68,9 +68,17 @@ export async function POST(req: Request) {
         last_name,
         image_url,
         email_addresses,
+        public_metadata,
       } = eventData;
 
-      if (!username || !first_name || !last_name) {
+      if (
+        !id ||
+        !username ||
+        !first_name ||
+        !last_name ||
+        !image_url ||
+        !email_addresses
+      ) {
         return new Response("Error occured", {
           status: 400,
         });
@@ -83,6 +91,14 @@ export async function POST(req: Request) {
         lastName: last_name,
         avatar: image_url,
         email: email_addresses[0].email_address,
+        publicMetadata: {
+          frameAvatar: public_metadata.frame_avatar,
+          premium: {
+            state: public_metadata.premium?.state,
+            startDate: public_metadata.premium?.startDate,
+            endDate: public_metadata.premium?.endDate,
+          },
+        },
       });
 
       return new Response("User is created or updated", {

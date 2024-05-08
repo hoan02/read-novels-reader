@@ -7,6 +7,7 @@ export function getSessions() {
   const clerkId = sessionClaims?.clerkId;
   const email = sessionClaims?.email;
   const role = sessionClaims?.org_role?.slice(4);
+  const metadata = sessionClaims?.metadata;
 
-  return { fullName, avatar, clerkId, email, role };
+  return { fullName, avatar, clerkId, email, role, metadata };
 }

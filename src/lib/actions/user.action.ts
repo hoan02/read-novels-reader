@@ -31,6 +31,7 @@ export const createOrUpdateUser = async ({
   username,
   email,
   avatar,
+  publicMetadata,
 }: UserType) => {
   try {
     await connectToDB();
@@ -44,11 +45,11 @@ export const createOrUpdateUser = async ({
           lastName,
           avatar,
           email,
+          publicMetadata,
         },
       },
       { upsert: true, new: true } // if user doesn't exist, create a new one
     );
-    console.log(user);
     await user.save();
     return user;
   } catch (error) {

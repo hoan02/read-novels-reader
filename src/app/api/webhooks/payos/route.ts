@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 import Order from "@/lib/models/order.model";
-import User from "@/lib/models/user.model";
 import connectToDB from "@/lib/mongodb/mongoose";
 import PayOs from "@/lib/payos/payOs";
 import { updateUserMetadata } from "@/lib/actions/clerk.action";
@@ -50,35 +49,20 @@ export async function POST(req: Request) {
         }
 
         await updateUserMetadata(existingOrder.clerkId, {
-          "frame_avatar":
+          frame_avatar:
             existingOrder.orderType === "month"
               ? "reader-vip-1"
               : "reader-vip-2",
-          "premium.state": true,
-          "premium.startDate": new Date(),
-          "premium.endDate": endDate,
-        });
-
-        await User.findOneAndUpdate(
-          { clerkId: existingOrder.clerkId },
-          {
-            $set: {
-              role:
-                existingOrder.orderType === "month"
-                  ? "reader-vip-1"
-                  : "reader-vip-2",
-              "premium.state": true,
-              "premium.startDate": new Date(),
-              "premium.endDate": endDate,
-            },
+          premium: {
+            state: true,
+            startDate: new Date(),
+            endDate: endDate,
           },
-          { new: true, upsert: true }
-        );
+        });
       }
     }
   } catch (err) {
     console.log(err);
   }
-
   return NextResponse.json({ success: true }, { status: 200 });
 }
