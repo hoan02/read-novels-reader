@@ -37,10 +37,6 @@ const UserSchema = new mongoose.Schema(
         type: Boolean,
         default: false,
       },
-      orderCode: {
-        type: [Number],
-        default: [],
-      },
       startDate: {
         type: Date,
         default: null,
@@ -58,6 +54,8 @@ UserSchema.methods.updatePremiumState = async function () {
   const now = new Date();
   if (this.premium.endDate) {
     if (now > this.premium.endDate) {
+      this.premium.endDate = null;
+      this.premium.startDate = null;
       this.premium.state = false;
     }
     await this.save();
