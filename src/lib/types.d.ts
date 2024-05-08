@@ -21,6 +21,12 @@ type UserType = {
   username: string;
   email: string;
   avatar: string;
+  role?: "reader" | "writer" | "admin";
+  premium?: {
+    state: boolean;
+    startDate?: Date | null;
+    endDate?: Date | null;
+  };
 };
 
 type NovelType = {

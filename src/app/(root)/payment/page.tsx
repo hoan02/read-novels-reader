@@ -89,26 +89,26 @@ const PaymentPage = () => {
       });
   };
 
-  useEffect(() => {
-    socket.on("paymentUpdated", (data) => {
-      if (data.orderId === orderCode) {
-        setIsCheckout(true);
-        socket.emit("leaveOrderRoom", orderCode);
+  // useEffect(() => {
+  //   socket.on("paymentUpdated", (data) => {
+  //     if (data.orderId === orderCode) {
+  //       setIsCheckout(true);
+  //       socket.emit("leaveOrderRoom", orderCode);
 
-        setTimeout(() => {
-          router.push(`/payment/results?orderCode=${orderCode}`);
-        }, 3000);
-      }
-      // Cập nhật trạng thái đơn hàng trên giao diện người dùng
-    });
+  //       setTimeout(() => {
+  //         router.push(`/payment/results?orderCode=${orderCode}`);
+  //       }, 3000);
+  //     }
+  //     // Cập nhật trạng thái đơn hàng trên giao diện người dùng
+  //   });
 
-    socket.emit("joinOrderRoom", orderCode);
+  //   socket.emit("joinOrderRoom", orderCode);
 
-    // Gửi yêu cầu rời khỏi phòng orderId khi component bị hủy
-    return () => {
-      socket.emit("leaveOrderRoom", orderCode);
-    };
-  }, []);
+  //   // Gửi yêu cầu rời khỏi phòng orderId khi component bị hủy
+  //   return () => {
+  //     socket.emit("leaveOrderRoom", orderCode);
+  //   };
+  // }, []);
 
   return (
     <Box

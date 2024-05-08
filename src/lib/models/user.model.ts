@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema(
         type: Boolean,
         default: false,
       },
+      orderCode: {
+        type: [Number],
+        default: [],
+      },
       startDate: {
         type: Date,
         default: null,
@@ -49,6 +53,18 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+UserSchema.methods.updatePremiumState = async function () {
+  const now = new Date();
+  if (this.premium.startDate && this.premium.endDate) {
+    if (now >= this.premium.startDate && now <= this.premium.endDate) {
+      this.premium.state = true;
+    } else {
+      this.premium.state = false;
+    }
+    await this.save();
+  }
+};
 
 const User = mongoose.models?.User || mongoose.model("User", UserSchema);
 

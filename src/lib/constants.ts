@@ -67,8 +67,8 @@ export const menuAccount: MenuIconType[] = [
   },
   {
     icon: ScanBarcode,
-    name: "Mua kẹo",
-    slug: "/tai-khoan/mua-keo",
+    name: "Premium",
+    slug: "/tai-khoan/nang-cap",
   },
   {
     icon: BellRing,
