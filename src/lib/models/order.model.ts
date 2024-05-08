@@ -46,15 +46,18 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    transactions: {
+    transaction: {
       description: {
         type: String,
+        default: "",
       },
       reference: {
         type: String,
+        default: "",
       },
       transactionDateTime: {
         type: String,
+        default: "",
       },
     },
   },
