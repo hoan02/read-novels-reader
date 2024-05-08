@@ -56,10 +56,8 @@ const UserSchema = new mongoose.Schema(
 
 UserSchema.methods.updatePremiumState = async function () {
   const now = new Date();
-  if (this.premium.startDate && this.premium.endDate) {
-    if (now >= this.premium.startDate && now <= this.premium.endDate) {
-      this.premium.state = true;
-    } else {
+  if (this.premium.endDate) {
+    if (now > this.premium.endDate) {
       this.premium.state = false;
     }
     await this.save();
