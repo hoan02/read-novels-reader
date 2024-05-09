@@ -92,12 +92,10 @@ export async function POST(req: Request) {
         avatar: image_url,
         email: email_addresses[0].email_address,
         publicMetadata: {
-          frameAvatar: public_metadata.frame_avatar,
-          premium: {
-            state: public_metadata.premium?.state,
-            startDate: public_metadata.premium?.startDate,
-            endDate: public_metadata.premium?.endDate,
-          },
+          frameAvatar: public_metadata?.frame_avatar,
+          premiumState: public_metadata?.premium_state,
+          premiumStartDate: public_metadata?.premium_start_date,
+          premiumEndDate: public_metadata?.premium_end_date,
         },
       });
 

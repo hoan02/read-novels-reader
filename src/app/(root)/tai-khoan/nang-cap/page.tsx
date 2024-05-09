@@ -16,17 +16,17 @@ const UpdateAccountComponent = async () => {
   if (status === 200) {
     return (
       <div>
-        {user.premium && user.premium.state ? (
+        {user.publicMetadata.premium && user.publicMetadata.premium.state ? (
           <div>
             <p>Tài khoản của bạn đã được nâng cấp lên Premium</p>
             <div>
               <p>
                 Ngày nâng cấp:{" "}
-                {user.premium.startDate && formatDate(user.premium.startDate)}
+                {user.publicMetadata.premium.startDate && formatDate(user.publicMetadata.premium.startDate)}
               </p>
               <p>
                 Ngày hết hạn:{" "}
-                {user.premium.endDate && formatDate(user.premium.endDate)}
+                {user.publicMetadata.premium.endDate && formatDate(user.publicMetadata.premium.endDate)}
               </p>
             </div>
           </div>

@@ -32,19 +32,17 @@ const UserSchema = new mongoose.Schema(
         type: String,
         default: null,
       },
-      premium: {
-        state: {
-          type: Boolean,
-          default: false,
-        },
-        startDate: {
-          type: Date,
-          default: null,
-        },
-        endDate: {
-          type: Date,
-          default: null,
-        },
+      premiumState: {
+        type: Boolean,
+        default: false,
+      },
+      premiumStartDate: {
+        type: Date,
+        default: null,
+      },
+      premiumEndDate: {
+        type: Date,
+        default: null,
       },
     },
     role: {
@@ -58,11 +56,11 @@ const UserSchema = new mongoose.Schema(
 
 UserSchema.methods.updatePremiumState = async function () {
   const now = new Date();
-  if (this.publicMetadata.premium.endDate) {
-    if (now > this.premium.endDate) {
-      this.publicMetadata.premium.endDate = null;
-      this.publicMetadata.premium.startDate = null;
-      this.publicMetadata.premium.state = false;
+  if (this.publicMetadata.premiumEndDate) {
+    if (now > this.premiumEndDate) {
+      this.publicMetadata.premiumState = false;
+      this.publicMetadata.premiumEndDate = null;
+      this.publicMetadata.premiumStartDate = null;
     }
     await this.save();
   }
