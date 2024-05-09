@@ -92,7 +92,7 @@ const Options = ({
         </DialogContent>
       </Dialog>
       <Dialog open={openSetting} onClose={() => setOpenSetting(false)}>
-        <DialogContent className="w-[400px] h-[500px]">
+        <DialogContent className="w-[600px] h-[800px]">
           <div className="font-bold text-xl mb-2">Cấu hình</div>
           <Divider />
           <Setting />
