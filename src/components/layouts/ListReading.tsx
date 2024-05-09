@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Error from "../layouts/Error";
-import { getRecentlyReadNovels } from "@/lib/data/bookmark.data";
-import { ErrorType } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
+
+import { getRecentlyReading } from "@/lib/data/reading.data";
+import { ErrorType } from "@/types/types";
+import Error from "../layouts/Error";
 
 interface NovelDetail {
   urlCover: string;
@@ -25,7 +26,7 @@ const ListReading = () => {
     const fetchRecentlyReadNovels = async () => {
       try {
         if (isSignedIn) {
-          const { data, message, status } = await getRecentlyReadNovels(5);
+          const { data, message, status } = await getRecentlyReading(5);
           if (status === 200) {
             setReadNovels(data);
           } else {

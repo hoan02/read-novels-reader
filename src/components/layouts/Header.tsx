@@ -2,12 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { SignOutButton } from "@clerk/nextjs";
 import { Bell, CircleChevronUp, LogOut, UserRoundCog } from "lucide-react";
+import Badge from "@mui/material/Badge";
 
 import { novelGenres, novelRanks, subMenuAccount } from "@/lib/constants";
-import Badge from "@mui/material/Badge";
+import getSessions from "@/utils/getSession";
 import InputSearch from "../search/InputSearch";
 import AvatarFrame from "../custom-ui/AvatarFrame";
-import getSessions from "@/utils/getSession";
 
 const Header = () => {
   const { fullName, avatar, role, frameAvatar } = getSessions();

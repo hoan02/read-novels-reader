@@ -1,15 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
 import { Flag, Glasses, Bookmark } from "lucide-react";
-
 import { Button, Chip, Rating, LinearProgress, Skeleton } from "@mui/material";
+
+import Error from "@/components/layouts/Error";
 import TabsDetailsNovel from "@/components/novel/TabsDetailsNovel";
 import { getNovel } from "@/lib/data/novel.data";
-import Error from "@/components/layouts/Error";
-import { getMarked } from "@/lib/data/bookmark.data";
-import { NovelType } from "@/types/types";
-import { Suspense } from "react";
+import { getReading } from "@/lib/data/reading.data";
 import { getChapters } from "@/lib/data/chapter.data";
+import { checkBookmark } from "@/lib/data/bookmark.data";
 
 const Loading = () => {
   return (
@@ -27,8 +27,9 @@ const Loading = () => {
   );
 };
 
-const MarkedHandler = async ({ novelSlug }: { novelSlug: string }) => {
-  const { data: marked, message, status } = await getMarked(novelSlug);
+const ReadingButton = async ({ novelSlug }: { novelSlug: string }) => {
+  const { data: marked, message, status } = await getReading(novelSlug);
+
   if (status === 401) {
     return (
       <Button
@@ -48,7 +49,7 @@ const MarkedHandler = async ({ novelSlug }: { novelSlug: string }) => {
 
   if (status === 200) {
     return (
-      <div className="flex gap-6">
+      <>
         {marked.chapterIndex === 0 ? (
           <Button
             variant="contained"
@@ -78,47 +79,49 @@ const MarkedHandler = async ({ novelSlug }: { novelSlug: string }) => {
             </Link>
           </Button>
         )}
-        <Button
-          variant="outlined"
-          style={{
-            width: "150px",
-            borderRadius: "30px",
-            textTransform: "none",
-            fontSize: "16px",
-          }}
-          startIcon={<Bookmark size={24} />}
-        >
-          Đánh dấu
-        </Button>
-        <Button
-          variant="outlined"
-          style={{
-            width: "150px",
-            borderRadius: "30px",
-            textTransform: "none",
-            fontSize: "16px",
-          }}
-          startIcon={
-            <Image src="/candy.png" alt="candy" width={24} height={24} />
-          }
-        >
-          Đề cử
-        </Button>
-      </div>
+      </>
     );
   }
 };
 
-const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
-  const {
-    data: novel,
-    message,
-    status,
-  }: { data: NovelType; message: string; status: number } = await getNovel(
-    novelSlug
+const BookmarkButton = async ({ novelSlug }: { novelSlug: string }) => {
+  const bookmark: boolean = await checkBookmark(novelSlug);
+  return (
+    <Button
+      variant="outlined"
+      style={{
+        width: "150px",
+        borderRadius: "30px",
+        textTransform: "none",
+        fontSize: "16px",
+      }}
+      startIcon={<Bookmark size={24} />}
+    >
+      {bookmark ? "Đã đánh dấu" : "Đánh dấu"}
+    </Button>
   );
+};
 
-  const { data: chapters } = await getChapters(novelSlug);
+const NominationButton = async ({ novelSlug }: { novelSlug: string }) => {
+  return (
+    <Button
+      variant="outlined"
+      style={{
+        width: "150px",
+        borderRadius: "30px",
+        textTransform: "none",
+        fontSize: "16px",
+      }}
+      startIcon={<Image src="/candy.png" alt="candy" width={24} height={24} />}
+    >
+      Đề cử
+    </Button>
+  );
+};
+
+const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
+  const [{ data: novel, message, status }, { data: chapters }] =
+    await Promise.all([getNovel(novelSlug), getChapters(novelSlug)]);
 
   if (status !== 200) {
     return <Error message={message} status={status} />;
@@ -192,7 +195,11 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
             </span>
             <span className="ml-1">{`(${novel.reviews.count} đánh giá)`}</span>
           </div>
-          <MarkedHandler novelSlug={novelSlug} />
+          <div className="flex gap-6">
+            <ReadingButton novelSlug={novelSlug} />
+            <BookmarkButton novelSlug={novelSlug} />
+            <NominationButton novelSlug={novelSlug} />
+          </div>
         </div>
       </div>
       <div className="mt-10">

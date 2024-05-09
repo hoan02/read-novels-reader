@@ -1,14 +1,14 @@
-import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
-import "../globals.css";
-import ClerkVIProvider from "@/lib/providers/ClerkVIProvider";
-import { ToasterProvider } from "@/lib/providers/ToasterProvider";
-import CustomThemeProvider from "@/lib/providers/CustomThemeProvider";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import Banner from "@/components/layouts/Banner";
+import ClerkVIProvider from "@/lib/providers/ClerkVIProvider";
+import { ToasterProvider } from "@/lib/providers/ToasterProvider";
+import CustomThemeProvider from "@/lib/providers/CustomThemeProvider";
+import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {

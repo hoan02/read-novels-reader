@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
+
 import { createOrder } from "@/lib/actions/order.action";
 
-const ButtonPayment = ({ order }: { order: string }) => {
+const PaymentButton = ({ order }: { order: string }) => {
   const router = useRouter();
   const [openDialogLoading, setOpenDialogLoading] = useState(false);
 
@@ -47,4 +48,4 @@ const ButtonPayment = ({ order }: { order: string }) => {
   );
 };
 
-export default ButtonPayment;
+export default PaymentButton;

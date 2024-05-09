@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { statusErrorTitles } from "@/lib/constants";
 import { Button } from "@mui/material";
+
+import { statusErrorTitles } from "@/lib/constants";
 
 interface IPropsError {
   status?: number;

@@ -5,32 +5,39 @@ import { auth } from "@clerk/nextjs/server";
 
 import Novel from "../models/novel.model";
 import createResponse from "@/utils/createResponse";
-import Bookmark from "../models/bookmark.model";
+import Reading from "../models/reading.model";
 
-export const checkBookmark = async (novelSlug: string) => {
+export const getReading = async (novelSlug: string) => {
   try {
     await connectToDB();
     const { userId } = auth();
-    if (!userId) return false;
-    const bookmark = await Bookmark.findOne({
+    if (!userId) return createResponse(null, "Unauthorized!", 401);
+    let reading = await Reading.findOne({
       clerkId: userId,
       novelSlug,
     });
-    if (!bookmark) {
-      return false;
+
+    if (!reading) {
+      const newReading = {
+        clerkId: userId,
+        novelSlug,
+        chapterIndex: 0,
+      };
+      return createResponse(newReading, "Success!", 200);
     }
-    return true;
+
+    return createResponse(reading, "Success!", 200);
   } catch (err) {
     console.log(err);
-    return false;
+    return createResponse(null, "Error", 500);
   }
 };
 
-export const getRecentlyBookmark = async (limit?: number) => {
+export const getRecentlyReading = async (limit?: number) => {
   try {
     await connectToDB();
     const { userId } = auth();
-    let query = Bookmark.find({
+    let query = Reading.find({
       clerkId: userId,
     }).sort({ updatedAt: -1 });
 
@@ -38,11 +45,10 @@ export const getRecentlyBookmark = async (limit?: number) => {
       query = query.limit(limit);
     }
 
-    let marked = await query.exec();
+    let reading = await query.exec();
 
-    // Fetch the novel data for each marked item
-    const markedWithNovels = await Promise.all(
-      marked.map(async (mark: any) => {
+    const readingWithNovels = await Promise.all(
+      reading.map(async (mark: any) => {
         const novel = await Novel.findOne({ novelSlug: mark.novelSlug });
         return {
           ...mark._doc,
@@ -53,7 +59,7 @@ export const getRecentlyBookmark = async (limit?: number) => {
       })
     );
 
-    return createResponse(markedWithNovels, "Success!", 200);
+    return createResponse(readingWithNovels, "Success!", 200);
   } catch (err) {
     console.log(err);
     return createResponse(null, "Error", 500);

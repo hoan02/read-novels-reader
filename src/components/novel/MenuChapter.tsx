@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowDownUp } from "lucide-react";
+
 import formatTimeAgo from "@/utils/formatTimeAgo";
 import { ChapterType } from "@/types/types";
 

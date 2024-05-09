@@ -9,11 +9,12 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { Settings, List, Bookmark, ArrowLeft, ArrowRight } from "lucide-react";
-import { ChapterType, NovelType } from "@/types/types";
+import { Settings, List, Bookmark, ArrowLeft, ArrowRight } from "lucide-react"
 import toast from "react-hot-toast";
-import MenuChapter from "../novel/MenuChapter";
+;
 import Setting from "./Setting";
+import MenuChapter from "./novel/MenuChapter";
+import { ChapterType, NovelType } from "@/types/types";
 
 const Options = ({
   novel,

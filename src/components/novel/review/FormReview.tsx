@@ -269,6 +269,7 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
       <div className="mt-6 w-full relative">
         <TextField
           label="Đánh giá của bạn về truyện này"
+          className="bg-white"
           variant="outlined"
           multiline
           rows={3}

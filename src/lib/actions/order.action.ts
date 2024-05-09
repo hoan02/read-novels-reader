@@ -1,8 +1,9 @@
 "use server";
 
+import { auth } from "@clerk/nextjs/server";
+
 import PayOs from "@/lib/payos/payOs";
 import Order from "../models/order.model";
-import { auth } from "@clerk/nextjs/server";
 import connectToDB from "../mongodb/mongoose";
 
 export const createOrder = async (order: string) => {

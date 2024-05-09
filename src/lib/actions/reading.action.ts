@@ -1,18 +1,19 @@
 "use server";
 
-import connectToDB from "@/lib/mongodb/mongoose";
-import { auth } from "@clerk/nextjs/server";
-import Marked from "@/lib/models/bookmark.model";
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 
-export const createOrUpdateMark = async (
+import connectToDB from "@/lib/mongodb/mongoose";
+import Reading from "../models/reading.model";
+
+export const createOrUpdateReading = async (
   novelSlug: string,
   chapterIndex: number
 ) => {
   try {
     const { userId } = auth();
     await connectToDB();
-    await Marked.findOneAndUpdate(
+    await Reading.findOneAndUpdate(
       {
         clerkId: userId,
         novelSlug,
@@ -21,9 +22,9 @@ export const createOrUpdateMark = async (
       { upsert: true }
     );
     revalidatePath("/");
-    return { success: true, message: "Đánh dấu thành công!" };
+    return { success: true, message: "Đánh dấu đang đọc thành công!" };
   } catch (error) {
     console.error(error);
-    throw new Error("Không thể đánh dấu!");
+    throw new Error("Không thể đánh dấu đang đọc!");
   }
 };

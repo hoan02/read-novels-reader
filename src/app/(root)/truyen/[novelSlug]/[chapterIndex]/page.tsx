@@ -1,12 +1,10 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 
 import Error from "@/components/layouts/Error";
-import { createOrUpdateMark } from "@/lib/actions/marked.action";
+import Options from "@/components/Options";
+import { createOrUpdateReading } from "@/lib/actions/reading.action";
 import { getChapter, getChapters } from "@/lib/data/chapter.data";
 import { getNovel } from "@/lib/data/novel.data";
-import Options from "@/components/custom-ui/Options";
 
 const SingleChapterPage = async ({
   params,
@@ -14,16 +12,19 @@ const SingleChapterPage = async ({
   params: { novelSlug: string; chapterIndex: number };
 }) => {
   const { userId } = auth();
-  const {
-    data: chapter,
-    message,
-    status,
-  } = await getChapter(params.novelSlug, params.chapterIndex);
-  const { data: novel } = await getNovel(params.novelSlug);
-  const { data: chapters } = await getChapters(params.novelSlug);
+  const [
+    { data: chapter, message, status },
+    { data: novel },
+    { data: chapters },
+  ] = await Promise.all([
+    getChapter(params.novelSlug, params.chapterIndex),
+    getNovel(params.novelSlug),
+    getChapters(params.novelSlug),
+  ]);
 
   if (status === 200) {
-    if (userId) await createOrUpdateMark(params.novelSlug, params.chapterIndex);
+    if (userId)
+      await createOrUpdateReading(params.novelSlug, params.chapterIndex);
     return (
       <div className="bg-white shadow-md lg:px-16 p-4 rounded-lg z-0">
         <div className="sticky top-2">

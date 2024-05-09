@@ -1,14 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import Chip from "@mui/material/Chip";
+import { Box, Tab, Chip } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+
 import Intro from "./Intro";
-import Fan from "./Fan";
 import Comment from "./comment/Comment";
 import Review from "./review/Review";
 import MenuChapter from "@/components/novel/MenuChapter";
@@ -51,12 +47,6 @@ const TabsDetailsNovel = ({
       value: "binh-luan",
       chip: novel.commentCount,
       content: <Comment />,
-    },
-    {
-      label: "Hâm mộ",
-      value: "ham-mo",
-      chip: null,
-      content: <Fan />,
     },
   ];
 

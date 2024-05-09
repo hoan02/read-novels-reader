@@ -1,8 +1,9 @@
 "use client";
 
 import { ReactNode } from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import { menuAccount } from "@/lib/constants";
 import { MenuIconType } from "@/types/types";
 

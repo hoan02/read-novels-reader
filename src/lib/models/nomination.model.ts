@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const bookmarkSchema = new mongoose.Schema(
+const nominationSchema = new mongoose.Schema(
   {
     clerkId: {
       type: String,
@@ -14,7 +14,7 @@ const bookmarkSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Bookmark =
-  mongoose.models?.Bookmark || mongoose.model("Bookmark", bookmarkSchema);
+const Nomination =
+  mongoose.models?.Nomination || mongoose.model("Nomination", nominationSchema);
 
-export default Bookmark;
+export default Nomination;

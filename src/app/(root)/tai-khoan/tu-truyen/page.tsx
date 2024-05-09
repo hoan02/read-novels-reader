@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import ListReading from "@/components/custom-ui/ListReading";
+import { Tab } from "@mui/material";
+import { TabPanel, TabContext, TabList } from "@mui/lab";
+
+import ListReading from "@/components/layouts/ListReading";
 
 const NovelShelfPage = () => {
   const [value, setValue] = useState("1");
