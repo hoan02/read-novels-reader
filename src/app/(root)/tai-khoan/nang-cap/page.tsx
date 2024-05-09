@@ -1,10 +1,6 @@
-import { Suspense } from "react";
-import { Button, LinearProgress } from "@mui/material";
 import Link from "next/link";
+import { Button } from "@mui/material";
 
-import Error from "@/components/layouts/Error";
-import { getUserInfo } from "@/lib/data/user.data";
-import { UserType } from "@/types/types";
 import formatDate from "@/utils/formatDate";
 import AvatarFrame from "@/components/custom-ui/AvatarFrame";
 import getSessions from "@/utils/getSession";

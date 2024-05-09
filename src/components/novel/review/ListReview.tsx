@@ -5,6 +5,7 @@ import Error from "@/components/layouts/Error";
 import { getReviews } from "@/lib/data/review.data";
 import { Avatar, LinearProgress } from "@mui/material";
 import formatTimeAgo from "@/utils/formatTimeAgo";
+import AvatarFrame from "@/components/custom-ui/AvatarFrame";
 
 const ListReview = ({ novelSlug }: { novelSlug: string }) => {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -35,9 +36,10 @@ const ListReview = ({ novelSlug }: { novelSlug: string }) => {
             reviews.map((review, index) => (
               <div key={index} className="p-4 pb-6 bg-slate-50 rounded-lg">
                 <div className="flex gap-4 justify-between">
-                  <div>
-                    <Avatar alt="Remy Sharp" src={review.userInfo.avatar} />
-                  </div>
+                  <AvatarFrame
+                    src={review.userInfo?.avatar}
+                    frame={review.userInfo?.publicMetadata?.frameAvatar}
+                  />
                   <div className="flex-1">
                     <div className="text-sm font-bold">
                       {review.userInfo.username}

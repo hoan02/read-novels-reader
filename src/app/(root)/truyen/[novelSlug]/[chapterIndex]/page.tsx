@@ -4,53 +4,39 @@ import { auth } from "@clerk/nextjs/server";
 
 import Error from "@/components/layouts/Error";
 import { createOrUpdateMark } from "@/lib/actions/marked.action";
-import { getChapter } from "@/lib/data/chapter.data";
+import { getChapter, getChapters } from "@/lib/data/chapter.data";
 import { getNovel } from "@/lib/data/novel.data";
+import Options from "@/components/custom-ui/Options";
 
 const SingleChapterPage = async ({
   params,
 }: {
   params: { novelSlug: string; chapterIndex: number };
 }) => {
+  const { userId } = auth();
   const {
     data: chapter,
     message,
     status,
   } = await getChapter(params.novelSlug, params.chapterIndex);
-  const { userId } = auth();
   const { data: novel } = await getNovel(params.novelSlug);
+  const { data: chapters } = await getChapters(params.novelSlug);
 
   if (status === 200) {
     if (userId) await createOrUpdateMark(params.novelSlug, params.chapterIndex);
     return (
-      <div className=" bg-white shadow-md lg:px-16 p-4 rounded-lg">
-        <div className="flex justify-between py-2">
-          <Link
-            href={`/truyen/${params.novelSlug}/${chapter.chapterIndex - 1}`}
-            className={`flex items-center py-2 px-4 border-2 rounded-full ${
-              chapter.chapterIndex === 1
-                ? "pointer-events-none opacity-50"
-                : "hover:bg-gray-100"
-            }`}
-          >
-            <ArrowLeft />
-            Chương trước
-          </Link>
-          <Link
-            href={`/truyen/${params.novelSlug}/${chapter.chapterIndex + 1}`}
-            className={`flex items-center py-2 px-4 border-2 rounded-full ${
-              chapter.chapterIndex == novel.chapterCount
-                ? "pointer-events-none opacity-50"
-                : "hover:bg-gray-100"
-            }`}
-          >
-            Chương sau <ArrowRight />
-          </Link>
+      <div className="bg-white shadow-md lg:px-16 p-4 rounded-lg z-0">
+        <div className="sticky top-2">
+          <Options novel={novel} chapter={chapter} chapters={chapters} />
         </div>
-        <h1 className="text-3xl py-10 text-center">
+        <h1 className="text-lg py-4 text-center">
+          [{novel.novelName}]-{novel.author}
+        </h1>
+        <h1 className="text-3xl text-center">
           Chương {chapter.chapterIndex}: {chapter.chapterName}
         </h1>
         <div
+          className="my-12"
           dangerouslySetInnerHTML={{
             __html: chapter.content,
           }}

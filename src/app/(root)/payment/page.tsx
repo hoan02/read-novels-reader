@@ -21,6 +21,7 @@ import {
 
 import { cancelOrder } from "@/lib/actions/order.action";
 import { getOrder } from "@/lib/data/order.data";
+import Link from "next/link";
 
 const PaymentPage = () => {
   const router = useRouter();
@@ -89,8 +90,6 @@ const PaymentPage = () => {
         console.error("oops, something went wrong!", error);
       });
   };
-
-  console.log(order);
 
   return (
     <Box
@@ -251,39 +250,50 @@ const PaymentPage = () => {
         Mở App Ngân hàng bất kỳ để quét mã VietQR hoặc chuyển khoản chính xác
         nội dung bên trên
       </Typography>
-      <Button
-        variant="contained"
-        onClick={handleClickOpen}
-        className="!bg-white h-10 w-40"
-      >
-        <Typography className={"normal-case !font-bold text-gray-700"}>
-          Hủy thanh toán
-        </Typography>
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title" className="self-center">
-          {"Huỷ bỏ đơn hàng"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText
-            id="alert-dialog-description"
-            sx={{ color: "text.primary" }}
+      {isCheckout ? (
+        <Link
+          href={`/tai-khoan/nang-cap`}
+          className="bg-white font-bold text-gray-700 px-4 py-2 text-center items-center rounded"
+        >
+          Quay lại
+        </Link>
+      ) : (
+        <>
+          <Button
+            variant="contained"
+            onClick={handleClickOpen}
+            className="!bg-white h-10 w-40"
           >
-            Bạn có chắc muốn huỷ đơn hàng hay không?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Huỷ bỏ</Button>
-          <Button onClick={cancelOrderHandle} autoFocus>
-            Xác nhận
+            <Typography className={"font-bold text-gray-700"}>
+              Hủy thanh toán
+            </Typography>
           </Button>
-        </DialogActions>
-      </Dialog>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title" className="self-center">
+              Huỷ bỏ đơn hàng
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText
+                id="alert-dialog-description"
+                sx={{ color: "text.primary" }}
+              >
+                Bạn có chắc muốn huỷ đơn hàng hay không?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Huỷ bỏ</Button>
+              <Button onClick={cancelOrderHandle} autoFocus>
+                Xác nhận
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
       {/*Dialog for Qr Code*/}
       <Dialog open={openQR} onClose={() => setOpenQR(false)}>
         <Box

@@ -8,9 +8,9 @@ export default function getSessions() {
   const email = sessionClaims?.email;
   const role = sessionClaims?.org_role?.slice(4);
   const frameAvatar = sessionClaims?.public_metadata?.frame_avatar;
-  const premiumState = sessionClaims?.public_metadata?.premium.state;
-  const premiumStartDate = sessionClaims?.public_metadata?.premium.start_date;
-  const premiumEndDate = sessionClaims?.public_metadata?.premium.end_date;
+  const premiumState = sessionClaims?.public_metadata?.premium?.state;
+  const premiumStartDate = sessionClaims?.public_metadata?.premium?.start_date;
+  const premiumEndDate = sessionClaims?.public_metadata?.premium?.end_date;
 
   return {
     fullName,

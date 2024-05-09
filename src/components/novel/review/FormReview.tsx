@@ -23,7 +23,10 @@ import {
   X,
 } from "lucide-react";
 import { NovelType } from "@/types/types";
-import { createOrUpdateReview } from "@/lib/actions/review.action";
+import {
+  createOrUpdateReview,
+  deleteReview,
+} from "@/lib/actions/review.action";
 import { toast } from "react-hot-toast";
 import { checkReview } from "@/lib/data/review.data";
 
@@ -94,6 +97,7 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
   const [reviewContent, setReviewContent] = useState("");
   const [state, setState] = useState<StateType>();
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
   const [evaluated, setEvaluated] = useState(false);
 
   useEffect(() => {
@@ -155,11 +159,20 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
       reviewContent,
     };
     try {
-      router.refresh();
       handleCreateReview(formData);
+      router.refresh();
     } catch (error) {
       console.error("Error submitting rating:", error);
     }
+  };
+
+  // Delete review
+  const handleDeleteReview = async () => {
+    setOpenDialogDelete(false);
+    const res = await deleteReview(novelSlug);
+    if (res.success) toast.success(res.message);
+    else toast.error(res.message);
+    router.refresh();
   };
 
   return (
@@ -168,7 +181,10 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
       onSubmit={handleSubmit}
     >
       {evaluated && (
-        <div className="absolute right-2 top-2 p-2 rounded-full cursor-pointer hover:bg-slate-100 text-green-500">
+        <div
+          className="absolute right-2 top-2 p-2 rounded-full cursor-pointer hover:bg-slate-100 text-green-500"
+          onClick={() => setOpenDialogDelete(true)}
+        >
           <X />
         </div>
       )}
@@ -278,6 +294,28 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
         <DialogActions>
           <Button onClick={() => setOpenDialog(false)}>Thoát</Button>
           <Button variant="contained" onClick={handleConfirmSubmit}>
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openDialogDelete}
+        onClose={() => setOpenDialogDelete(false)}
+      >
+        <DialogTitle>
+          <span className="text-red-600">Xóa đánh giá</span>
+        </DialogTitle>
+        <DialogContent>
+          <p>Bạn có chắc chắn muốn xóa đánh giá này không?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialogDelete(false)}>Thoát</Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleDeleteReview}
+          >
             Đồng ý
           </Button>
         </DialogActions>
