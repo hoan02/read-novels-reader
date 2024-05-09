@@ -3,29 +3,32 @@ import Image from "next/image";
 const AvatarFrame = ({
   className,
   src,
-  role,
+  frame,
   size = 60,
+  padding = 2,
 }: {
   className?: string;
   src: string;
-  role?: string;
+  frame?: string;
   size?: number;
+  padding?: number;
 }) => {
   return (
-    <div className={`relative ${className}`}>
-      {role && (
+    <div className={`relative ${className ? className : ""}`}>
+      {frame && (
         <Image
           className="absolute"
           alt="frame-avatar"
-          src={`/AvatarFrame-${role}.webp`}
+          src={`/AvatarFrame-${frame}.webp`}
           width={size}
           height={size}
         />
       )}
+
       <Image
         alt="avatar"
-        className="p-2 rounded-full"
         src={src ? src : "/avatar-default.png"}
+        className={`p-${padding} rounded-full`}
         width={size}
         height={size}
       />

@@ -84,7 +84,7 @@ export async function POST(req: Request) {
         });
       }
 
-      await createOrUpdateUser({
+      const resUser = await createOrUpdateUser({
         clerkId: id,
         username: username,
         firstName: first_name,
@@ -92,12 +92,18 @@ export async function POST(req: Request) {
         avatar: image_url,
         email: email_addresses[0].email_address,
         publicMetadata: {
-          frameAvatar: public_metadata?.frame_avatar,
-          premiumState: public_metadata?.premium_state,
-          premiumStartDate: public_metadata?.premium_start_date,
-          premiumEndDate: public_metadata?.premium_end_date,
+          frameAvatar: public_metadata.frame_avatar,
+          premium: public_metadata.premium
+            ? {
+                state: public_metadata.premium.state,
+                startDate: public_metadata.premium.start_date,
+                endDate: public_metadata.premium.end_date,
+              }
+            : {},
         },
       });
+
+      console.log(resUser);
 
       return new Response("User is created or updated", {
         status: 200,

@@ -32,17 +32,19 @@ const UserSchema = new mongoose.Schema(
         type: String,
         default: null,
       },
-      premiumState: {
-        type: Boolean,
-        default: false,
-      },
-      premiumStartDate: {
-        type: Date,
-        default: null,
-      },
-      premiumEndDate: {
-        type: Date,
-        default: null,
+      premium: {
+        state: {
+          type: Boolean,
+          default: false,
+        },
+        startDate: {
+          type: Date,
+          default: null,
+        },
+        endDate: {
+          type: Date,
+          default: null,
+        },
       },
     },
     role: {

@@ -4,15 +4,17 @@ declare global {
   interface CustomJwtSessionClaims {
     full_name?: string;
     avatar?: string;
-    clerkId?: string;
+    id?: string;
     email?: string;
-    metadata?: {
-      frame_avatar?: string;
-      premium?: {
-        state: boolean;
-        startDate?: Date | null;
-        endDate?: Date | null;
-      };
+    public_metadata?: UserPublicMetadata;
+  }
+
+  interface UserPublicMetadata {
+    frame_avatar?: string;
+    premium: {
+      state?: boolean;
+      start_date?: Date;
+      end_date?: Date;
     };
   }
 

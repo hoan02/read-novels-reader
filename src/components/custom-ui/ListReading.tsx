@@ -6,6 +6,7 @@ import Image from "next/image";
 import Error from "../layouts/Error";
 import { getRecentlyReadNovels } from "@/lib/data/bookmark.data";
 import { ErrorType } from "@/types/types";
+import { useUser } from "@clerk/nextjs";
 
 interface NovelDetail {
   urlCover: string;
@@ -18,15 +19,18 @@ interface NovelDetail {
 const ListReading = () => {
   const [readNovels, setReadNovels] = useState<NovelDetail[]>([]);
   const [error, setError] = useState<ErrorType>({ message: "", status: null });
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
     const fetchRecentlyReadNovels = async () => {
       try {
-        const { data, message, status } = await getRecentlyReadNovels(5);
-        if (status === 200) {
-          setReadNovels(data);
-        } else {
-          setError({ message, status });
+        if (isSignedIn) {
+          const { data, message, status } = await getRecentlyReadNovels(5);
+          if (status === 200) {
+            setReadNovels(data);
+          } else {
+            setError({ message, status });
+          }
         }
       } catch (err: any) {
         setError({ message: err.message, status: err.status });
@@ -34,17 +38,20 @@ const ListReading = () => {
     };
 
     fetchRecentlyReadNovels();
-  }, []);
+  }, [isSignedIn]);
+
+  if (!isSignedIn) {
+    return null;
+  }
 
   if (error.status) {
     return <Error message={error.message} status={error.status} />;
   }
-
   return (
     <div className="pb-4 border-b-2 border-gray-100">
       <h2 className="mb-4 text-lg font-semibold">Đang đọc</h2>
       <div className="grid grid-cols-1 gap-2">
-        {readNovels.map((novel, index) => (
+        {readNovels?.map((novel, index) => (
           <div
             key={index}
             className="flex items-center bg-gray-100 p-2 rounded"

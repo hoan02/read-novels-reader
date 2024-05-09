@@ -6,7 +6,7 @@ export async function GET() {
   await connectToDB();
   const users = await User.find({
     role: "reader",
-    "premium.state": true,
+    "publicMetadata.premiumState": true,
   });
   for (const user of users) {
     await user.updatePremiumState();

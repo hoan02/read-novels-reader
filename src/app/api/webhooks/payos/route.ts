@@ -48,19 +48,25 @@ export async function POST(req: Request) {
           endDate.setFullYear(endDate.getFullYear() + 1);
         }
 
-        await updateUserMetadata(existingOrder.clerkId, {
-          frame_avatar:
-            existingOrder.orderType === "month"
-              ? "reader-vip-1"
-              : "reader-vip-2",
-          premium_state: true,
-          premium_start_date: new Date(),
-          premium_end_date: endDate,
+        const resUser = await updateUserMetadata(existingOrder.clerkId, {
+          publicMetadata: {
+            frame_avatar:
+              existingOrder.orderType === "month"
+                ? "reader-vip-1"
+                : "reader-vip-2",
+            premium: {
+              state: true,
+              start_date: new Date(),
+              end_date: endDate,
+            },
+          },
         });
+        console.log(resUser);
       }
     }
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (err) {
     console.log(err);
+    return NextResponse.json({ error: err, success: false }, { status: 500 });
   }
-  return NextResponse.json({ success: true }, { status: 200 });
 }

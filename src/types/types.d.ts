@@ -22,7 +22,14 @@ type UserType = {
   email: string;
   avatar: string;
   role?: "reader" | "writer" | "admin";
-  publicMetadata: any;
+  publicMetadata: {
+    frameAvatar?: string;
+    premium: {
+      state?: boolean;
+      startDate?: Date;
+      endDate?: Date;
+    };
+  };
 };
 
 type NovelType = {

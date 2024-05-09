@@ -1,5 +1,3 @@
-// "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { SignOutButton } from "@clerk/nextjs";
@@ -9,10 +7,10 @@ import { novelGenres, novelRanks, subMenuAccount } from "@/lib/constants";
 import Badge from "@mui/material/Badge";
 import InputSearch from "../search/InputSearch";
 import AvatarFrame from "../custom-ui/AvatarFrame";
-import { getSessions } from "@/utils/getSession";
+import getSessions from "@/utils/getSession";
 
 const Header = () => {
-  const { fullName, avatar, role } = getSessions();
+  const { fullName, avatar, role, frameAvatar } = getSessions();
 
   return (
     <div className="w-full flex justify-center bg-green-300 ">
@@ -99,7 +97,12 @@ const Header = () => {
                       <div className="text-sm">{fullName}</div>
                     </div>
                     {avatar && (
-                      <AvatarFrame className="mx-2" src={avatar} role={role} size={52}/>
+                      <AvatarFrame
+                        className="mx-2"
+                        src={avatar}
+                        frame={frameAvatar}
+                        size={52}
+                      />
                     )}
                   </div>
                 </div>
