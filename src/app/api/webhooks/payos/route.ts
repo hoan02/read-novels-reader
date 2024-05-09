@@ -53,11 +53,9 @@ export async function POST(req: Request) {
             existingOrder.orderType === "month"
               ? "reader-vip-1"
               : "reader-vip-2",
-          premium: {
-            state: true,
-            startDate: new Date(),
-            endDate: endDate,
-          },
+          premium_state: true,
+          premium_start_date: new Date(),
+          premium_end_date: endDate,
         });
       }
     }
