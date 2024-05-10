@@ -5,6 +5,7 @@ import { Tab } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab";
 
 import ListReading from "@/components/layouts/ListReading";
+import ListBookmark from "@/components/novel/ListBookmark";
 
 const NovelShelfPage = () => {
   const [value, setValue] = useState("1");
@@ -23,7 +24,9 @@ const NovelShelfPage = () => {
         <TabPanel value="1">
           <ListReading />
         </TabPanel>
-        <TabPanel value="2">Đánh dấu</TabPanel>
+        <TabPanel value="2">
+          <ListBookmark />
+        </TabPanel>
       </TabContext>
     </div>
   );

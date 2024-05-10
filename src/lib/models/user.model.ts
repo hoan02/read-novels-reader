@@ -27,6 +27,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["reader", "writer", "admin"],
+      default: "reader",
+    },
     publicMetadata: {
       frameAvatar: {
         type: String,
@@ -47,11 +52,20 @@ const UserSchema = new mongoose.Schema(
         },
       },
     },
-    role: {
-      type: String,
-      enum: ["reader", "writer", "admin"],
-      default: "reader",
-    },
+    // extraInfo: {
+    //   nominationsCount: {
+    //     type: Number,
+    //     default: 0,
+    //   },
+    //   novelsReadCount: {
+    //     type: Number,
+    //     default: 0,
+    //   },
+    //   chaptersReadCount: {
+    //     type: Number,
+    //     default: 0,
+    //   },
+    // },
   },
   { timestamps: true }
 );

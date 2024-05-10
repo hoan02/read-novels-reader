@@ -1,15 +1,15 @@
-import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
-import { Flag, Glasses, Bookmark } from "lucide-react";
-import { Button, Chip, Rating, LinearProgress, Skeleton } from "@mui/material";
+import { Flag } from "lucide-react";
+import { Chip, Rating, LinearProgress, Skeleton } from "@mui/material";
 
 import Error from "@/components/layouts/Error";
 import TabsDetailsNovel from "@/components/novel/TabsDetailsNovel";
 import { getNovel } from "@/lib/data/novel.data";
-import { getReading } from "@/lib/data/reading.data";
 import { getChapters } from "@/lib/data/chapter.data";
-import { checkBookmark } from "@/lib/data/bookmark.data";
+import ReadingButton from "@/components/custom-ui/ReadingButton";
+import BookmarkButton from "@/components/custom-ui/BookmarkButton";
+import NominationButton from "@/components/custom-ui/NominationButton";
 
 const Loading = () => {
   return (
@@ -24,98 +24,6 @@ const Loading = () => {
       </div>
       <LinearProgress />
     </div>
-  );
-};
-
-const ReadingButton = async ({ novelSlug }: { novelSlug: string }) => {
-  const { data: marked, message, status } = await getReading(novelSlug);
-
-  if (status === 401) {
-    return (
-      <Button
-        variant="contained"
-        style={{
-          width: "150px",
-          borderRadius: "30px",
-          textTransform: "none",
-          fontSize: "16px",
-        }}
-        startIcon={<Glasses size={30} />}
-      >
-        <Link href={`/truyen/${novelSlug}/1`}>Đọc truyện</Link>
-      </Button>
-    );
-  }
-
-  if (status === 200) {
-    return (
-      <>
-        {marked.chapterIndex === 0 ? (
-          <Button
-            variant="contained"
-            style={{
-              width: "150px",
-              borderRadius: "30px",
-              textTransform: "none",
-              fontSize: "16px",
-            }}
-            startIcon={<Glasses size={30} />}
-          >
-            <Link href={`/truyen/${novelSlug}/1`}>Đọc truyện</Link>
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            style={{
-              width: "150px",
-              borderRadius: "30px",
-              textTransform: "none",
-              fontSize: "16px",
-            }}
-            startIcon={<Glasses size={30} />}
-          >
-            <Link href={`/truyen/${novelSlug}/${marked.chapterIndex}`}>
-              Đọc tiếp
-            </Link>
-          </Button>
-        )}
-      </>
-    );
-  }
-};
-
-const BookmarkButton = async ({ novelSlug }: { novelSlug: string }) => {
-  const bookmark: boolean = await checkBookmark(novelSlug);
-  return (
-    <Button
-      variant="outlined"
-      style={{
-        width: "150px",
-        borderRadius: "30px",
-        textTransform: "none",
-        fontSize: "16px",
-      }}
-      startIcon={<Bookmark size={24} />}
-    >
-      {bookmark ? "Đã đánh dấu" : "Đánh dấu"}
-    </Button>
-  );
-};
-
-const NominationButton = async ({ novelSlug }: { novelSlug: string }) => {
-  return (
-    <Button
-      variant="outlined"
-      style={{
-        width: "150px",
-        borderRadius: "30px",
-        textTransform: "none",
-        fontSize: "16px",
-      }}
-      startIcon={<Image src="/candy.png" alt="candy" width={24} height={24} />}
-    >
-      Đề cử
-    </Button>
   );
 };
 

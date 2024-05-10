@@ -7,6 +7,7 @@ import Footer from "@/components/layouts/Footer";
 import Banner from "@/components/layouts/Banner";
 import ClerkVIProvider from "@/lib/providers/ClerkVIProvider";
 import { ToasterProvider } from "@/lib/providers/ToasterProvider";
+import TanstackQueryProvider from "@/lib/providers/TanstackQueryProvider";
 import CustomThemeProvider from "@/lib/providers/CustomThemeProvider";
 import "../globals.css";
 
@@ -22,23 +23,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" suppressHydrationWarning className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-green-200">
+    <html
+      lang="vi"
+      suppressHydrationWarning
+      className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-green-200"
+    >
       <ClerkVIProvider>
-        <AppRouterCacheProvider>
-          <CustomThemeProvider>
-            <body className={inter.className}>
-              <ToasterProvider />
-              <div className="max-lg:flex-col w-full relative">
-                <Header />
-                <Banner />
-                <main className="max-w-7xl mx-auto p-4 relative top-52">
-                  {children}
-                </main>
-                <Footer />
-              </div>
-            </body>
-          </CustomThemeProvider>
-        </AppRouterCacheProvider>
+        <TanstackQueryProvider>
+          <AppRouterCacheProvider>
+            <CustomThemeProvider>
+              <body className={inter.className}>
+                <ToasterProvider />
+                <div className="max-lg:flex-col w-full relative">
+                  <Header />
+                  <Banner />
+                  <main className="max-w-7xl mx-auto p-4 relative top-52">
+                    {children}
+                  </main>
+                  <Footer />
+                </div>
+              </body>
+            </CustomThemeProvider>
+          </AppRouterCacheProvider>
+        </TanstackQueryProvider>
       </ClerkVIProvider>
     </html>
   );

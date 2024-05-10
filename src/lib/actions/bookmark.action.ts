@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 
 import connectToDB from "@/lib/mongodb/mongoose";
 import Bookmark from "../models/bookmark.model";
+import Novel from "../models/novel.model";
 
 export const createBookmark = async (novelSlug: string) => {
   try {
@@ -19,5 +20,21 @@ export const createBookmark = async (novelSlug: string) => {
   } catch (error) {
     console.error(error);
     throw new Error("Không thể đánh dấu!");
+  }
+};
+
+export const deleteBookmark = async (novelSlug: string) => {
+  try {
+    const { userId } = auth();
+    await connectToDB();
+    await Bookmark.findOneAndDelete({
+      clerkId: userId,
+      novelSlug,
+    });
+    revalidatePath("/");
+    return { success: true, message: "Xóa đánh dấu thành công!" };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Không thể xóa đánh dấu!");
   }
 };

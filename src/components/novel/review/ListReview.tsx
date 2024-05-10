@@ -1,70 +1,55 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Error from "@/components/layouts/Error";
-import { getReviews } from "@/lib/data/review.data";
-import { Avatar, LinearProgress } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { LinearProgress } from "@mui/material";
 import formatTimeAgo from "@/utils/formatTimeAgo";
 import AvatarFrame from "@/components/custom-ui/AvatarFrame";
+import { getReviews } from "@/lib/data/review.data";
+import Error from "@/components/layouts/Error";
 
 const ListReview = ({ novelSlug }: { novelSlug: string }) => {
-  const [reviews, setReviews] = useState<any[]>([]);
-  const [message, setMessage] = useState<string>();
-  const [status, setStatus] = useState<number>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [`review-${novelSlug}`, novelSlug],
+    queryFn: async () => {
+      return await getReviews(novelSlug);
+    },
+    enabled: !!novelSlug,
+  });
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      const { data, message, status } = await getReviews(novelSlug);
-      setReviews(data);
-      setMessage(message);
-      setStatus(status);
-      setLoading(false);
-    };
-
-    fetchReviews();
-  }, [novelSlug]);
+  if (isLoading) return <LinearProgress />;
+  if (isError) return <Error />;
 
   return (
     <div className="rounded-lg w-full mt-4 text-gray-500">
       <div className="mb-2 ml-2 text-lg font-semibold">Tất cả đánh giá:</div>
-      {loading ? (
-        <LinearProgress />
-      ) : status === 200 ? (
-        <div className="space-y-2">
-          {reviews.length > 0 ? (
-            reviews.map((review, index) => (
-              <div key={index} className="p-4 pb-6 bg-slate-50 rounded-lg">
-                <div className="flex gap-4 justify-between">
-                  <AvatarFrame
-                    src={review.userInfo?.avatar}
-                    frame={review.userInfo?.publicMetadata?.frameAvatar}
-                  />
-                  <div className="flex-1">
-                    <div className="text-sm font-bold">
-                      {review.userInfo.username}
-                    </div>
-                    <div className="mt-2 font-mono">{review.reviewContent}</div>
-                  </div>
 
-                  <div className="w-[48px] h-[48px] bg-white rounded-[24px] flex items-center justify-center">
-                    <p className="text-sm font-bold text-red-500">
-                      {review.avgScore}
-                    </p>
-                  </div>
+      <div className="space-y-2">
+        {data?.data?.map((review: any, index: number) => (
+          <div key={index} className="p-4 pb-6 bg-slate-50 rounded-lg">
+            <div className="flex gap-4 justify-between">
+              <AvatarFrame
+                src={review.userInfo?.avatar}
+                frame={review.userInfo?.publicMetadata?.frameAvatar}
+              />
+              <div className="flex-1">
+                <div className="text-sm font-bold">
+                  {review.userInfo.username}
                 </div>
-                <p className="text-xs float-end">
-                  {formatTimeAgo(review.updatedAt)}
+                <div className="mt-2 font-mono">{review.reviewContent}</div>
+              </div>
+
+              <div className="w-[48px] h-[48px] bg-white rounded-[24px] flex items-center justify-center">
+                <p className="text-sm font-bold text-red-500">
+                  {review.avgScore}
                 </p>
               </div>
-            ))
-          ) : (
-            <div className="ml-2">Chưa có đánh giá nào!</div>
-          )}
-        </div>
-      ) : (
-        <Error message={message} status={status} />
-      )}
+            </div>
+            <p className="text-xs float-end">
+              {formatTimeAgo(review.updatedAt)}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { auth } from "@clerk/nextjs/server";
 import createResponse from "@/utils/createResponse";
 import Review from "../models/review.model";
 
-export const checkReview = async (novelSlug: string) => {
+export const getReview = async (novelSlug: string) => {
   try {
     const { userId } = auth();
     if (!userId) return createResponse(null, "Unauthorized!", 401);
@@ -65,6 +65,6 @@ export const getReviews = async (novelSlug: string) => {
     return createResponse(reviews, "Success!", 200);
   } catch (err) {
     console.log(err);
-    return createResponse(null, "Error", 500);
+    return createResponse(null, "Error!", 500);
   }
 };

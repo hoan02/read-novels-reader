@@ -12,11 +12,11 @@ export const checkBookmark = async (novelSlug: string) => {
     await connectToDB();
     const { userId } = auth();
     if (!userId) return false;
-    const bookmark = await Bookmark.findOne({
+    const bookmarked = await Bookmark.findOne({
       clerkId: userId,
       novelSlug,
     });
-    if (!bookmark) {
+    if (!bookmarked) {
       return false;
     }
     return true;
@@ -49,6 +49,7 @@ export const getRecentlyBookmark = async (limit?: number) => {
           novelName: novel.novelName,
           chapterCount: novel.chapterCount,
           urlCover: novel.urlCover,
+          author: novel.author
         };
       })
     );

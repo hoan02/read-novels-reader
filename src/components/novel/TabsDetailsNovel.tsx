@@ -9,6 +9,7 @@ import Comment from "./comment/Comment";
 import Review from "./review/Review";
 import MenuChapter from "@/components/novel/MenuChapter";
 import { ChapterType, NovelType } from "@/types/types";
+import ListNomination from "./ListNomination";
 
 const TabsDetailsNovel = ({
   novel,
@@ -47,6 +48,12 @@ const TabsDetailsNovel = ({
       value: "binh-luan",
       chip: novel.commentCount,
       content: <Comment />,
+    },
+    {
+      label: "Đề cử",
+      value: "de-cu",
+      chip: novel.nominationCount,
+      content: <ListNomination novelSlug={novel.novelSlug} />,
     },
   ];
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Rating,
   TextField,
@@ -22,13 +23,12 @@ import {
   FileText,
   X,
 } from "lucide-react";
-import { NovelType } from "@/types/types";
 import {
   createOrUpdateReview,
   deleteReview,
 } from "@/lib/actions/review.action";
 import { toast } from "react-hot-toast";
-import { checkReview } from "@/lib/data/review.data";
+import { getReview } from "@/lib/data/review.data";
 
 interface StateType {
   label: string;
@@ -38,6 +38,15 @@ interface StateType {
 
 interface FormDataType {
   novelSlug: string;
+  valueCharacter: number;
+  valuePlot: number;
+  valueWorld: number;
+  reviewContent: string;
+}
+
+interface ReviewDataType {
+  novelSlug: string;
+  rating: number;
   valueCharacter: number;
   valuePlot: number;
   valueWorld: number;
@@ -87,51 +96,74 @@ const states: StateType[] = [
 
 const FormReview = ({ novelSlug }: { novelSlug: string }) => {
   const router = useRouter();
-  const [rating, setRating] = useState(0);
-  const [valueCharacter, setValueCharacter] = useState(0);
-  const [valuePlot, setValuePlot] = useState(0);
-  const [valueWorld, setValueWorld] = useState(0);
+  const queryClient = useQueryClient();
+
+  const [formData, setFormData] = useState<ReviewDataType>({
+    novelSlug: novelSlug,
+    rating: 0,
+    valueCharacter: 0,
+    valuePlot: 0,
+    valueWorld: 0,
+    reviewContent: "",
+  });
+
   const [hoverCharacter, setHoverCharacter] = useState(-1);
   const [hoverPlot, setHoverPlot] = useState(-1);
   const [hoverWorld, setHoverWorld] = useState(-1);
-  const [reviewContent, setReviewContent] = useState("");
   const [state, setState] = useState<StateType>();
   const [openDialog, setOpenDialog] = useState(false);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
   const [evaluated, setEvaluated] = useState(false);
 
-  useEffect(() => {
-    const checkReviewContent = async () => {
-      const { data: dataReview, status } = await checkReview(novelSlug);
-      if (status === 200) {
-        setEvaluated(true);
-        setValueCharacter(dataReview.valueCharacter);
-        setValuePlot(dataReview.valuePlot);
-        setValueWorld(dataReview.valueWorld);
-        setReviewContent(dataReview.reviewContent);
+  const handleChangeRating =
+    (field: keyof ReviewDataType) =>
+    (event: React.SyntheticEvent<Element, Event>, newValue: number | null) => {
+      if (newValue !== null) {
+        setFormData((prevState) => ({ ...prevState, [field]: newValue }));
       }
     };
 
-    checkReviewContent();
-  }, [novelSlug]);
+  const handleChangeText =
+    (field: keyof ReviewDataType) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prevState) => ({
+        ...prevState,
+        [field]: event.target.value,
+      }));
+    };
 
-  useEffect(() => {
-    const roundedRating = (
-      (valueCharacter + valuePlot + valueWorld) /
-      3
-    ).toFixed(1);
-    setRating(parseFloat(roundedRating));
-    const indexState = Math.floor((rating - 0.0001) / 2);
-    setState(states[indexState]);
-  }, [valueCharacter, valuePlot, valueWorld, rating]);
+  const { isLoading } = useQuery({
+    queryKey: [`review-${novelSlug}`],
+    queryFn: async () =>
+      await getReview(novelSlug).then((res) => {
+        if (res.status === 200) {
+          setFormData(res.data);
+          setEvaluated(true);
+        }
+      }),
+    enabled: !!novelSlug,
+  });
+
+  const createOrUpdateReviewMutation = useMutation({
+    mutationFn: (formData: ReviewDataType) => createOrUpdateReview(formData),
+    onSuccess: (res) => {
+      toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: [`review-${novelSlug}`] });
+      // Optional: revalidatePath("/");
+    },
+    onError: (error) => {
+      console.error("Error submitting review:", error);
+      toast.error("Đã có lỗi xảy ra. Vui lòng thử lại!");
+    },
+  });
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     if (
-      valueCharacter === 0 ||
-      valuePlot === 0 ||
-      valueWorld === 0 ||
-      reviewContent.length < 10
+      formData.valueCharacter === 0 ||
+      formData.valuePlot === 0 ||
+      formData.valueWorld === 0 ||
+      formData.reviewContent.length < 10
     ) {
       toast.error(
         "Vui lòng đánh giá đầy đủ 3 mục thông tin và mô tả! Đọc lưu ý phía bên dưới!"
@@ -141,39 +173,47 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
     setOpenDialog(true);
   };
 
-  // Create review
-  const handleCreateReview = async (formData: any) => {
-    const res = await createOrUpdateReview(formData);
-    if (res.success) toast.success(res.message);
-    else toast.error(res.message);
-  };
-
   const handleConfirmSubmit = async () => {
     setOpenDialog(false);
-    const formData = {
-      rating,
-      novelSlug,
-      valueCharacter,
-      valuePlot,
-      valueWorld,
-      reviewContent,
-    };
-    try {
-      handleCreateReview(formData);
-      router.refresh();
-    } catch (error) {
-      console.error("Error submitting rating:", error);
-    }
+    createOrUpdateReviewMutation.mutate(formData);
   };
 
-  // Delete review
+  // DELETE
+  const deleteReviewMutation = useMutation({
+    mutationFn: () => deleteReview(novelSlug),
+    onSuccess: (res) => {
+      toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: [`review-${novelSlug}`] });
+      router.refresh();
+    },
+    onError: (error) => {
+      console.error("Error deleting review:", error);
+      toast.error("Đã có lỗi xảy ra. Vui lòng thử lại!");
+    },
+  });
+
   const handleDeleteReview = async () => {
     setOpenDialogDelete(false);
-    const res = await deleteReview(novelSlug);
-    if (res.success) toast.success(res.message);
-    else toast.error(res.message);
-    router.refresh();
+    await deleteReviewMutation.mutate();
   };
+
+  useEffect(() => {
+    const roundedRating = (
+      (formData.valueCharacter + formData.valuePlot + formData.valueWorld) /
+      3
+    ).toFixed(1);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      rating: parseFloat(roundedRating),
+    }));
+    const indexState = Math.floor((formData.rating - 0.0001) / 2);
+    setState(states[indexState]);
+  }, [
+    formData.valueCharacter,
+    formData.valuePlot,
+    formData.valueWorld,
+    isLoading,
+  ]);
 
   return (
     <form
@@ -194,22 +234,20 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
             <p className="w-[160px]">Tính cách nhân vật</p>
             <Rating
               name="hover-feedback-character"
-              value={valueCharacter}
+              value={formData.valueCharacter}
               max={10}
               icon={<Laugh color="green" />}
               emptyIcon={<Laugh />}
-              onChange={(event, newValue: any) => {
-                setValueCharacter(newValue);
-              }}
+              onChange={handleChangeRating("valueCharacter")}
               onChangeActive={(event, newHover) => {
                 setHoverCharacter(newHover);
               }}
             />
-            {valueCharacter !== null &&
+            {formData.valueCharacter !== null &&
               (labels as { [key: string]: string })[
                 (hoverCharacter !== -1
                   ? hoverCharacter
-                  : valueCharacter
+                  : formData.valueCharacter
                 ).toString()
               ]}
           </div>
@@ -217,46 +255,47 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
             <p className="w-[160px]">Nội dung cốt truyện</p>
             <Rating
               name="hover-feedback-plot"
-              value={valuePlot}
+              value={formData.valuePlot}
               max={10}
               icon={<FileText color="green" />}
               emptyIcon={<FileText />}
-              onChange={(event, newValue: any) => {
-                setValuePlot(newValue);
-              }}
+              onChange={handleChangeRating("valuePlot")}
               onChangeActive={(event, newHover) => {
                 setHoverPlot(newHover);
               }}
             />
-            {valuePlot !== null &&
+            {formData.valuePlot !== null &&
               (labels as { [key: string]: string })[
-                (hoverPlot !== -1 ? hoverPlot : valuePlot).toString()
+                (hoverPlot !== -1 ? hoverPlot : formData.valuePlot).toString()
               ]}
           </div>
           <div className="p-2 flex items-center gap-4">
             <p className="w-[160px]">Bố cục thế giới</p>
             <Rating
               name="hover-feedback-world"
-              value={valueWorld}
+              value={formData.valueWorld}
               max={10}
               icon={<Grid2X2 color="green" />}
               emptyIcon={<Grid2X2 />}
-              onChange={(event, newValue: any) => {
-                setValueWorld(newValue);
-              }}
+              onChange={handleChangeRating("valueWorld")}
               onChangeActive={(event, newHover) => {
                 setHoverWorld(newHover);
               }}
             />
-            {valueWorld !== null &&
+            {formData.valueWorld !== null &&
               (labels as { [key: string]: string })[
-                (hoverWorld !== -1 ? hoverWorld : valueWorld).toString()
+                (hoverWorld !== -1
+                  ? hoverWorld
+                  : formData.valueWorld
+                ).toString()
               ]}
           </div>
         </div>
         <div className="w-1/3 flex items-center gap-4">
           <div className="w-[80px] h-[80px] bg-white rounded-[40px] flex items-center justify-center">
-            <p className="text-xl font-bold text-red-500">{rating}/10</p>
+            <p className="text-xl font-bold text-red-500">
+              {formData.rating}/10
+            </p>
           </div>
           {state && (
             <div className={`flex items-center gap-2 ${state.color}`}>
@@ -273,8 +312,8 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
           variant="outlined"
           multiline
           rows={3}
-          value={reviewContent}
-          onChange={(e) => setReviewContent(e.target.value)}
+          value={formData.reviewContent}
+          onChange={handleChangeText("reviewContent")}
           fullWidth
         />
 
