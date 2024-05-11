@@ -15,7 +15,13 @@ const PageChapterCustom = ({
   const [settings, setSettings] = useLocalStorage("settings", defaultSettings);
 
   return (
-    <div className={`bg-white shadow-md lg:px-16 p-4 rounded-lg z-0`}>
+    <div
+      className={`bg-white shadow-md lg:px-16 p-4 rounded-lg z-0`}
+      style={{
+        color: settings.color,
+        backgroundColor: settings.backgroundColor,
+      }}
+    >
       <div className="sticky top-2">
         <Options novel={novel} settings={settings} setSettings={setSettings} />
       </div>
@@ -28,8 +34,9 @@ const PageChapterCustom = ({
       <div
         style={{
           fontSize: settings.fontSize,
-          color: settings.color,
-          backgroundColor: settings.backgroundColor,
+          fontFamily: settings.fontFamily,
+          lineHeight: (settings.lineHeight / 100) * 1.5,
+          textAlign: settings.textAlign,
         }}
       >
         <div

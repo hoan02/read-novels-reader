@@ -84,17 +84,33 @@ export const menuAccount: MenuIconType[] = [
 
 export const subMenuAccount = menuAccount.slice(0, 4);
 
-export const colors = ["#333333", "#555555", "#777777", "#999999", "#AAAAAA"];
+export const colors = [
+  "#111111",
+  "#333333",
+  "#555555",
+  "#777777",
+  "#999999",
+  "#AAAAAA",
+];
 export const backgroundColors = [
-  "#FFFFFF",
-  "#F0F0F0",
-  "#EEEEEE",
-  "#DDDDDD",
-  "#CCCCCC",
+  "#f8fafc",
+  "#f4f4f4",
+  "#e9ebee",
+  "#f4f4e4",
+  "#f5ebcd",
+  "#c2b49c",
+  "#272727",
+  "#1e293b",
 ];
 export const fontSizes = Array.from({ length: 20 }, (_, i) => (i + 6) * 2);
 export const lineHeights = Array.from({ length: 11 }, (_, i) => (i + 10) * 10);
-export const fontFamilies = ["Arial", "Tahoma", "Verdana", "Times New Roman"];
+export const fontFamilies = [
+  "Arial",
+  "Segoe UI",
+  "Tahoma",
+  "Verdana",
+  "Times New Roman",
+];
 export const textAligns = [
   { key: "Trái", value: "left" },
   { key: "Giữa", value: "center" },
@@ -103,8 +119,8 @@ export const textAligns = [
 ];
 
 export const defaultSettings: SettingsType = {
-  color: "#555555",
-  backgroundColor: "#F0F0F0",
+  color: "#333333",
+  backgroundColor: "#f8fafc",
   fontSize: 16,
   fontFamily: "Arial",
   lineHeight: 100,

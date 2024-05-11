@@ -82,5 +82,5 @@ type SettingsType = {
   fontSize: number;
   fontFamily: string;
   lineHeight: number;
-  textAlign: string;
+  textAlign: "left" | "right" | "center" | "justify";
 };
