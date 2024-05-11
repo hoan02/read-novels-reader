@@ -209,6 +209,7 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
     const indexState = Math.floor((formData.rating - 0.0001) / 2);
     setState(states[indexState]);
   }, [
+    formData.rating,
     formData.valueCharacter,
     formData.valuePlot,
     formData.valueWorld,

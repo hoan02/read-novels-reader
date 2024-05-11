@@ -52,7 +52,7 @@ const ListBookmark = () => {
       <h2 className="mb-4 text-lg font-semibold">Đang đọc</h2>
       <div className="grid grid-cols-2 gap-4">
         {bookmarks?.data?.map((novel: any, index: number) => (
-          <div className="flex bg-gray-100 p-2 rounded relative">
+          <div key={index} className="flex bg-gray-100 p-2 rounded relative">
             <div
               className="absolute right-1 top-1 p-1 rounded-full cursor-pointer hover:bg-red-50 text-red-500"
               onClick={() => handleDeleteBookmark.mutate(novel.novelSlug)}
@@ -71,7 +71,7 @@ const ListBookmark = () => {
                 className="font-semibold hover:text-green-500
                 cursor-pointer"
               >
-                <Link key={index} href={`/truyen/${novel.novelSlug}`}>
+                <Link href={`/truyen/${novel.novelSlug}`}>
                   {novel.novelName?.length > 28
                     ? `${novel.novelName.substring(0, 28)}...`
                     : novel.novelName}

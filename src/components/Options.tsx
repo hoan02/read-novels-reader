@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
   Dialog,
@@ -61,24 +61,22 @@ const Options = ({ novel }: { novel: NovelType }) => {
     },
   });
 
-  const handlePrevChapter = () => {
+  const handlePrevChapter = useCallback(() => {
     if (parseInt(params.chapterIndex) === 1) {
       toast.error("Đây là chương đầu tiên của truyện!");
-    } else
-      route.push(
-        `/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) - 1}`
-      );
-  };
-
-  const handleNextChapter = () => {
+    } else {
+      route.push(`/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) - 1}`);
+    }
+  }, [params.chapterIndex, params.novelSlug, route]);
+  
+  // Modify the handleNextChapter function with useCallback
+  const handleNextChapter = useCallback(() => {
     if (parseInt(params.chapterIndex) === novel.chapterCount) {
       toast.error("Đây là chương cuối cùng của truyện!");
     } else {
-      route.push(
-        `/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) + 1}`
-      );
+      route.push(`/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) + 1}`);
     }
-  };
+  }, [params.chapterIndex, params.novelSlug, novel.chapterCount, route]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
