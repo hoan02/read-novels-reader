@@ -18,14 +18,22 @@ import {
   BookmarkCheck,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import Setting from "./Setting";
 import MenuChapter from "./novel/MenuChapter";
-import { NovelType } from "@/types/types";
+import { NovelType, SettingsType } from "@/types/types";
 import { checkBookmark } from "@/lib/data/bookmark.data";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createBookmark, deleteBookmark } from "@/lib/actions/bookmark.action";
+import Setting from "./Setting";
 
-const Options = ({ novel }: { novel: NovelType }) => {
+const Options = ({
+  novel,
+  settings,
+  setSettings,
+}: {
+  novel: NovelType;
+  settings: SettingsType;
+  setSettings: (settings: SettingsType) => void;
+}) => {
   const route = useRouter();
   const params = useParams<{ novelSlug: string; chapterIndex: string }>();
   const [openListChapter, setOpenListChapter] = useState(false);
@@ -65,16 +73,20 @@ const Options = ({ novel }: { novel: NovelType }) => {
     if (parseInt(params.chapterIndex) === 1) {
       toast.error("Đây là chương đầu tiên của truyện!");
     } else {
-      route.push(`/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) - 1}`);
+      route.push(
+        `/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) - 1}`
+      );
     }
   }, [params.chapterIndex, params.novelSlug, route]);
-  
+
   // Modify the handleNextChapter function with useCallback
   const handleNextChapter = useCallback(() => {
     if (parseInt(params.chapterIndex) === novel.chapterCount) {
       toast.error("Đây là chương cuối cùng của truyện!");
     } else {
-      route.push(`/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) + 1}`);
+      route.push(
+        `/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) + 1}`
+      );
     }
   }, [params.chapterIndex, params.novelSlug, novel.chapterCount, route]);
 
@@ -164,7 +176,7 @@ const Options = ({ novel }: { novel: NovelType }) => {
         <DialogContent className="w-[600px] h-[800px]">
           <div className="font-bold text-xl mb-2">Cấu hình</div>
           <Divider />
-          <Setting />
+          <Setting settings={settings} setSettings={setSettings} />
         </DialogContent>
       </Dialog>
     </div>

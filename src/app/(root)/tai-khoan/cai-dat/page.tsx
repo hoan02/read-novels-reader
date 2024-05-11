@@ -1,12 +1,17 @@
+"use client";
+
 import { Divider } from "@mui/material";
 
 import Setting from "@/components/Setting";
+import useLocalStorage from "@/lib/hooks/useLocalStorage";
+import { defaultSettings } from "@/lib/constants";
 
 const SettingPage = () => {
+  const [settings, setSettings] = useLocalStorage("settings", defaultSettings);
   return (
     <div className="flex">
       <div className="w-1/2">
-        <Setting />
+        <Setting settings={settings} setSettings={setSettings} />
       </div>
       <Divider orientation="vertical" flexItem />
       <div className="w-1/2">

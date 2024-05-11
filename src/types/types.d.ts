@@ -75,3 +75,12 @@ type ChapterType = {
   isPublic: boolean;
   publishedDate: Date | null;
 };
+
+type SettingsType = {
+  color: string;
+  backgroundColor: string;
+  fontSize: number;
+  fontFamily: string;
+  lineHeight: number;
+  textAlign: string;
+};

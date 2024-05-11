@@ -6,7 +6,7 @@ import {
   BellRing,
   MessageSquareWarning,
 } from "lucide-react";
-import { MenuIconType } from "../types/types";
+import { MenuIconType, SettingsType } from "../types/types";
 
 export const statusErrorTitles: { [key: number]: string } = {
   400: "Bad Request",
@@ -83,3 +83,30 @@ export const menuAccount: MenuIconType[] = [
 ];
 
 export const subMenuAccount = menuAccount.slice(0, 4);
+
+export const colors = ["#333333", "#555555", "#777777", "#999999", "#AAAAAA"];
+export const backgroundColors = [
+  "#FFFFFF",
+  "#F0F0F0",
+  "#EEEEEE",
+  "#DDDDDD",
+  "#CCCCCC",
+];
+export const fontSizes = Array.from({ length: 20 }, (_, i) => (i + 6) * 2);
+export const lineHeights = Array.from({ length: 11 }, (_, i) => (i + 10) * 10);
+export const fontFamilies = ["Arial", "Tahoma", "Verdana", "Times New Roman"];
+export const textAligns = [
+  { key: "Trái", value: "left" },
+  { key: "Giữa", value: "center" },
+  { key: "Phải", value: "right" },
+  { key: "Căn đều", value: "justify" },
+];
+
+export const defaultSettings: SettingsType = {
+  color: "#555555",
+  backgroundColor: "#F0F0F0",
+  fontSize: 16,
+  fontFamily: "Arial",
+  lineHeight: 100,
+  textAlign: "justify",
+};

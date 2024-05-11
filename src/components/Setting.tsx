@@ -2,63 +2,34 @@
 
 import { useEffect, useState } from "react";
 import { Select, MenuItem, Button } from "@mui/material";
+import {
+  colors,
+  backgroundColors,
+  fontSizes,
+  fontFamilies,
+  lineHeights,
+  textAligns,
+  defaultSettings,
+} from "@/lib/constants";
+import { SettingsType } from "@/types/types";
 
-interface Settings {
-  color: string;
-  backgroundColor: string;
-  fontSize: number;
-  fontFamily: string;
-  lineHeight: number;
-  textAlign: string;
-}
-
-const settingsDefault: Settings = {
-  color: "#555555",
-  backgroundColor: "#F0F0F0",
-  fontSize: 16,
-  fontFamily: "Arial",
-  lineHeight: 100,
-  textAlign: "justify",
-};
-
-const Setting = () => {
-  const [settings, setSettings] = useState<Settings>(settingsDefault);
-
-  const colors = ["#333333", "#555555", "#777777", "#999999", "#AAAAAA"];
-  const backgroundColors = [
-    "#FFFFFF",
-    "#F0F0F0",
-    "#EEEEEE",
-    "#DDDDDD",
-    "#CCCCCC",
-  ];
-  const fontSizes = Array.from({ length: 20 }, (_, i) => (i + 6) * 2);
-  const lineHeights = Array.from({ length: 11 }, (_, i) => (i + 10) * 10);
-  const fontFamilies = ["Arial", "Tahoma", "Verdana", "Times New Roman"];
-  const textAligns = [
-    { key: "Trái", value: "left" },
-    { key: "Giữa", value: "center" },
-    { key: "Phải", value: "right" },
-    { key: "Căn đều", value: "justify" },
-  ];
-
-  useEffect(() => {
-    const storedSettings = localStorage.getItem("settings");
-    if (storedSettings) {
-      setSettings(JSON.parse(storedSettings));
-    }
-  }, []);
-
+const Setting = ({
+  settings,
+  setSettings,
+}: {
+  settings: SettingsType;
+  setSettings: (settings: SettingsType) => void;
+}) => {
   useEffect(() => {
     localStorage.setItem("settings", JSON.stringify(settings));
   }, [settings]);
 
-  const handleSettingChange = (field: keyof Settings) => (event: any) => {
+  const handleSettingChange = (field: keyof SettingsType) => (event: any) => {
     setSettings({ ...settings, [field]: event.target.value });
   };
 
   const resetSettings = () => {
-    setSettings(settingsDefault);
+    setSettings(defaultSettings);
   };
 
   return (
