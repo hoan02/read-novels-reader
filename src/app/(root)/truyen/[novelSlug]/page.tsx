@@ -6,7 +6,6 @@ import { Chip, Rating, LinearProgress, Skeleton } from "@mui/material";
 import Error from "@/components/layouts/Error";
 import TabsDetailsNovel from "@/components/novel/TabsDetailsNovel";
 import { getNovel } from "@/lib/data/novel.data";
-import { getChapters } from "@/lib/data/chapter.data";
 import ReadingButton from "@/components/custom-ui/ReadingButton";
 import BookmarkButton from "@/components/custom-ui/BookmarkButton";
 import NominationButton from "@/components/custom-ui/NominationButton";
@@ -28,8 +27,7 @@ const Loading = () => {
 };
 
 const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
-  const [{ data: novel, message, status }, { data: chapters }] =
-    await Promise.all([getNovel(novelSlug), getChapters(novelSlug)]);
+  const { data: novel, message, status } = await getNovel(novelSlug);
 
   if (status !== 200) {
     return <Error message={message} status={status} />;
@@ -111,7 +109,7 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
         </div>
       </div>
       <div className="mt-10">
-        <TabsDetailsNovel novel={novel} chapters={chapters} />
+        <TabsDetailsNovel novel={novel} />
       </div>
     </div>
   );

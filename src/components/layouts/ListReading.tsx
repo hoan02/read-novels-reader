@@ -69,8 +69,8 @@ const ListReading = () => {
                 href={`/truyen/${novel.novelSlug}`}
                 className="text-sm font-semibold hover:text-green-500 cursor-pointer"
               >
-                {novel.novelName?.length > 28
-                  ? `${novel.novelName.substring(0, 28)}...`
+                {novel.novelName?.length > 50
+                  ? `${novel.novelName.substring(0, 50)}...`
                   : novel.novelName}
               </Link>
               <p className="mt-2 text-sm text-gray-600 flex justify-between">

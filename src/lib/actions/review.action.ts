@@ -143,9 +143,9 @@ export const deleteReview = async (novelSlug: string) => {
 
     // Revalidate cache for novel page
     revalidatePath(`/truyen/${novelSlug}`);
-    return { success: true, message: "Đánh giá thành công!" };
+    return { success: true, message: "Đã xóa đánh giá!" };
   } catch (error) {
     console.error(error);
-    throw new Error("Không thể đánh giá!");
+    throw new Error("Không thể xóa đánh giá!");
   }
 };

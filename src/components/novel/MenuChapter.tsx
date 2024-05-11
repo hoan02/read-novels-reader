@@ -6,15 +6,29 @@ import { ArrowDownUp } from "lucide-react";
 
 import formatTimeAgo from "@/utils/formatTimeAgo";
 import { ChapterType } from "@/types/types";
+import { useQuery } from "@tanstack/react-query";
+import { getChapters } from "@/lib/data/chapter.data";
+import { LinearProgress } from "@mui/material";
 
-const MenuChapter = ({ chapters }: { chapters: ChapterType[] }) => {
+const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
   const [ascending, setAscending] = useState(true);
+
+  const { data: chapters, isLoading } = useQuery({
+    queryKey: [`chapters-${novelSlug}`],
+    queryFn: async () => {
+      const res = await getChapters(novelSlug);
+      return res.data;
+    },
+    enabled: !!novelSlug,
+  });
 
   const sortedChapters = ascending ? chapters : chapters.slice().reverse();
 
   const handleSortToggle = () => {
     setAscending((prevAscending) => !prevAscending);
   };
+
+  if (isLoading) return <LinearProgress />;
 
   return (
     <div className="p-4 font-source-sans-pro">

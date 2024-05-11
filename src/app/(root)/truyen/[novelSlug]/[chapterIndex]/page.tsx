@@ -28,7 +28,7 @@ const SingleChapterPage = async ({
     return (
       <div className="bg-white shadow-md lg:px-16 p-4 rounded-lg z-0">
         <div className="sticky top-2">
-          <Options novel={novel} chapter={chapter} chapters={chapters} />
+          <Options novel={novel} />
         </div>
         <h1 className="text-lg py-4 text-center">
           [{novel.novelName}]-{novel.author}

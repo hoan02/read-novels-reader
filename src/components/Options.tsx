@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
   Dialog,
@@ -9,26 +9,66 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { Settings, List, Bookmark, ArrowLeft, ArrowRight } from "lucide-react"
+import {
+  Settings,
+  List,
+  Bookmark,
+  ArrowLeft,
+  ArrowRight,
+  BookmarkCheck,
+} from "lucide-react";
 import toast from "react-hot-toast";
-;
 import Setting from "./Setting";
 import MenuChapter from "./novel/MenuChapter";
-import { ChapterType, NovelType } from "@/types/types";
+import { NovelType } from "@/types/types";
+import { checkBookmark } from "@/lib/data/bookmark.data";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createBookmark, deleteBookmark } from "@/lib/actions/bookmark.action";
 
-const Options = ({
-  novel,
-  chapter,
-  chapters,
-}: {
-  novel: NovelType;
-  chapter: ChapterType;
-  chapters: ChapterType[];
-}) => {
+const Options = ({ novel }: { novel: NovelType }) => {
   const route = useRouter();
   const params = useParams<{ novelSlug: string; chapterIndex: string }>();
   const [openListChapter, setOpenListChapter] = useState(false);
   const [openSetting, setOpenSetting] = useState(false);
+
+  const queryClient = useQueryClient();
+  const { data: bookmarkState, isLoading } = useQuery({
+    queryKey: ["bookmark"],
+    queryFn: async () => {
+      return await checkBookmark(novel.novelSlug);
+    },
+    enabled: !!novel.novelSlug,
+  });
+
+  const handleClickBookmark = useMutation({
+    mutationFn: () => {
+      if (bookmarkState) {
+        return deleteBookmark(novel.novelSlug);
+      } else {
+        return createBookmark(novel.novelSlug);
+      }
+    },
+    onSuccess: (res) => {
+      toast.success(res.message);
+      queryClient.invalidateQueries({
+        queryKey: ["bookmark"],
+      });
+      // revalidatePath("/");
+    },
+    onError: (res) => {
+      toast.error(res.message);
+      // revalidatePath("/");
+    },
+  });
+
+  const handlePrevChapter = () => {
+    if (parseInt(params.chapterIndex) === 1) {
+      toast.error("Đây là chương đầu tiên của truyện!");
+    } else
+      route.push(
+        `/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) - 1}`
+      );
+  };
 
   const handleNextChapter = () => {
     if (parseInt(params.chapterIndex) === novel.chapterCount) {
@@ -40,22 +80,39 @@ const Options = ({
     }
   };
 
-  const handlePrevChapter = () => {
-    if (parseInt(params.chapterIndex) === 1) {
-      toast.error("Đây là chương đầu tiên của truyện!");
-    } else
-      route.push(
-        `/truyen/${params.novelSlug}/${parseInt(params.chapterIndex) - 1}`
-      );
-  };
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case "ArrowLeft":
+          handlePrevChapter();
+          break;
+        case "ArrowRight":
+          handleNextChapter();
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handlePrevChapter, handleNextChapter]);
 
   return (
     <div className="flex justify-center">
       <div className="flex gap-2 p-1 border-2 rounded-full bg-white">
         <Tooltip title="Chương trước">
-          <IconButton onClick={() => handlePrevChapter()}>
-            <ArrowLeft />
-          </IconButton>
+          <span>
+            <IconButton
+              disabled={parseInt(params.chapterIndex) === 1}
+              onClick={() => handlePrevChapter()}
+            >
+              <ArrowLeft />
+            </IconButton>
+          </span>
         </Tooltip>
         <Divider orientation="vertical" />
         <Tooltip title="Cấu hình">
@@ -71,15 +128,28 @@ const Options = ({
         </Tooltip>
         <Divider orientation="vertical" />
         <Tooltip title="Đánh dấu">
-          <IconButton>
-            <Bookmark />
+          <IconButton onClick={() => handleClickBookmark.mutate()}>
+            {bookmarkState ? (
+              <BookmarkCheck
+                strokeWidth={2}
+                absoluteStrokeWidth
+                className="text-green-500"
+              />
+            ) : (
+              <Bookmark />
+            )}
           </IconButton>
         </Tooltip>
         <Divider orientation="vertical" />
         <Tooltip title="Chương sau">
-          <IconButton onClick={() => handleNextChapter()}>
-            <ArrowRight />
-          </IconButton>
+          <span>
+            <IconButton
+              disabled={parseInt(params.chapterIndex) === novel.chapterCount}
+              onClick={() => handleNextChapter()}
+            >
+              <ArrowRight />
+            </IconButton>
+          </span>
         </Tooltip>
       </div>
 
@@ -89,7 +159,7 @@ const Options = ({
             [{novel.novelName}] - {novel.chapterCount} chương
           </div>
           <Divider />
-          <MenuChapter chapters={chapters} />
+          <MenuChapter novelSlug={novel.novelSlug} />
         </DialogContent>
       </Dialog>
       <Dialog open={openSetting} onClose={() => setOpenSetting(false)}>

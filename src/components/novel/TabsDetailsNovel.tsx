@@ -11,13 +11,7 @@ import MenuChapter from "@/components/novel/MenuChapter";
 import { ChapterType, NovelType } from "@/types/types";
 import ListNomination from "./ListNomination";
 
-const TabsDetailsNovel = ({
-  novel,
-  chapters,
-}: {
-  novel: NovelType;
-  chapters: ChapterType[];
-}) => {
+const TabsDetailsNovel = ({ novel }: { novel: NovelType }) => {
   const [value, setValue] = useState("gioi-thieu");
 
   const handleChange = (event: any, newValue: string) => {
@@ -41,7 +35,7 @@ const TabsDetailsNovel = ({
       label: "Danh sách chương",
       value: "danh-sach-chuong",
       chip: novel.chapterCount,
-      content: <MenuChapter chapters={chapters} />,
+      content: <MenuChapter novelSlug={novel.novelSlug} />,
     },
     {
       label: "Bình luận",
