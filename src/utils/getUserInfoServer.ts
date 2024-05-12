@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 
-export default function getSessions() {
+export default function getUserInfoServer() {
   const { sessionClaims } = auth();
   const fullName = sessionClaims?.full_name;
   const avatar = sessionClaims?.avatar;

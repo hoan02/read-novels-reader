@@ -19,16 +19,18 @@ const Error = ({
   return (
     <div className="w-full h-full flex flex-col lg:flex-row items-center justify-center space-y-16 lg:space-y-0 space-x-8 2xl:space-x-0">
       <div className="w-full lg:w-1/2 flex flex-col items-center justify-center lg:px-2 xl:px-0 text-center">
-        <p className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-wider text-gray-300">
+        <p className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-wider text-violet-400">
           {status}
         </p>
-        <p className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-wider text-gray-300 mt-2">
+        <p className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-wider text-violet-400 mt-2">
           {title}
         </p>
         <p className="text-lg md:text-xl lg:text-2xl text-gray-500 my-12">
           {message}
         </p>
-        <Button onClick={() => router.back()}>Go Back</Button>
+        <Button variant="contained" onClick={() => router.back()}>
+          Go Back
+        </Button>
       </div>
       <div className="w-1/2 lg:h-full flex lg:items-end justify-center p-4">
         <svg

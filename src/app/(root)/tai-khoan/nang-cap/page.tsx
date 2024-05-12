@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 
 import formatDate from "@/utils/formatDate";
 import AvatarFrame from "@/components/custom-ui/AvatarFrame";
-import getSessions from "@/utils/getSession";
+import getUserInfoServer from "@/utils/getUserInfoServer";
 
 const UpdateAccountPage = () => {
   const {
@@ -12,7 +12,7 @@ const UpdateAccountPage = () => {
     premiumState,
     premiumStartDate,
     premiumEndDate,
-  } = getSessions();
+  } = getUserInfoServer();
   return (
     <div className="flex w-full h-full justify-center items-center font-mono">
       {premiumState ? (

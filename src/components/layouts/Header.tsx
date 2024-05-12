@@ -5,12 +5,12 @@ import { Bell, CircleChevronUp, LogOut, UserRoundCog } from "lucide-react";
 import Badge from "@mui/material/Badge";
 
 import { novelGenres, novelRanks, subMenuAccount } from "@/lib/constants";
-import getSessions from "@/utils/getSession";
 import InputSearch from "../search/InputSearch";
 import AvatarFrame from "../custom-ui/AvatarFrame";
+import getSessionServer from "@/utils/getUserInfoServer";
 
 const Header = () => {
-  const { fullName, avatar, role, frameAvatar } = getSessions();
+  const { fullName, avatar, role, frameAvatar } = getSessionServer();
 
   return (
     <div className="w-full flex justify-center bg-green-300 ">

@@ -1,16 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { ArrowDownUp } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowDownUp, BookLock } from "lucide-react";
+import { LinearProgress } from "@mui/material";
 
 import formatTimeAgo from "@/utils/formatTimeAgo";
 import { ChapterType } from "@/types/types";
-import { useQuery } from "@tanstack/react-query";
 import { getChapters } from "@/lib/data/chapter.data";
-import { LinearProgress } from "@mui/material";
+import toast from "react-hot-toast";
+import useUserInfoClient from "@/lib/hooks/useUserInfoClient";
 
 const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
+  const route = useRouter();
+  const { premiumState } = useUserInfoClient();
   const [ascending, setAscending] = useState(true);
 
   const { data: chapters, isLoading } = useQuery({
@@ -26,6 +30,16 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
 
   const handleSortToggle = () => {
     setAscending((prevAscending) => !prevAscending);
+  };
+
+  const handleGotoChapter = (chapter: ChapterType) => {
+    if (premiumState) {
+      route.push(`/truyen/${chapter.novelSlug}/${chapter.chapterIndex}`);
+    } else {
+      toast.error(
+        "Bạn cần nâng tài khoản lên premium để có thể đọc chương bị khóa!"
+      );
+    }
   };
 
   if (isLoading) return <LinearProgress />;
@@ -44,16 +58,19 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
       <div className="grid md:grid-cols-2 grid-cols-1 gap-x-12 gap-y-4">
         {sortedChapters?.map((chapter: ChapterType, index: number) => {
           return (
-            <Link
+            <div
               key={index}
-              href={`/truyen/${chapter.novelSlug}/${chapter.chapterIndex}`}
-              className="text-sm text-gray-600 flex justify-between hover:text-green-600 border-b border-dotted"
+              onClick={() => handleGotoChapter(chapter)}
+              className="text-sm text-gray-600 flex justify-between hover:text-sky-500 border-b border-dotted cursor-pointer"
             >
               <p>{`Chương ${chapter.chapterIndex}: ${chapter.chapterName}`}</p>
+              {chapter.isPublic === false && (
+                <BookLock size={18} className="text-yellow-500" />
+              )}
               {chapter.publishedDate && (
                 <p>({formatTimeAgo(chapter.publishedDate)})</p>
               )}
-            </Link>
+            </div>
           );
         })}
       </div>
