@@ -4,22 +4,27 @@ import connectToDB from "@/lib/mongodb/mongoose";
 import Chapter from "@/lib/models/chapter.model";
 import createResponse from "@/utils/createResponse";
 import Novel from "../models/novel.model";
+import MonthlyStats from "../models/monthlyStats.model";
 
 export const getChapter = async (novelSlug: string, chapterIndex: number) => {
   try {
     await connectToDB();
-    const chapter = await Chapter.findOne({
-      novelSlug,
-      chapterIndex,
-    });
-    await Novel.findOneAndUpdate(
-      {
-        novelSlug,
-      },
-      {
-        $inc: { readCount: 1 },
-      }
-    );
+    const currentDate = new Date();
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+
+    const [chapter, novel] = await Promise.all([
+      Chapter.findOne({ novelSlug, chapterIndex }),
+      Novel.findOneAndUpdate({ novelSlug }, { $inc: { readCount: 1 } }),
+    ]);
+
+    if (novel) {
+      await MonthlyStats.findOneAndUpdate(
+        { clerkId: novel.uploader, month, year },
+        { $inc: { readCount: 1 } },
+        { upsert: true, setDefaultsOnInsert: true }
+      );
+    }
 
     if (!chapter) return createResponse(null, "Không tìm thấy chương!", 404);
     return createResponse(chapter, "Success!", 200);

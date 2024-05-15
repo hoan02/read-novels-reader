@@ -47,7 +47,7 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
   return (
     <div className="p-4 font-source-sans-pro">
       <div className="flex justify-between items-center mb-4">
-        <p className="text-lg font-semibold">Danh sÃ¡ch chÆ°Æ¡ng</p>
+        <p className="text-lg font-semibold">Danh sách chương</p>
         <button
           className="text-blue-500 hover:text-blue-700"
           onClick={handleSortToggle}
