@@ -36,8 +36,10 @@ export default function RootLayout({
                 <ToasterProvider />
                 <div className="max-lg:flex-col w-full relative">
                   <Header />
-                  <Banner />
-                  <main className="max-w-7xl mx-auto p-4 relative top-52">
+                  <div className="hidden lg:block">
+                    <Banner />
+                  </div>
+                  <main className="max-w-7xl mx-auto lg:p-4 relative lg:top-52">
                     {children}
                   </main>
                   <Footer />

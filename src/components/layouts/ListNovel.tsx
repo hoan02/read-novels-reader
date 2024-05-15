@@ -10,7 +10,7 @@ import { getNovels } from "@/lib/data/novel.data";
 
 const Loading = () => {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       {[...Array(8)].map((_, index: number) => (
         <div
           key={index}
@@ -33,7 +33,7 @@ const NovelGrid = async () => {
 
   if (status === 200) {
     return (
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {novels.slice(0, 8).map((novel: NovelType, index: number) => (
           <div
             key={index}

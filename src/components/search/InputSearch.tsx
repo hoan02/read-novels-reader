@@ -32,13 +32,13 @@ const InputSearch = () => {
   }, [debouncedValue]);
 
   return (
-    <div className="flex-1 mx-10 relative max-w-md">
+    <div className="flex-1 relative max-w-md">
       <input
         className="w-full px-5 py-2 rounded-full border-none focus:outline-green-500 font-normal text-sm"
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="Tìm kiếm truyện..."
+        placeholder="Tìm truyện..."
       />
       <Search
         className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer opacity-40"

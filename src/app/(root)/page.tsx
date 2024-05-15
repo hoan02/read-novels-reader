@@ -5,11 +5,11 @@ import ListReading from "@/components/layouts/ListReading";
 const HomePage = async () => {
   return (
     <div className="bg-white shadow p-4 rounded-xl">
-      <div className="flex gap-4">
-        <div className="w-3/4">
+      <div className="lg:flex gap-4">
+        <div className="lg:w-3/4">
           <ListNovel />
         </div>
-        <div className="w-1/4">
+        <div className="lg:w-1/4">
           <ListReading />
           <Guide />
         </div>

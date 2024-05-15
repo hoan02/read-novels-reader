@@ -70,11 +70,11 @@ export const menuAccount: MenuIconType[] = [
     name: "Premium",
     slug: "/tai-khoan/nang-cap",
   },
-  {
-    icon: BellRing,
-    name: "Thông báo",
-    slug: "/tai-khoan/thong-bao",
-  },
+  // {
+  //   icon: BellRing,
+  //   name: "Thông báo",
+  //   slug: "/tai-khoan/thong-bao",
+  // },
   {
     icon: MessageSquareWarning,
     name: "Trợ giúp & Báo lỗi",

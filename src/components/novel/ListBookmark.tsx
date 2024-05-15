@@ -49,7 +49,7 @@ const ListBookmark = () => {
 
   return (
     <div className="pb-4 border-b-2 border-gray-100">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
         {bookmarks?.data?.map((novel: any, index: number) => (
           <div key={index} className="flex bg-gray-100 p-2 rounded relative">
             <div
