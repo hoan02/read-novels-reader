@@ -1,32 +1,24 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { auth } from "@clerk/nextjs/server";
 import connectToDB from "@/lib/mongodb/mongoose";
 import Novel from "@/lib/models/novel.model";
-import Chapter from "../models/chapter.model";
+import MonthlyStats from "../models/monthlyStats.model";
 
-export const updateNovel = async (data: any) => {
-  const { novelId, novelName, genres, author, urlCover, description } = data;
-
+export const updateReadNovel = async (novelId: string) => {
+  const currentDate = new Date();
+  const month = currentDate.getMonth();
+  const year = currentDate.getFullYear();
   try {
     await connectToDB();
-    await Novel.findByIdAndUpdate(
-      novelId,
-      {
-        novelName,
-        genres,
-        author,
-        urlCover,
-        description,
-      },
-      {
-        new: true,
-      }
+    const novel = await Novel.findByIdAndUpdate(novelId, {
+      $inc: { readCount: 1 },
+    });
+    await MonthlyStats.findOneAndUpdate(
+      { clerkId: novel.uploader, month, year },
+      { $inc: { readCount: 1 } },
+      { upsert: true, setDefaultsOnInsert: true }
     );
-    revalidatePath("/danh-sach-truyen");
   } catch (err) {
     return new Error("Không thể cập nhật truyện!");
   }
 };
-

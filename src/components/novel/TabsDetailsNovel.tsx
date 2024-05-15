@@ -37,12 +37,12 @@ const TabsDetailsNovel = ({ novel }: { novel: NovelType }) => {
       chip: novel.chapterCount,
       content: <MenuChapter novelSlug={novel.novelSlug} />,
     },
-    {
-      label: "Bình luận",
-      value: "binh-luan",
-      chip: novel.commentCount,
-      content: <Comment />,
-    },
+    // {
+    //   label: "Bình luận",
+    //   value: "binh-luan",
+    //   chip: novel.commentCount,
+    //   content: <Comment />,
+    // },
     {
       label: "Đề cử",
       value: "de-cu",

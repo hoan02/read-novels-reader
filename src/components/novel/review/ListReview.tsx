@@ -25,20 +25,20 @@ const ListReview = ({ novelSlug }: { novelSlug: string }) => {
 
       <div className="space-y-2">
         {data?.data?.map((review: any, index: number) => (
-          <div key={index} className="p-4 pb-6 bg-slate-50 rounded-lg">
-            <div className="flex gap-4 justify-between">
+          <div key={index} className="p-2 md:p-4 pb-6 bg-slate-50 rounded-lg">
+            <div className="flex gap-2 lg:gap-4 justify-between">
               <AvatarFrame
                 src={review.userInfo?.avatar}
                 frame={review.userInfo?.publicMetadata?.frameAvatar}
               />
               <div className="flex-1">
                 <div className="text-sm font-bold">
-                  {review.userInfo.username}
+                  {review.userInfo.firstName} {review.userInfo.lastName}
                 </div>
                 <div className="mt-2 font-mono">{review.reviewContent}</div>
               </div>
 
-              <div className="w-[48px] h-[48px] bg-white rounded-[24px] flex items-center justify-center">
+              <div className="w-6 h-6 rounded-[12px] md:w-12 md:h-12 md:rounded-[24px] flex items-center justify-center bg-white">
                 <p className="text-sm font-bold text-red-500">
                   {review.avgScore}
                 </p>

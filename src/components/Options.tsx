@@ -164,7 +164,7 @@ const Options = ({
       </div>
 
       <Dialog open={openListChapter} onClose={() => setOpenListChapter(false)}>
-        <DialogContent className="w-[600px] h-[800px]">
+        <DialogContent className="md:w-[600px] md:h-[800px] min-w-[360px]">
           <div className="font-bold text-xl mb-2">
             [{novel.novelName}] - {novel.chapterCount} chương
           </div>
@@ -173,7 +173,7 @@ const Options = ({
         </DialogContent>
       </Dialog>
       <Dialog open={openSetting} onClose={() => setOpenSetting(false)}>
-        <DialogContent className="w-[600px] h-[800px]">
+        <DialogContent className="md:w-[600px] md:h-[800px] min-w-[360px]">
           <div className="font-bold text-xl mb-2">Cấu hình</div>
           <Divider />
           <Setting settings={settings} setSettings={setSettings} />

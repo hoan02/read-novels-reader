@@ -229,9 +229,9 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
           <X />
         </div>
       )}
-      <div className="lg:flex">
-        <div className="lg:w-2/3 font-semibold">
-          <div className="p-2 lg:flex items-center gap-4">
+      <div className="md:flex">
+        <div className="md:w-2/3 font-semibold">
+          <div className="p-2 md:flex items-center gap-4">
             <p className="w-[160px]">Tính cách nhân vật</p>
             <Rating
               name="hover-feedback-character"
@@ -244,15 +244,17 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
                 setHoverCharacter(newHover);
               }}
             />
-            {formData.valueCharacter !== null &&
-              (labels as { [key: string]: string })[
-                (hoverCharacter !== -1
-                  ? hoverCharacter
-                  : formData.valueCharacter
-                ).toString()
-              ]}
+            <div>
+              {formData.valueCharacter !== null &&
+                (labels as { [key: string]: string })[
+                  (hoverCharacter !== -1
+                    ? hoverCharacter
+                    : formData.valueCharacter
+                  ).toString()
+                ]}
+            </div>
           </div>
-          <div className="p-2 lg:flex items-center gap-4">
+          <div className="p-2 md:flex items-center gap-4">
             <p className="w-[160px]">Nội dung cốt truyện</p>
             <Rating
               name="hover-feedback-plot"
@@ -265,12 +267,14 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
                 setHoverPlot(newHover);
               }}
             />
-            {formData.valuePlot !== null &&
-              (labels as { [key: string]: string })[
-                (hoverPlot !== -1 ? hoverPlot : formData.valuePlot).toString()
-              ]}
+            <div>
+              {formData.valuePlot !== null &&
+                (labels as { [key: string]: string })[
+                  (hoverPlot !== -1 ? hoverPlot : formData.valuePlot).toString()
+                ]}
+            </div>
           </div>
-          <div className="p-2 lg:flex items-center gap-4">
+          <div className="p-2 md:flex items-center gap-4">
             <p className="w-[160px]">Bố cục thế giới</p>
             <Rating
               name="hover-feedback-world"
@@ -283,16 +287,18 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
                 setHoverWorld(newHover);
               }}
             />
-            {formData.valueWorld !== null &&
-              (labels as { [key: string]: string })[
-                (hoverWorld !== -1
-                  ? hoverWorld
-                  : formData.valueWorld
-                ).toString()
-              ]}
+            <div>
+              {formData.valueWorld !== null &&
+                (labels as { [key: string]: string })[
+                  (hoverWorld !== -1
+                    ? hoverWorld
+                    : formData.valueWorld
+                  ).toString()
+                ]}
+            </div>
           </div>
         </div>
-        <div className="lg:w-1/3 flex items-center gap-4">
+        <div className="md:w-1/3 flex items-center gap-4">
           <div className="w-[80px] h-[80px] bg-white rounded-[40px] flex items-center justify-center">
             <p className="text-xl font-bold text-red-500">
               {formData.rating}/10

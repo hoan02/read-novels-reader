@@ -24,7 +24,7 @@ const ReadingButton = ({ novelSlug }: { novelSlug: string }) => {
       <Button
         variant="outlined"
         style={{
-          width: "150px",
+          width: "160px",
           borderRadius: "30px",
           textTransform: "none",
           fontSize: "16px",

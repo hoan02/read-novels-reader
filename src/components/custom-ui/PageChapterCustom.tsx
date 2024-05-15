@@ -7,8 +7,9 @@ import Options from "../Options";
 import { defaultSettings } from "@/lib/constants";
 import useLocalStorage from "@/lib/hooks/useLocalStorage";
 import { createOrUpdateReading } from "@/lib/actions/reading.action";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { updateReadNovel } from "@/lib/actions/novel.action";
 
 const PageChapterCustom = ({
   novel,
@@ -19,6 +20,7 @@ const PageChapterCustom = ({
 }) => {
   const queryClient = useQueryClient();
   const [settings, setSettings] = useLocalStorage("settings", defaultSettings);
+  const [hasRead, setHasRead] = useState(false);
 
   const handleReading = useMutation({
     mutationFn: () =>
@@ -30,9 +32,29 @@ const PageChapterCustom = ({
     },
   });
 
+  const handleRead = async () => {
+    await updateReadNovel(novel._id);
+  };
+
   useEffect(() => {
     handleReading.mutate();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolledPercentage =
+        (window.scrollY + window.innerHeight) /
+        document.documentElement.scrollHeight;
+      if (scrolledPercentage > 0.8 && !hasRead) {
+        handleRead();
+        setHasRead(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasRead]);
 
   return (
     <div

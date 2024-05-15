@@ -35,7 +35,7 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
 
   return (
     <div className="bg-white shadow-md p-2 lg:p-4 rounded-xl">
-      <div className="lg:flex flex-cols-1 gap-4">
+      <div className="md:flex flex-cols-1 gap-4">
         <Image
           className="mx-auto mb-2"
           alt={novel.novelName}
@@ -44,7 +44,7 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
           height={320}
           style={{ objectFit: "contain" }}
         />
-        <div className="lg:flex-1 lg:mx-4 mx-2">
+        <div className="sm:flex-1 sm:mx-4 mx-2">
           <div className="flex gap-2 items-center">
             <h1 className="text-2xl font-semibold text-green-800">
               {novel.novelName}
@@ -87,7 +87,7 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
           </div>
           <div className="my-4 flex items-center text-sm">
             <Rating
-              // size="small"
+              size="small"
               precision={0.5}
               defaultValue={novel.reviews.avgScore}
               max={10}
@@ -98,14 +98,14 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
             </span>
             <span className="ml-1">{`(${novel.reviews.count} đánh giá)`}</span>
           </div>
-          <div className="lg:flex grid gap-4">
+          <div className="sm:flex grid gap-4">
             <ReadingButton novelSlug={novelSlug} />
             <BookmarkButton novelSlug={novelSlug} />
             <NominationButton novelSlug={novelSlug} />
           </div>
         </div>
       </div>
-      <div className="mt-10">
+      <div className="mt-2">
         <TabsDetailsNovel novel={novel} />
       </div>
     </div>
