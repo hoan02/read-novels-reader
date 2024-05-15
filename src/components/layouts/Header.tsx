@@ -182,7 +182,11 @@ const Header = () => {
         <InputSearch />
         <div className="mx-2">
           <div className="cursor-pointer" onClick={() => setOpen(!open)}>
-            <Menu />
+            {avatar ? (
+              <AvatarFrame src={avatar} frame={frameAvatar} size={40} />
+            ) : (
+              <Menu size={32} />
+            )}
           </div>
         </div>
       </div>
@@ -206,14 +210,16 @@ const Header = () => {
             )}
             <div className="text-sm font-semibold">{fullName}</div>
           </div>
-          <div className="flex flex-col gap-2 pb-2 border-b-[1px]">
+          <div className="flex flex-col pb-2 border-b-[1px]">
             <Link
+              className="p-2 hover:bg-slate-50"
               onClick={() => setOpen(!open)}
               href="/tim-truyen"
             >
               👉 Bảng xếp hạng
             </Link>
             <Link
+              className="p-2 hover:bg-slate-50"
               onClick={() => setOpen(!open)}
               href="https://writer.doctruyen.io.vn"
               target="_blank"
@@ -251,7 +257,7 @@ const Header = () => {
                 <SignOutButton>
                   <button
                     onClick={() => setOpen(!open)}
-                    className="flex text-red-600 gap-4 pt-2 border-gray-400 p-2 hover:bg-slate-50"
+                    className="w-full flex text-red-600 gap-4 pt-2 p-2 hover:bg-slate-50"
                   >
                     <LogOut size={24} />
                     Đăng xuất

@@ -14,18 +14,20 @@ const UpdateAccountPage = () => {
     premiumEndDate,
   } = getUserInfoServer();
   return (
-    <div className="flex w-full h-full justify-center items-center font-mono border-[1px] my-2 rounded-lg p-4">
+    <div className="flex w-full h-full justify-center items-center font-mono border-[1px] rounded-lg p-2 lg:p-4">
       {premiumState ? (
-        <div className="flex gap-10">
-          <div>
-            {avatar && (
-              <AvatarFrame
-                src={avatar}
-                frame={frameAvatar}
-                size={180}
-                padding={5}
-              />
-            )}
+        <div className="lg:flex gap-10">
+          <div className="flex flex-col">
+            <div className="mx-auto">
+              {avatar && (
+                <AvatarFrame
+                  src={avatar}
+                  frame={frameAvatar}
+                  size={180}
+                  padding={5}
+                />
+              )}
+            </div>
             <p className="text-center">
               {frameAvatar === "reader-vip-1" ? "Khung bạc" : "Khung vàng"}
             </p>
@@ -34,7 +36,7 @@ const UpdateAccountPage = () => {
             <p className="text-lg font-semibold">
               Tài khoản của bạn đã được nâng cấp lên Premium!
             </p>
-            <table className="w-[300px] mt-4">
+            <table className="w-[280px] mt-4">
               <tbody>
                 <tr>
                   <td className="font-semibold">Hạng nâng cấp:</td>

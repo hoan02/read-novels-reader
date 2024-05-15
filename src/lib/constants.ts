@@ -67,7 +67,7 @@ export const menuAccount: MenuIconType[] = [
   },
   {
     icon: ScanBarcode,
-    name: "Premium",
+    name: "Nâng cấp",
     slug: "/tai-khoan/nang-cap",
   },
   // {

@@ -9,7 +9,7 @@ const SettingPage = () => {
   const [settings, setSettings] = useLocalStorage("settings", defaultSettings);
 
   return (
-    <div className="my-2 w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4">
       <div className="w-full border-[1px] p-4 rounded-lg">
         <Setting settings={settings} setSettings={setSettings} />
       </div>

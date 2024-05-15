@@ -22,7 +22,7 @@ const questions = [
 
 const Guide = () => {
   return (
-    <div className="mt-4">
+    <div>
       <h2 className="mb-2 text-lg font-semibold">Hướng dẫn</h2>
       <ul className="list-disc">
         {questions.map(({ id, question }) => (

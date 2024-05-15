@@ -33,7 +33,7 @@ export default function AccountLayout({ children }: AccountLayoutProps) {
           );
         })}
       </div>
-      <div className="flex-1 pr-2">{children}</div>
+      <div className="flex-1 mt-2 lg:mt-0 pr-2 lg:pr-0">{children}</div>
     </div>
   );
 }

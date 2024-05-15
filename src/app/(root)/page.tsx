@@ -9,7 +9,7 @@ const HomePage = async () => {
         <div className="lg:w-3/4">
           <ListNovel />
         </div>
-        <div className="lg:w-1/4">
+        <div className="lg:w-1/4 space-y-4 mt-4 lg:mt-0">
           <ListReading />
           <Guide />
         </div>

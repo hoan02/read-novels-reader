@@ -20,14 +20,6 @@
   width: 100%;
 }
 
-.cl-userProfile-root {
-  border: none;
-}
-
-.cl-organizationSwitcherPopoverActionButton__createOrganization {
-  display: none;
-}
-
 .premium-banner {
   position: relative;
   overflow: hidden;
