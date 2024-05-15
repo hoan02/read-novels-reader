@@ -55,7 +55,13 @@ const TabsDetailsNovel = ({ novel }: { novel: NovelType }) => {
     <Box sx={{ width: "100%", typography: "body1" }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="Tabs details novel">
+          <TabList
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
+            onChange={handleChange}
+            aria-label="Tabs details novel"
+          >
             {tabList.map((tab) => {
               return (
                 <Tab

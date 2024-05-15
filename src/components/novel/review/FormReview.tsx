@@ -229,9 +229,9 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
           <X />
         </div>
       )}
-      <div className="flex">
-        <div className="w-2/3 font-semibold">
-          <div className="p-2 flex items-center gap-4">
+      <div className="lg:flex">
+        <div className="lg:w-2/3 font-semibold">
+          <div className="p-2 lg:flex items-center gap-4">
             <p className="w-[160px]">Tính cách nhân vật</p>
             <Rating
               name="hover-feedback-character"
@@ -252,7 +252,7 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
                 ).toString()
               ]}
           </div>
-          <div className="p-2 flex items-center gap-4">
+          <div className="p-2 lg:flex items-center gap-4">
             <p className="w-[160px]">Nội dung cốt truyện</p>
             <Rating
               name="hover-feedback-plot"
@@ -270,7 +270,7 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
                 (hoverPlot !== -1 ? hoverPlot : formData.valuePlot).toString()
               ]}
           </div>
-          <div className="p-2 flex items-center gap-4">
+          <div className="p-2 lg:flex items-center gap-4">
             <p className="w-[160px]">Bố cục thế giới</p>
             <Rating
               name="hover-feedback-world"
@@ -292,7 +292,7 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
               ]}
           </div>
         </div>
-        <div className="w-1/3 flex items-center gap-4">
+        <div className="lg:w-1/3 flex items-center gap-4">
           <div className="w-[80px] h-[80px] bg-white rounded-[40px] flex items-center justify-center">
             <p className="text-xl font-bold text-red-500">
               {formData.rating}/10

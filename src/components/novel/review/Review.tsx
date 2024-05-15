@@ -6,12 +6,12 @@ import ListReview from "./ListReview";
 
 const Review = ({ novel }: { novel: NovelType }) => {
   return (
-    <div className="flex gap-4 font-source-sans-pro text-green-700">
-      <div className="w-2/3">
+    <div className="lg:flex gap-4 font-source-sans-pro text-green-700">
+      <div className="lg:w-2/3">
         <FormReview novelSlug={novel.novelSlug} />
         <ListReview novelSlug={novel.novelSlug} />
       </div>
-      <div className="w-1/3">
+      <div className="lg:w-1/3">
         <div className="bg-green-50 p-4 rounded-lg space-y-4">
           <p className="text-lg font-semibold">
             Đã có {novel.reviews.count} đánh giá

@@ -34,28 +34,28 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
   }
 
   return (
-    <div className="bg-white shadow-md p-4 rounded-xl">
-      <div className="flex gap-4">
-        <div className="w-[240-px] h-[320px]">
-          <Image
-            alt={novel.novelName}
-            src={novel.urlCover}
-            width={240}
-            height={320}
-            className="w-full h-full"
-          />
-        </div>
-        <div className="flex-1 mx-4">
+    <div className="bg-white shadow-md p-2 lg:p-4 rounded-xl">
+      <div className="lg:flex flex-cols-1 gap-4">
+        <Image
+          className="mx-auto mb-2"
+          alt={novel.novelName}
+          src={novel.urlCover}
+          width={240}
+          height={320}
+          style={{ objectFit: "contain" }}
+        />
+        <div className="lg:flex-1 lg:mx-4 mx-2">
           <div className="flex gap-2 items-center">
             <h1 className="text-2xl font-semibold text-green-800">
               {novel.novelName}
             </h1>
             <Flag />
           </div>
-          <div className="flex gap-2 items-center my-6">
+          <div className="items-center my-6">
             {novel.genres.map((genre: any) => {
               return (
                 <Chip
+                  className="mr-2"
                   key={genre.label}
                   label={genre.label}
                   variant="outlined"
@@ -68,11 +68,7 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
               variant="outlined"
               style={{ color: "#009900", borderColor: "#009900" }}
             />
-            <Chip
-              label={novel.author}
-              variant="outlined"
-              style={{ color: "#990000", borderColor: "#990000" }}
-            />
+            <div className="my-4">Tác giả: {novel.author}</div>
           </div>
           <div className="flex gap-6 my-6">
             <div>
@@ -91,17 +87,18 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
           </div>
           <div className="my-4 flex items-center text-sm">
             <Rating
+              // size="small"
               precision={0.5}
               defaultValue={novel.reviews.avgScore}
               max={10}
               readOnly
             />
-            <span className="ml-4 font-semibold">
+            <span className="ml-2 font-semibold">
               {novel.reviews.avgScore}/10
             </span>
             <span className="ml-1">{`(${novel.reviews.count} đánh giá)`}</span>
           </div>
-          <div className="flex gap-6">
+          <div className="lg:flex grid gap-4">
             <ReadingButton novelSlug={novelSlug} />
             <BookmarkButton novelSlug={novelSlug} />
             <NominationButton novelSlug={novelSlug} />
