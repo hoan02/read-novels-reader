@@ -35,7 +35,7 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
   const handleGotoChapter = (chapter: ChapterType) => {
     if (chapter.isLock && !premiumState) {
       toast.error(
-        "Báº¡n cáº§n nÃ¢ng tÃ i khoáº£n lÃªn premium Äá» cÃ³ thá» Äá»c chÆ°Æ¡ng bá» khÃ³a!"
+        "Bạn cần nâng tài khoản lên premium để có thể đọc chương bị khóa!"
       );
       return;
     }
@@ -63,7 +63,7 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
               onClick={() => handleGotoChapter(chapter)}
               className="text-sm text-gray-600 flex justify-between hover:text-sky-500 border-b border-dotted cursor-pointer"
             >
-              <p>{`ChÆ°Æ¡ng ${chapter.chapterIndex}: ${chapter.chapterName}`}</p>
+              <p>{`Chương ${chapter.chapterIndex}: ${chapter.chapterName}`}</p>
               {chapter.publishedDate && (
                 <p>({formatTimeAgo(chapter.publishedDate)})</p>
               )}
