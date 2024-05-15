@@ -17,7 +17,7 @@ const SingleChapterPage = async ({
     ]);
 
   if (status === 200) {
-    if (!chapter?.isPublic && !premiumState) {
+    if (chapter?.isLock && !premiumState) {
       return (
         <Error
           message={"Chỉ có tài khoản premium mới có quyền đọc chương này!"}
