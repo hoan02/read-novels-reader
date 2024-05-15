@@ -212,14 +212,21 @@ const Header = () => {
           {subMenuAccount?.map((item, index) => {
             const Icon = item.icon;
             return (
-              <div className="flex gap-4 p-2 hover:bg-slate-50" key={index}>
+              <div
+                onClick={() => setOpen(!open)}
+                className="flex gap-4 p-2 hover:bg-slate-50"
+                key={index}
+              >
                 <Icon size={24} />
                 <Link href={item.slug}>{item.name}</Link>
               </div>
             );
           })}
           {role === "admin" && (
-            <div className="flex gap-4 text-blue-600 p-2 hover:bg-slate-50">
+            <div
+              onClick={() => setOpen(!open)}
+              className="flex gap-4 text-blue-600 p-2 hover:bg-slate-50"
+            >
               <UserRoundCog size={24} />
               <Link href="https://admin.doctruyen.io.vn/" target="_blank">
                 Quản lý
@@ -228,7 +235,10 @@ const Header = () => {
           )}
           {fullName && (
             <SignOutButton>
-              <button className="flex text-red-600 gap-4 pt-2 border-gray-400 p-2 hover:bg-slate-50">
+              <button
+                onClick={() => setOpen(!open)}
+                className="flex text-red-600 gap-4 pt-2 border-gray-400 p-2 hover:bg-slate-50"
+              >
                 <LogOut size={24} />
                 Đăng xuất
               </button>

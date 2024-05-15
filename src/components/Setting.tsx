@@ -33,21 +33,20 @@ const Setting = ({
   };
 
   return (
-    <div className="flex flex-col p-4 gap-4">
+    <div className="flex flex-col lg:p-4 gap-4">
       <div className="flex items-center justify-between">
         <label htmlFor="color">Màu chữ:</label>
         <Select
           id="color"
-          className="w-[200px]"
+          className="w-[120px] lg:w-[200px]"
           value={settings.color}
           onChange={handleSettingChange("color")}
         >
           {colors.map((color) => (
             <MenuItem key={color} value={color}>
               <div
+                className="w-[80px] lg:w-[150px] h-[20px]"
                 style={{
-                  width: "150px",
-                  height: "20px",
                   backgroundColor: color,
                 }}
               />
@@ -60,16 +59,15 @@ const Setting = ({
         <label htmlFor="backgroundColor">Màu nền:</label>
         <Select
           id="backgroundColor"
-          className="w-[200px]"
+          className="w-[120px] lg:w-[200px]"
           value={settings.backgroundColor}
           onChange={handleSettingChange("backgroundColor")}
         >
           {backgroundColors.map((color) => (
             <MenuItem key={color} value={color}>
               <div
+                className="w-[80px] lg:w-[150px] h-[20px]"
                 style={{
-                  width: "150px",
-                  height: "20px",
                   backgroundColor: color,
                 }}
               />
@@ -82,7 +80,7 @@ const Setting = ({
         <label htmlFor="fontSize">Cỡ chữ:</label>
         <Select
           id="fontSize"
-          className="w-[200px]"
+          className="w-[120px] lg:w-[200px]"
           value={settings.fontSize}
           onChange={handleSettingChange("fontSize")}
         >
@@ -98,7 +96,7 @@ const Setting = ({
         <label htmlFor="fontFamily">Font chữ:</label>
         <Select
           id="fontFamily"
-          className="w-[200px]"
+          className="w-[120px] lg:w-[200px]"
           value={settings.fontFamily}
           onChange={handleSettingChange("fontFamily")}
         >
@@ -114,7 +112,7 @@ const Setting = ({
         <label htmlFor="textAlign">Canh lề:</label>
         <Select
           id="textAlign"
-          className="w-[200px]"
+          className="w-[120px] lg:w-[200px]"
           value={settings.textAlign}
           onChange={handleSettingChange("textAlign")}
         >
@@ -127,10 +125,10 @@ const Setting = ({
       </div>
 
       <div className="flex items-center justify-between">
-        <label htmlFor="lineHeight">Khoảng cách dòng:</label>
+        <label htmlFor="lineHeight">Giãn dòng:</label>
         <Select
           id="lineHeight"
-          className="w-[200px]"
+          className="w-[120px] lg:w-[200px]"
           value={settings.lineHeight}
           onChange={handleSettingChange("lineHeight")}
         >

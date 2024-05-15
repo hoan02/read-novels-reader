@@ -16,24 +16,22 @@ export default function AccountLayout({ children }: AccountLayoutProps) {
 
   return (
     <div className="flex bg-white lg:shadow-md lg:p-4 lg:gap-4 gap-2 rounded-xl">
-      <div className="w-max-content border-r-2 ">
-        <div>
-          {menuAccount?.map((item: MenuIconType) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                href={item.slug}
-                className={`flex gap-4 p-4 ${
-                  currentPath === item.slug ? "bg-green-500 text-white" : ""
-                }`}
-                key={item.slug}
-              >
-                <Icon />
-                <span className="sm:block hidden">{item.name}</span>
-              </Link>
-            );
-          })}
-        </div>
+      <div className="border-r-[1px]">
+        {menuAccount?.map((item: MenuIconType) => {
+          const Icon = item.icon;
+          return (
+            <Link
+              href={item.slug}
+              className={`flex gap-4 p-4 ${
+                currentPath === item.slug ? "bg-green-500 text-white" : ""
+              }`}
+              key={item.slug}
+            >
+              <Icon />
+              <span className="sm:block hidden">{item.name}</span>
+            </Link>
+          );
+        })}
       </div>
       <div className="flex-1">{children}</div>
     </div>

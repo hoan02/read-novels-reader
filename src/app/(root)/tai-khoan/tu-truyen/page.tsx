@@ -15,7 +15,7 @@ const NovelShelfPage = () => {
   };
 
   return (
-    <div className="">
+    <div className="border-[1px] my-2 rounded-lg">
       <TabContext value={value}>
         <TabList onChange={handleChange} className="border-b-2">
           <Tab label="Đang đọc" value="1" />

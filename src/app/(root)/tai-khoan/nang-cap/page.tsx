@@ -14,7 +14,7 @@ const UpdateAccountPage = () => {
     premiumEndDate,
   } = getUserInfoServer();
   return (
-    <div className="flex w-full h-full justify-center items-center font-mono">
+    <div className="flex w-full h-full justify-center items-center font-mono border-[1px] my-2 rounded-lg">
       {premiumState ? (
         <div className="flex gap-10">
           <div>
