@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
+import { useQuery } from "@tanstack/react-query";
+import { LinearProgress } from "@mui/material";
 
 import { getRecentlyReading } from "@/lib/data/reading.data";
-import { ErrorType } from "@/types/types";
-import Error from "../layouts/Error";
 
 interface NovelDetail {
   urlCover: string;
@@ -18,76 +17,66 @@ interface NovelDetail {
 }
 
 const ListReading = () => {
-  const [readNovels, setReadNovels] = useState<NovelDetail[]>([]);
-  const [error, setError] = useState<ErrorType>({ message: "", status: null });
-  const { isSignedIn } = useUser();
+  const { isLoaded, userId } = useAuth();
+  const { data, isLoading } = useQuery({
+    queryKey: ["reading"],
+    queryFn: async () => {
+      return await getRecentlyReading(5);
+    },
+    enabled: isLoaded,
+  });
 
-  useEffect(() => {
-    const fetchRecentlyReadNovels = async () => {
-      try {
-        if (isSignedIn) {
-          const { data, message, status } = await getRecentlyReading(5);
-          if (status === 200) {
-            setReadNovels(data);
-          } else {
-            setError({ message, status });
-          }
-        }
-      } catch (err: any) {
-        setError({ message: err.message, status: err.status });
-      }
-    };
+  if (isLoading && isLoaded) {
+    return <LinearProgress />;
+  }
 
-    fetchRecentlyReadNovels();
-  }, [isSignedIn]);
-
-  if (!isSignedIn) {
+  if (!userId) {
     return null;
   }
 
-  if (error.status) {
-    return <Error message={error.message} status={error.status} />;
-  }
-  return (
-    <div className="pb-4 border-b-2 border-gray-100">
-      <h2 className="mb-4 text-lg font-semibold">Đang đọc</h2>
-      <div className="grid grid-cols-1 gap-2">
-        {readNovels?.map((novel, index) => (
-          <div
-            key={index}
-            className="flex items-center bg-gray-100 p-2 rounded"
-          >
-            <Image
-              src={novel.urlCover}
-              alt={novel.novelName}
-              width={48}
-              height={64}
-              className="object-cover"
-            />
-            <div className="ml-4 flex-grow">
-              <Link
-                href={`/truyen/${novel.novelSlug}`}
-                className="text-sm font-semibold hover:text-green-500 cursor-pointer"
-              >
-                {novel.novelName?.length > 50
-                  ? `${novel.novelName.substring(0, 50)}...`
-                  : novel.novelName}
-              </Link>
-              <p className="mt-2 text-sm text-gray-600 flex justify-between">
-                Đang đọc: {novel.chapterIndex}/{novel.chapterCount}
+  if (data?.status === 200) {
+    return (
+      <div className="pb-4 border-b-2 border-gray-100">
+        <h2 className="mb-4 text-lg font-semibold">Đang đọc</h2>
+        <div className="grid grid-cols-1 gap-2">
+          {data?.data?.map((novel: NovelDetail, index: number) => (
+            <div
+              key={index}
+              className="flex items-center bg-gray-100 p-2 rounded"
+            >
+              <Image
+                src={novel.urlCover}
+                alt={novel.novelName}
+                width={48}
+                height={64}
+                className="object-cover"
+              />
+              <div className="ml-4 flex-grow">
                 <Link
-                  href={`/truyen/${novel.novelSlug}/${novel.chapterIndex}`}
-                  className="text-xs text-red-600 hover:text-green-500 cursor-pointer ml-2"
+                  href={`/truyen/${novel.novelSlug}`}
+                  className="text-sm font-semibold hover:text-green-500 cursor-pointer"
                 >
-                  Đọc tiếp
+                  {novel.novelName?.length > 50
+                    ? `${novel.novelName.substring(0, 50)}...`
+                    : novel.novelName}
                 </Link>
-              </p>
+                <p className="mt-2 text-sm text-gray-600 flex justify-between">
+                  Đang đọc: {novel.chapterIndex}/{novel.chapterCount}
+                  <Link
+                    href={`/truyen/${novel.novelSlug}/${novel.chapterIndex}`}
+                    className="text-xs text-red-600 hover:text-green-500 cursor-pointer ml-2"
+                  >
+                    Đọc tiếp
+                  </Link>
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  return null;
 };
 
 export default ListReading;

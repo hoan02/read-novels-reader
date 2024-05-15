@@ -1,28 +1,33 @@
-"use server"
+import mongoose, { ConnectOptions } from "mongoose";
 
-import mongoose from 'mongoose';
+let isConnected = false;
 
-const MONGO_URI = process.env.MONGO_URI;
-const cached: { connection?: typeof mongoose; promise?: Promise<typeof mongoose> } = {};
-async function connectToDB() {
-    if (!MONGO_URI) {
-        throw new Error('Please define the MONGO_URI environment variable inside .env.local');
-    }
-    if (cached.connection) {
-        return cached.connection;
-    }
-    if (!cached.promise) {
-        const opts = {
-            bufferCommands: false,
-        };
-        cached.promise = mongoose.connect(MONGO_URI, opts);
-    }
-    try {
-        cached.connection = await cached.promise;
-    } catch (e) {
-        cached.promise = undefined;
-        throw e;
-    }
-    return cached.connection;
-}
+const connectToDB = async () => {
+  mongoose.set("strictQuery", true);
+
+  const mongoUrl = process.env.MONGO_URI;
+
+  if (!mongoUrl) {
+    console.error("MONGO_URI không được định nghĩa trong biến môi trường");
+    return;
+  }
+
+  if (isConnected) {
+    // console.log("MongoDB đã được kết nối trước đó");
+    return;
+  }
+
+  try {
+    await mongoose.connect(mongoUrl, {
+      //   dbName: "read_novel_v2",
+    } as ConnectOptions);
+
+    isConnected = true;
+
+    // console.log("MongoDB đã kết nối");
+  } catch (error) {
+    console.error("Lỗi kết nối đến MongoDB:", error);
+  }
+};
+
 export default connectToDB;

@@ -37,7 +37,6 @@ export const getNovels = async () => {
 export const getNovelsByParams = async (searchParams: any) => {
   try {
     await connectToDB();
-
     const query = {
       isPublic: true,
       ...(searchParams.type && {

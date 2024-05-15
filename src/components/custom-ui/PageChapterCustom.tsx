@@ -1,9 +1,13 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { ChapterType, NovelType } from "@/types/types";
 import Options from "../Options";
 import { defaultSettings } from "@/lib/constants";
 import useLocalStorage from "@/lib/hooks/useLocalStorage";
+import { createOrUpdateReading } from "@/lib/actions/reading.action";
+import { useEffect } from "react";
 
 const PageChapterCustom = ({
   novel,
@@ -12,7 +16,22 @@ const PageChapterCustom = ({
   novel: NovelType;
   chapter: ChapterType;
 }) => {
+  const queryClient = useQueryClient();
   const [settings, setSettings] = useLocalStorage("settings", defaultSettings);
+
+  const handleReading = useMutation({
+    mutationFn: () =>
+      createOrUpdateReading(novel.novelSlug, chapter.chapterIndex),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({
+        queryKey: ["reading"],
+      });
+    },
+  });
+
+  useEffect(() => {
+    handleReading.mutate();
+  }, []);
 
   return (
     <div
@@ -51,5 +70,3 @@ const PageChapterCustom = ({
 };
 
 export default PageChapterCustom;
-
-// export const dynamic = "force-dynamic";

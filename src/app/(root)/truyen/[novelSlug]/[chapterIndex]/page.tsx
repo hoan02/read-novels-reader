@@ -1,7 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
-
 import Error from "@/components/layouts/Error";
-import { createOrUpdateReading } from "@/lib/actions/reading.action";
 import { getChapter } from "@/lib/data/chapter.data";
 import { getNovel } from "@/lib/data/novel.data";
 import PageChapterCustom from "@/components/custom-ui/PageChapterCustom";
@@ -12,7 +9,6 @@ const SingleChapterPage = async ({
 }: {
   params: { novelSlug: string; chapterIndex: number };
 }) => {
-  const { userId } = auth();
   const { premiumState } = getUserInfoServer();
   const [{ data: chapter, message, status }, { data: novel }] =
     await Promise.all([
@@ -21,10 +17,7 @@ const SingleChapterPage = async ({
     ]);
 
   if (status === 200) {
-    if (userId)
-      await createOrUpdateReading(params.novelSlug, params.chapterIndex);
     if (!chapter?.isPublic && !premiumState) {
-      // chapter.content = "";
       return (
         <Error
           message={"Chỉ có tài khoản premium mới có quyền đọc chương này!"}

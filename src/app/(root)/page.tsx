@@ -1,3 +1,5 @@
+import { currentUser } from "@clerk/nextjs/server";
+
 import Guide from "@/components/layouts/Guide";
 import ListNovel from "@/components/layouts/ListNovel";
 import ListReading from "@/components/layouts/ListReading";
@@ -19,5 +21,3 @@ const HomePage = async () => {
 };
 
 export default HomePage;
-
-export const dynamic = "force-dynamic";
