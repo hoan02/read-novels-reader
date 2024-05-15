@@ -8,6 +8,7 @@ import { defaultSettings } from "@/lib/constants";
 import useLocalStorage from "@/lib/hooks/useLocalStorage";
 import { createOrUpdateReading } from "@/lib/actions/reading.action";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const PageChapterCustom = ({
   novel,
@@ -45,7 +46,9 @@ const PageChapterCustom = ({
         <Options novel={novel} settings={settings} setSettings={setSettings} />
       </div>
       <h1 className="text-lg py-4 text-center">
-        [{novel.novelName}]-{novel.author}
+        <Link href={`/truyen/${novel.novelSlug}`}>
+          [{novel.novelName}] - {novel.author}
+        </Link>
       </h1>
       <h1 className="text-3xl text-center">
         Chương {chapter.chapterIndex}: {chapter.chapterName}

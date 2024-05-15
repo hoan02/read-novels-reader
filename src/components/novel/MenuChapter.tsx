@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDownUp, BookLock } from "lucide-react";
+import { ArrowDownUp, BookKey, BookLock } from "lucide-react";
 import { LinearProgress } from "@mui/material";
 
 import formatTimeAgo from "@/utils/formatTimeAgo";
@@ -33,13 +33,13 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
   };
 
   const handleGotoChapter = (chapter: ChapterType) => {
-    if (premiumState) {
-      route.push(`/truyen/${chapter.novelSlug}/${chapter.chapterIndex}`);
-    } else {
+    if (chapter.isLock && !premiumState) {
       toast.error(
-        "Bạn cần nâng tài khoản lên premium để có thể đọc chương bị khóa!"
+        "Báº¡n cáº§n nÃ¢ng tÃ i khoáº£n lÃªn premium Äá» cÃ³ thá» Äá»c chÆ°Æ¡ng bá» khÃ³a!"
       );
+      return;
     }
+    route.push(`/truyen/${chapter.novelSlug}/${chapter.chapterIndex}`);
   };
 
   if (isLoading) return <LinearProgress />;
@@ -47,7 +47,7 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
   return (
     <div className="p-4 font-source-sans-pro">
       <div className="flex justify-between items-center mb-4">
-        <p className="text-lg font-semibold">Danh sách chương</p>
+        <p className="text-lg font-semibold">Danh sÃ¡ch chÆ°Æ¡ng</p>
         <button
           className="text-blue-500 hover:text-blue-700"
           onClick={handleSortToggle}
@@ -63,13 +63,16 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
               onClick={() => handleGotoChapter(chapter)}
               className="text-sm text-gray-600 flex justify-between hover:text-sky-500 border-b border-dotted cursor-pointer"
             >
-              <p>{`Chương ${chapter.chapterIndex}: ${chapter.chapterName}`}</p>
-              {chapter.isPublic === false && (
-                <BookLock size={18} className="text-yellow-500" />
-              )}
+              <p>{`ChÆ°Æ¡ng ${chapter.chapterIndex}: ${chapter.chapterName}`}</p>
               {chapter.publishedDate && (
                 <p>({formatTimeAgo(chapter.publishedDate)})</p>
               )}
+              {chapter.isLock &&
+                (premiumState ? (
+                  <BookKey size={18} className="text-green-500" />
+                ) : (
+                  <BookLock size={18} className="text-red-500" />
+                ))}
             </div>
           );
         })}
