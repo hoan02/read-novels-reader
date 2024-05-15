@@ -43,7 +43,7 @@ export const novelRanks: {
 }[] = [
   { name: "Thịnh hành", slug: "thinh-hanh" },
   { name: "Đọc nhiều", slug: "doc-nhieu" },
-  { name: "Tặng thưởng", slug: "tang-thuong" },
+  // { name: "Tặng thưởng", slug: "tang-thuong" },
   { name: "Đề cử", slug: "de-cu" },
   { name: "Yêu thích", slug: "yeu-thich" },
   { name: "Thảo luận", slug: "thao-luan" },

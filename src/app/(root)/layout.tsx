@@ -10,6 +10,7 @@ import { ToasterProvider } from "@/lib/providers/ToasterProvider";
 import TanstackQueryProvider from "@/lib/providers/TanstackQueryProvider";
 import CustomThemeProvider from "@/lib/providers/CustomThemeProvider";
 import "../globals.css";
+import { ClerkLoaded } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -23,32 +24,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="vi"
-      suppressHydrationWarning
-      className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-green-200"
-    >
-      <ClerkVIProvider>
-        <TanstackQueryProvider>
-          <AppRouterCacheProvider>
-            <CustomThemeProvider>
+    <ClerkVIProvider>
+      <TanstackQueryProvider>
+        <AppRouterCacheProvider>
+          <CustomThemeProvider>
+            <html
+              lang="vi"
+              suppressHydrationWarning
+              className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-green-200"
+            >
               <body className={inter.className}>
-                <ToasterProvider />
-                <div className="max-lg:flex-col w-full relative">
-                  <Header />
-                  <div className="hidden lg:block">
-                    <Banner />
+                <ClerkLoaded>
+                  <div className="max-lg:flex-col w-full relative">
+                    <Header />
+                    <div className="hidden lg:block">
+                      <Banner />
+                    </div>
+                    <main className="max-w-7xl mx-auto lg:p-4 relative lg:top-52">
+                      {children}
+                    </main>
+                    <Footer />
                   </div>
-                  <main className="max-w-7xl mx-auto lg:p-4 relative lg:top-52">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
+                </ClerkLoaded>
+                <ToasterProvider />
               </body>
-            </CustomThemeProvider>
-          </AppRouterCacheProvider>
-        </TanstackQueryProvider>
-      </ClerkVIProvider>
-    </html>
+            </html>
+          </CustomThemeProvider>
+        </AppRouterCacheProvider>
+      </TanstackQueryProvider>
+    </ClerkVIProvider>
   );
 }

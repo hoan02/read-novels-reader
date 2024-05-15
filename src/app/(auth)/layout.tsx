@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 
 import "../globals.css";
 import ClerkVIProvider from "@/lib/providers/ClerkVIProvider";
+import { ClerkLoaded } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
         <body
           className={`${inter.className} h-screen w-screen flex items-center`}
         >
-          <div className="mx-auto">{children}</div>
+          <ClerkLoaded>
+            <div className="mx-auto">{children}</div>
+          </ClerkLoaded>
         </body>
       </html>
     </ClerkVIProvider>

@@ -9,6 +9,7 @@ import {
   ClerkLoaded,
   SignedOut,
   SignOutButton,
+  SignedIn,
 } from "@clerk/nextjs";
 import {
   Bell,
@@ -180,19 +181,8 @@ const Header = () => {
         </div>
         <InputSearch />
         <div className="mx-2">
-          <ClerkLoaded>
-            <SignedOut>
-              <SignInButton>
-                <Button variant="outlined" className="my-auto">
-                  Đăng nhập
-                </Button>
-              </SignInButton>
-            </SignedOut>
-          </ClerkLoaded>
           <div className="cursor-pointer" onClick={() => setOpen(!open)}>
-            {avatar && (
-              <AvatarFrame src={avatar} frame={frameAvatar} size={40} />
-            )}
+            <Menu />
           </div>
         </div>
       </div>
@@ -204,46 +194,72 @@ const Header = () => {
             className="cursor-pointer"
           />
           <div className="flex items-center my-2 p-2 gap-2 border-y-[1px]">
+            <SignedOut>
+              <SignInButton>
+                <Button variant="outlined" className="my-auto">
+                  Đăng nhập
+                </Button>
+              </SignInButton>
+            </SignedOut>
             {avatar && (
               <AvatarFrame src={avatar} frame={frameAvatar} size={40} />
             )}
             <div className="text-sm font-semibold">{fullName}</div>
           </div>
-          {subMenuAccount?.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <div
-                onClick={() => setOpen(!open)}
-                className="flex gap-4 p-2 hover:bg-slate-50"
-                key={index}
-              >
-                <Icon size={24} />
-                <Link href={item.slug}>{item.name}</Link>
-              </div>
-            );
-          })}
-          {role === "admin" && (
-            <div
+          <div className="flex flex-col gap-2 pb-2 border-b-[1px]">
+            <Link
               onClick={() => setOpen(!open)}
-              className="flex gap-4 text-blue-600 p-2 hover:bg-slate-50"
+              href="/tim-truyen"
             >
-              <UserRoundCog size={24} />
-              <Link href="https://admin.doctruyen.io.vn/" target="_blank">
-                Quản lý
-              </Link>
+              👉 Bảng xếp hạng
+            </Link>
+            <Link
+              onClick={() => setOpen(!open)}
+              href="https://writer.doctruyen.io.vn"
+              target="_blank"
+            >
+              🔀 Đăng truyện
+            </Link>
+          </div>
+          <SignedIn>
+            <div>
+              {subMenuAccount?.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    onClick={() => setOpen(!open)}
+                    className="flex gap-4 p-2 hover:bg-slate-50"
+                    key={index}
+                  >
+                    <Icon size={24} />
+                    <Link href={item.slug}>{item.name}</Link>
+                  </div>
+                );
+              })}
+              {role === "admin" && (
+                <div
+                  onClick={() => setOpen(!open)}
+                  className="flex gap-4 text-blue-600 p-2 hover:bg-slate-50"
+                >
+                  <UserRoundCog size={24} />
+                  <Link href="https://admin.doctruyen.io.vn/" target="_blank">
+                    Quản lý
+                  </Link>
+                </div>
+              )}
+              <SignedIn>
+                <SignOutButton>
+                  <button
+                    onClick={() => setOpen(!open)}
+                    className="flex text-red-600 gap-4 pt-2 border-gray-400 p-2 hover:bg-slate-50"
+                  >
+                    <LogOut size={24} />
+                    Đăng xuất
+                  </button>
+                </SignOutButton>
+              </SignedIn>
             </div>
-          )}
-          {fullName && (
-            <SignOutButton>
-              <button
-                onClick={() => setOpen(!open)}
-                className="flex text-red-600 gap-4 pt-2 border-gray-400 p-2 hover:bg-slate-50"
-              >
-                <LogOut size={24} />
-                Đăng xuất
-              </button>
-            </SignOutButton>
-          )}
+          </SignedIn>
         </div>
       </Drawer>
     </>

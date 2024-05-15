@@ -42,9 +42,9 @@ const NovelGrid = async () => {
             <Image
               src={novel.urlCover}
               alt={novel.novelName}
-              width={108}
+              width={96}
               height={144}
-              style={{ width: "108px", height: "144px" }}
+              style={{ width: "auto", height: "144px" }}
             />
 
             <div className="ml-4 flex flex-col">

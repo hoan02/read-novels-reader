@@ -13,7 +13,7 @@ import NominationButton from "@/components/custom-ui/NominationButton";
 const Loading = () => {
   return (
     <div className="bg-white shadow-md p-4 rounded-xl">
-      <div className="flex gap-4 mb-4">
+      <div className="hidden lg:flex gap-4 mb-4">
         <Skeleton variant="rectangular" width={240} height={320} />
         <div className="space-y-4">
           <Skeleton variant="rounded" width={600} height={50} />

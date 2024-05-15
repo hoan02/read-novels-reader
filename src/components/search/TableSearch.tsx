@@ -15,7 +15,7 @@ const TableSearch = async ({ searchParams }: { searchParams: any }) => {
   } = await getNovelsByParams(searchParams);
   if (status === 200) {
     return (
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {novels.map((novel: NovelType, index: number) => (
           <div
             key={index}

@@ -34,15 +34,15 @@ const SelectSearch = () => {
   );
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="lg:p-4 space-y-4">
       <div className="space-y-2">
         <div className="text-sm font-semibold">Thể loại:</div>
-        <div className="flex text-xs gap-4">
+        <div className="flex flex-wrap text-xs gap-2 lg:gap-4">
           {novelGenres.map((genre) => {
             const isActive = searchParams.getAll("type").includes(genre.slug);
             return (
               <div
-                className={`px-4 py-2 cursor-pointer rounded-full border-[1px] border-green-500 ${
+                className={`px-2 py-1 lg:px-4 lg:py-2 cursor-pointer rounded-full border-[1px] border-green-500 ${
                   isActive ? "bg-green-500 text-white" : ""
                 }`}
                 key={genre.slug}
@@ -61,12 +61,12 @@ const SelectSearch = () => {
 
       <div className="space-y-2">
         <div className="text-sm font-semibold">Xếp hạng:</div>
-        <div className="flex text-xs gap-4">
+        <div className="flex flex-wrap text-xs gap-2 lg:gap-4">
           {novelRanks.map((rank) => {
             const isActive = searchParams.getAll("rank").includes(rank.slug);
             return (
               <div
-                className={`px-4 py-2 cursor-pointer rounded-full border-[1px] border-green-500 ${
+                className={`px-2 py-1 lg:px-4 lg:py-2 cursor-pointer rounded-full border-[1px] border-green-500 ${
                   isActive ? "bg-green-500 text-white" : ""
                 }`}
                 key={rank.slug}
