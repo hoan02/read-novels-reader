@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@mui/material";
 
-import formatDate from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatDate";
 import AvatarFrame from "@/components/custom-ui/AvatarFrame";
 import getUserInfoServer from "@/utils/getUserInfoServer";
 
@@ -32,7 +32,7 @@ const UpdateAccountPage = () => {
               {frameAvatar === "reader-vip-1" ? "Khung bạc" : "Khung vàng"}
             </p>
           </div>
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center font-mono">
             <p className="text-lg font-semibold">
               Tài khoản của bạn đã được nâng cấp lên Premium!
             </p>

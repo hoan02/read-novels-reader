@@ -62,11 +62,10 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
               </IconButton>
             </Link>
           </div>
-          <div className="items-center my-6">
+          <div className="flex flex-wrap gap-2 lg:gap-4 items-center my-4 lg:my-6">
             {novel.genres.map((genre: any) => {
               return (
                 <Chip
-                  className="mr-2"
                   key={genre.label}
                   label={genre.label}
                   variant="outlined"
@@ -79,9 +78,9 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
               variant="outlined"
               style={{ color: "#009900", borderColor: "#009900" }}
             />
-            <div className="my-4 text-sm">Tác giả: {novel.author}</div>
           </div>
-          <div className="flex gap-6 my-6">
+          <div className="my-4 text-sm">Tác giả: {novel.author}</div>
+          <div className="flex gap-6 my-4 lg:my-6">
             <div>
               <p className="font-bold">{novel.chapterCount}</p>
               <p>Chương</p>

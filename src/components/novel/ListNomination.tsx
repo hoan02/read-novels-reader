@@ -45,7 +45,7 @@ const ListNomination = ({ novelSlug }: { novelSlug: string }) => {
                 <p className="font-bold">
                   {nomination.user.firstName} {nomination.user.lastName}
                 </p>
-                <p className="text-sm text-gray-500">{nomination.novelSlug}</p>
+                <p className="text-sm text-gray-500">{nomination.user.publicMetadata.frameAvatar}</p>
               </div>
             </div>
             {index < 3 && (

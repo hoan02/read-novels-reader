@@ -25,10 +25,10 @@ const ReadingButton = ({ novelSlug }: { novelSlug: string }) => {
         variant="outlined"
         size="large"
         style={{
-          width: "168px",
           borderRadius: "30px",
           textTransform: "none",
         }}
+        className="w-full lg:w-[168px]"
         startIcon={<Glasses size={24} />}
       >
         <Link href={`/truyen/${novelSlug}/1`}>Đọc truyện</Link>

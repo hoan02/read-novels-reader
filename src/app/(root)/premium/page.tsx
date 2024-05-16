@@ -1,8 +1,11 @@
 import { Info } from "lucide-react";
 
 import PaymentButton from "@/components/custom-ui/PaymentButton";
+import getUserInfoServer from "@/utils/getUserInfoServer";
 
 const PremiumPage = () => {
+  const { premiumState, frameAvatar } = getUserInfoServer();
+
   return (
     <div className="mt-20">
       <div
@@ -77,7 +80,7 @@ const PremiumPage = () => {
               </li>
               <li className="flex items-center">
                 <Info className="mr-2 text-xl text-green-500" />
-                Thông báo ra chương mới
+                Đọc trước chương mới
               </li>
 
               <li className="flex items-center">
@@ -87,7 +90,13 @@ const PremiumPage = () => {
             </ul>
 
             <div className="w-full mx-auto flex items-center justify-center mt-5">
-              <PaymentButton order="month" />
+              {premiumState ? (
+                <div className="mt-6 px-10 text-white py-2 bg-green-500  font-semibold rounded-lg">
+                  Đã nâng cấp
+                </div>
+              ) : (
+                <PaymentButton order="month" />
+              )}
             </div>
           </div>
 
@@ -121,7 +130,7 @@ const PremiumPage = () => {
               </li>
               <li className="flex items-center">
                 <Info className="mr-2 text-xl text-green-500" />
-                Thông báo ra chương mới
+                Đọc trước chương mới
               </li>
               <li className="flex items-center">
                 <Info className="mr-2 text-xl text-green-500" />
@@ -130,7 +139,13 @@ const PremiumPage = () => {
             </ul>
 
             <div className="w-full mx-auto flex items-center justify-center mt-5">
-              <PaymentButton order="year" />
+              {premiumState && frameAvatar !== "reader-vip-1" ? (
+                <div className="mt-6 px-10 text-white py-2 bg-green-500  font-semibold rounded-lg">
+                  Đã nâng cấp
+                </div>
+              ) : (
+                <PaymentButton order="month" />
+              )}
             </div>
           </div>
         </div>
