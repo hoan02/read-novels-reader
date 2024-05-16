@@ -41,13 +41,13 @@ const NominationButton = ({ novelSlug }: { novelSlug: string }) => {
   return (
     <Button
       variant={nominationState ? "contained" : "outlined"}
+      size="large"
       style={{
-        width: "160px",
         borderRadius: "30px",
         textTransform: "none",
-        fontSize: "16px",
       }}
-      startIcon={<Trophy />}
+      className="w-full lg:w-[168px]"
+      startIcon={<Trophy size={24} />}
       onClick={() => handleClickNomination.mutate()}
     >
       {nominationState ? "Đã đề cử" : "Đề cử"}

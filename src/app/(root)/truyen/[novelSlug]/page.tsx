@@ -1,7 +1,14 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Suspense } from "react";
 import { Flag } from "lucide-react";
-import { Chip, Rating, LinearProgress, Skeleton } from "@mui/material";
+import {
+  Chip,
+  Rating,
+  LinearProgress,
+  Skeleton,
+  IconButton,
+} from "@mui/material";
 
 import Error from "@/components/layouts/Error";
 import TabsDetailsNovel from "@/components/novel/TabsDetailsNovel";
@@ -44,12 +51,16 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
           height={320}
           style={{ objectFit: "contain" }}
         />
-        <div className="sm:flex-1 sm:mx-4 mx-2">
-          <div className="flex gap-2 items-center">
+        <div className="sm:flex-1 lg:ml-4">
+          <div className="flex justify-between gap-2 items-center">
             <h1 className="text-2xl font-semibold text-green-800">
               {novel.novelName}
             </h1>
-            <Flag />
+            <Link href="/tai-khoan/ho-tro">
+              <IconButton>
+                <Flag />
+              </IconButton>
+            </Link>
           </div>
           <div className="items-center my-6">
             {novel.genres.map((genre: any) => {
@@ -68,7 +79,7 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
               variant="outlined"
               style={{ color: "#009900", borderColor: "#009900" }}
             />
-            <div className="my-4">Tác giả: {novel.author}</div>
+            <div className="my-4 text-sm">Tác giả: {novel.author}</div>
           </div>
           <div className="flex gap-6 my-6">
             <div>
@@ -98,10 +109,12 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
             </span>
             <span className="ml-1">{`(${novel.reviews.count} đánh giá)`}</span>
           </div>
-          <div className="sm:flex grid gap-4">
+          <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
             <ReadingButton novelSlug={novelSlug} />
-            <BookmarkButton novelSlug={novelSlug} />
-            <NominationButton novelSlug={novelSlug} />
+            <div className="flex gap-4 w-full lg:w-[352px]">
+              <BookmarkButton novelSlug={novelSlug} />
+              <NominationButton novelSlug={novelSlug} />
+            </div>
           </div>
         </div>
       </div>

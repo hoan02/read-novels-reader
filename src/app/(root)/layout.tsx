@@ -40,7 +40,7 @@ export default function RootLayout({
                     <div className="hidden lg:block">
                       <Banner />
                     </div>
-                    <main className="max-w-7xl mx-auto lg:p-4 relative lg:top-52">
+                    <main className="max-w-7xl mx-auto lg:p-4 p-1 relative lg:top-52">
                       {children}
                     </main>
                     <Footer />

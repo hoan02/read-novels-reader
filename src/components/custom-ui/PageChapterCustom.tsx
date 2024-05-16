@@ -67,12 +67,12 @@ const PageChapterCustom = ({
       <div className="sticky top-2">
         <Options novel={novel} settings={settings} setSettings={setSettings} />
       </div>
-      <h1 className="text-lg py-4 text-center">
+      <h1 className="text-base lg:text-lg font-semibold py-4 text-center text-green-700">
         <Link href={`/truyen/${novel.novelSlug}`}>
           [{novel.novelName}] - {novel.author}
         </Link>
       </h1>
-      <h1 className="text-3xl text-center">
+      <h1 className="text-xl lg:text-3xl text-center">
         Chương {chapter.chapterIndex}: {chapter.chapterName}
       </h1>
       <div
@@ -84,7 +84,7 @@ const PageChapterCustom = ({
         }}
       >
         <div
-          className="my-12"
+          className="my-6 lg:my-12"
           dangerouslySetInnerHTML={{
             __html: chapter.content,
           }}

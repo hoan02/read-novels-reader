@@ -23,13 +23,13 @@ const ReadingButton = ({ novelSlug }: { novelSlug: string }) => {
     return (
       <Button
         variant="outlined"
+        size="large"
         style={{
-          width: "160px",
+          width: "168px",
           borderRadius: "30px",
           textTransform: "none",
-          fontSize: "16px",
         }}
-        startIcon={<Glasses size={30} />}
+        startIcon={<Glasses size={24} />}
       >
         <Link href={`/truyen/${novelSlug}/1`}>Đọc truyện</Link>
       </Button>
@@ -40,13 +40,13 @@ const ReadingButton = ({ novelSlug }: { novelSlug: string }) => {
     return (
       <Button
         variant="outlined"
+        size="large"
         style={{
-          width: "160px",
           borderRadius: "30px",
           textTransform: "none",
-          fontSize: "16px",
         }}
-        startIcon={<Glasses size={30} />}
+        className="w-full lg:w-[168px]"
+        startIcon={<Glasses size={24} />}
       >
         <Link href={`/truyen/${novelSlug}/${readingData?.data.chapterIndex}`}>
           Đọc tiếp

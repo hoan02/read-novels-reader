@@ -42,12 +42,12 @@ const BookmarkButton = ({ novelSlug }: { novelSlug: string }) => {
   return (
     <Button
       variant={bookmarkState ? "contained" : "outlined"}
+      size="large"
       style={{
-        width: "160px",
         borderRadius: "30px",
         textTransform: "none",
-        fontSize: "16px",
       }}
+      className="w-full lg:w-[168px]"
       startIcon={<Bookmark size={24} />}
       onClick={() => handleClickBookmark.mutate()}
     >

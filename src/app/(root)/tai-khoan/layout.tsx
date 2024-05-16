@@ -15,7 +15,7 @@ export default function AccountLayout({ children }: AccountLayoutProps) {
   const currentPath = usePathname();
 
   return (
-    <div className="flex bg-white lg:shadow-md lg:p-4 lg:gap-4 gap-2 rounded-xl">
+    <div className="flex bg-white lg:shadow-md lg:p-4 lg:gap-4 gap-1 rounded-xl">
       <div className="border-r-[1px]">
         {menuAccount?.map((item: MenuIconType) => {
           const Icon = item.icon;
@@ -33,7 +33,7 @@ export default function AccountLayout({ children }: AccountLayoutProps) {
           );
         })}
       </div>
-      <div className="flex-1 mt-2 lg:mt-0 pr-2 lg:pr-0">{children}</div>
+      <div className="flex-1 lg:mt-0 lg:pr-0">{children}</div>
     </div>
   );
 }

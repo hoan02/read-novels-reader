@@ -6,7 +6,7 @@ const SupportPage = () => {
     <div className="container mx-auto max-w-5xl">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-4">
         <div className="border-[1px] p-4 rounded-lg">
-          <h5 className="text-lg font-semibold mb-4">Báo lỗi</h5>
+          <h5 className="text-lg font-semibold">Báo lỗi</h5>
           <form>
             <TextField label="Tiêu đề" fullWidth margin="normal" />
             <TextField
@@ -14,11 +14,13 @@ const SupportPage = () => {
               fullWidth
               margin="normal"
               multiline
-              rows={5}
+              rows={3}
             />
-            <Button variant="contained" type="submit" color="primary">
-              Gửi báo cáo
-            </Button>
+            <div className="mt-4">
+              <Button variant="contained" type="submit" color="primary">
+                Gửi báo cáo
+              </Button>
+            </div>
           </form>
         </div>
         <div className="border-[1px] p-4 rounded-lg">
