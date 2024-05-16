@@ -71,6 +71,7 @@ type ChapterType = {
   chapterIndex: number;
   content: string;
   state: string;
+  isApprove: boolean;
   isLock: boolean;
   isPublic: boolean;
   publishedDate: Date | null;

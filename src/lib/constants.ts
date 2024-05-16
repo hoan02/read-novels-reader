@@ -126,3 +126,36 @@ export const defaultSettings: SettingsType = {
   lineHeight: 100,
   textAlign: "justify",
 };
+
+export const questions = [
+  {
+    id: "1",
+    question: "Làm thế nào để đăng ký tài khoản?",
+    answer:
+      "Bạn có thể đăng ký tài khoản bằng cách nhấp vào nút 'Đăng nhập' ở góc trên bên phải của trang chủ rồi chọn đăng nhập với facebook/google hoặc chọn 'Đăng kí' và điền vào các thông tin cần thiết.",
+  },
+  {
+    id: "2",
+    question: "Tôi có thể tìm truyện theo thể loại nào?",
+    answer:
+      "Bạn có thể tìm truyện theo nhiều thể loại khác nhau như hành động, phiêu lưu, tình cảm, hài hước, kinh dị, và nhiều thể loại khác.",
+  },
+  {
+    id: "3",
+    question: "Làm thế nào để thay đổi cài đặt đọc truyện?",
+    answer:
+      "Bạn có thể thay đổi cài đặt đọc truyện bằng cách bấm vào menu phía goc trên bên phải hoặc truy cập vào trang đọc truyện(chương) và chọn biểu tượng cài đặt. Tại đây, bạn có thể điều chỉnh kích thước chữ, màu nền, và các cài đặt khác.",
+  },
+  {
+    id: "4",
+    question: "Tôi có thể lưu truyện để đọc sau không?",
+    answer:
+      "Có, bạn có thể lưu truyện để đọc sau bằng cách bấm vào nút 'Đánh dấu'",
+  },
+  {
+    id: "5",
+    question: "Làm thế nào để báo cáo lỗi về truyện hoặc chương?",
+    answer:
+      "Nếu bạn phát hiện lỗi hoặc vấn đề với truyện hoặc chương, bạn có thể báo cáo bằng cách sử dụng nút 'Báo cáo' và điền vào mẫu báo cáo. Chúng tôi sẽ xem xét và khắc phục sớm nhất có thể.",
+  },
+];
