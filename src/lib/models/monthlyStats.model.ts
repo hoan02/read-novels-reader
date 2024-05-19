@@ -22,6 +22,10 @@ const monthlyStats = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    nominationCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
