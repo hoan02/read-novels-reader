@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
+  console.log(req);
   const { searchParams } = new URL(req.url);
   const mode = searchParams.get("hub.mode");
   const token = searchParams.get("hub.verify_token");
@@ -21,6 +22,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const payload = await req.json();
-  console.log(payload);
+  console.log("no-json", req);
+  console.log("json", payload);
   return new NextResponse("OK", { status: 200 });
 }

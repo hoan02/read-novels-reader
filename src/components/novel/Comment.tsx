@@ -9,7 +9,7 @@ const Comment = ({ novelSlug }: { novelSlug: string }) => {
         <Comments
           // lazy={true}
           width="100%"
-          href={`http://doctruyen.io.vn/truyen/$${novelSlug}`}
+          href={`http://doctruyen.io.vn/truyen/${novelSlug}`}
         />
       </Suspense>
     </div>
