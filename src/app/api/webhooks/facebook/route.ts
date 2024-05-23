@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  return NextResponse.json("Welcome to the Webhook FACEBOOK!", {
+  return NextResponse.json("1121234710", {
     status: 200,
   });
 }
 
-export async function POST(req: Request) {
-  const payload = await req.json();
-  console.log(payload);
-  return NextResponse.json(payload, {
+export async function POST() {
+  return NextResponse.json("1121234710", {
     status: 200,
   });
 }
