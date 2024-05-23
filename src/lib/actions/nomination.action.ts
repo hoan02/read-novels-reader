@@ -15,14 +15,12 @@ const getCurrentDateDetails = () => {
   };
 };
 
-const dbConnection = connectToDB();
-
 export const createNomination = async (novelSlug: string) => {
   const { month, year } = getCurrentDateDetails();
 
   try {
     const { userId } = auth();
-    await dbConnection;
+    await connectToDB();
 
     const [nomination, novelUpdate] = await Promise.all([
       Nomination.create({ clerkId: userId, novelSlug }),
@@ -51,7 +49,7 @@ export const deleteNomination = async (novelSlug: string) => {
 
   try {
     const { userId } = auth();
-    await dbConnection;
+    await connectToDB();
 
     const [nominationDeletion, novelUpdate] = await Promise.all([
       Nomination.findOneAndDelete({ clerkId: userId, novelSlug }),

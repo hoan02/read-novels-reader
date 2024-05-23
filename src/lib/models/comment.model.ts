@@ -10,6 +10,10 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    parentId: {
+      type: String,
+      default: null,
+    },
     messages: {
       type: String,
       required: true,

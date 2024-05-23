@@ -1,6 +1,7 @@
 import React from "react";
 
-const Comment = () => {
+const Comment = ({ novelSlug }: { novelSlug: string }) => {
+  
   return <div>Comment</div>;
 };
 
