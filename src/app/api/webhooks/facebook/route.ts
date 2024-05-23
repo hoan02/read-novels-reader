@@ -18,3 +18,9 @@ export async function GET(req: Request) {
 
   return new NextResponse("Bad Request", { status: 400 });
 }
+
+export async function POST(req: Request) {
+  const payload = await req.json();
+  console.log(payload);
+  return new NextResponse("OK", { status: 200 });
+}
