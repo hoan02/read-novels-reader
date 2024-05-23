@@ -10,11 +10,11 @@ export async function GET(req: Request) {
 
   if (mode && token) {
     if (mode === "subscribe" && token === VERIFY_TOKEN) {
-      return NextResponse.json(challenge, { status: 200 });
+      return new NextResponse(challenge, { status: 200 });
     } else {
-      return NextResponse.json("Forbidden", { status: 403 });
+      return new NextResponse("Forbidden", { status: 403 });
     }
   }
 
-  return NextResponse.json("Bad Request", { status: 400 });
+  return new NextResponse("Bad Request", { status: 400 });
 }
