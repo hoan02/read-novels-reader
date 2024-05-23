@@ -1,7 +1,6 @@
-// "use client";
 import { LinearProgress } from "@mui/material";
 import { Suspense } from "react";
-import { Comments, CommentsCount } from "react-facebook";
+import { Comments } from "react-facebook";
 
 const Comment = ({ novelSlug }: { novelSlug: string }) => {
   return (
@@ -13,7 +12,6 @@ const Comment = ({ novelSlug }: { novelSlug: string }) => {
           href={`http://doctruyen.io.vn/truyen/$${novelSlug}`}
         />
       </Suspense>
-      {/* <CommentsCount href={`http://doctruyen.io.vn/truyen/$${novelSlug}`} /> */}
     </div>
   );
 };
