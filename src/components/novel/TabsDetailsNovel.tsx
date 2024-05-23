@@ -5,11 +5,11 @@ import { Box, Tab, Chip } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import Intro from "./Intro";
-import Comment from "./Comment";
 import Review from "./review/Review";
 import MenuChapter from "@/components/novel/MenuChapter";
 import { ChapterType, NovelType } from "@/types/types";
 import ListNomination from "./ListNomination";
+import Comment from "./comment/Comment";
 
 const TabsDetailsNovel = ({ novel }: { novel: NovelType }) => {
   const [value, setValue] = useState("gioi-thieu");
@@ -41,7 +41,7 @@ const TabsDetailsNovel = ({ novel }: { novel: NovelType }) => {
       label: "Bình luận",
       value: "binh-luan",
       chip: novel.commentCount,
-      content: <Comment novelSlug={novel.novelSlug}/>,
+      content: <Comment novelSlug={novel.novelSlug} />,
     },
     {
       label: "Đề cử",

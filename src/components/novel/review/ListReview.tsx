@@ -1,11 +1,12 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { LinearProgress } from "@mui/material";
-import formatTimeAgo from "@/utils/formatTimeAgo";
+import { useQuery } from "@tanstack/react-query";
+
+import Error from "@/components/layouts/Error";
 import AvatarFrame from "@/components/custom-ui/AvatarFrame";
 import { getReviews } from "@/lib/data/review.data";
-import Error from "@/components/layouts/Error";
+import formatTimeAgo from "@/utils/formatTimeAgo";
 
 const ListReview = ({ novelSlug }: { novelSlug: string }) => {
   const { data, isLoading, isError } = useQuery({
