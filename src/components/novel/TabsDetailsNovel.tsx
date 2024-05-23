@@ -5,7 +5,7 @@ import { Box, Tab, Chip } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import Intro from "./Intro";
-import Comment from "./comment/Comment";
+import Comment from "./Comment";
 import Review from "./review/Review";
 import MenuChapter from "@/components/novel/MenuChapter";
 import { ChapterType, NovelType } from "@/types/types";

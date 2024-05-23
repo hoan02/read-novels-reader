@@ -10,6 +10,7 @@ const novelSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      index: true,
     },
     author: {
       type: String,
@@ -113,7 +114,7 @@ const novelSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-novelSchema.index({ novelName: "text" });
+// novelSchema.index({ novelName: "text" });
 
 const Novel = mongoose.models?.Novel || mongoose.model("Novel", novelSchema);
 

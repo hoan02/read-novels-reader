@@ -5,10 +5,12 @@ const readingSchema = new mongoose.Schema(
     clerkId: {
       type: String,
       required: true,
+      index: true,
     },
     novelSlug: {
       type: String,
       required: true,
+      index: true,
     },
     chapterIndex: {
       type: Number,

@@ -9,6 +9,7 @@ const reviewSchema = new mongoose.Schema(
     novelSlug: {
       type: String,
       required: true,
+      index: true,
     },
     valueCharacter: {
       type: Number,

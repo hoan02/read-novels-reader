@@ -5,6 +5,7 @@ const chapterSchema = new mongoose.Schema(
     novelSlug: {
       type: String,
       required: true,
+      index: true,
     },
     chapterName: {
       type: String,
