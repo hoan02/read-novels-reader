@@ -14,9 +14,11 @@ import { updateLikeComment } from "@/lib/actions/comment.action";
 import FormComment from "./FormComment";
 import ListReplyComment from "./ListReplyComment";
 import { ArrowDownUp } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
 
 const ListComment = ({ novelSlug }: { novelSlug: string }) => {
   const queryClient = useQueryClient();
+  const { isSignedIn } = useAuth();
   const [openReply, setOpenReply] = useState<Record<string, boolean>>({});
   const [ascending, setAscending] = useState(true);
 
@@ -44,6 +46,10 @@ const ListComment = ({ novelSlug }: { novelSlug: string }) => {
   });
 
   const handleLike = (commentId: string) => {
+    if (!isSignedIn) {
+      toast.error("Bạn cần đăng nhập để thực hiện chức năng này!");
+      return;
+    }
     likeMutation.mutate(commentId);
   };
 
@@ -67,7 +73,9 @@ const ListComment = ({ novelSlug }: { novelSlug: string }) => {
       <div className="flex justify-between">
         <div className="mb-2 font-semibold">Tất cả bình luận:</div>
         <div className="flex gap-2 items-center">
-          <p className="text-xs bg-sky-100 px-2 py-1">{ascending ? "cũ nhất" : "mới nhất"}</p>
+          <p className="text-xs bg-sky-100 px-2 py-1">
+            {ascending ? "cũ nhất" : "mới nhất"}
+          </p>
           <button
             className="text-blue-500 hover:text-blue-700"
             onClick={handleSortToggle}
@@ -77,9 +85,9 @@ const ListComment = ({ novelSlug }: { novelSlug: string }) => {
         </div>
       </div>
 
-      <div className="">
+      <div className="space-y-4">
         {sortedComments?.map((comment: any) => (
-          <div key={comment._id} className="md:p-4 ]">
+          <div key={comment._id}>
             <div className="flex gap-2 lg:gap-4">
               <div className="min-w-[40px] lg:min-w-[60px]">
                 <AvatarFrame

@@ -53,7 +53,7 @@ const ListReplyComment = ({
   return (
     <div className="">
       {replyComments?.data?.map((replyComment: any) => (
-        <div key={replyComment._id} className="p-2 pr-0">
+        <div key={replyComment._id} className="m-2 pr-0">
           <div className="flex gap-2 lg:gap-4">
             <div className="min-w-[40px] lg:min-w-[60px]">
               <AvatarFrame
