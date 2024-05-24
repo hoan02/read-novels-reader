@@ -10,6 +10,7 @@ import Error from "@/components/layouts/Error";
 import { updateLikeComment } from "@/lib/actions/comment.action";
 import { getReplyComment } from "@/lib/data/comment.data";
 import formatTimeAgo from "@/utils/formatTimeAgo";
+import { useState } from "react";
 
 const ListReplyComment = ({
   novelSlug,
@@ -19,6 +20,7 @@ const ListReplyComment = ({
   parentId: string;
 }) => {
   const queryClient = useQueryClient();
+  const [openLoadMore, setOpenLoadMore] = useState(false);
 
   const {
     data: replyComments,
@@ -49,16 +51,19 @@ const ListReplyComment = ({
   if (isError) return <Error />;
 
   return (
-    <div className="space-y-2">
+    <div className="">
       {replyComments?.data?.map((replyComment: any) => (
-        <div key={replyComment._id} className="p-2 md:p-4">
-          <div className="flex gap-2 lg:gap-4 justify-between">
-            <AvatarFrame
-              src={replyComment.userInfo?.avatar}
-              frame={replyComment.userInfo?.publicMetadata?.frameAvatar}
-            />
-            <div className="flex flex-col flex-1 gap-2">
-              <div className="p-2 bg-slate-100 rounded-lg">
+        <div key={replyComment._id} className="p-2 pr-0">
+          <div className="flex gap-2 lg:gap-4">
+            <div className="min-w-[40px] lg:min-w-[60px]">
+              <AvatarFrame
+                className="w-[40px] lg:w-[60px]"
+                src={replyComment.userInfo?.avatar}
+                frame={replyComment.userInfo?.publicMetadata?.frameAvatar}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="max-w-max min-w-[160px] p-2 bg-slate-50 rounded-lg">
                 <div className="text-sm font-bold">
                   {replyComment.userInfo.firstName}{" "}
                   {replyComment.userInfo.lastName}

@@ -15,11 +15,11 @@ export const getComments = async (novelSlug: string) => {
         },
       },
       {
-        $sort: { createdAt: -1 },
+        $sort: { createdAt: 1 },
       },
-      {
-        $limit: 5,
-      },
+      // {
+      //   $limit: 5,
+      // },
       {
         $lookup: {
           from: "users",
@@ -55,7 +55,7 @@ export const getReplyComment = async (commentId: string) => {
         $match: { parentId: commentId },
       },
       {
-        $sort: { createdAt: -1 as const },
+        $sort: { createdAt: 1 as const },
       },
       {
         $lookup: {

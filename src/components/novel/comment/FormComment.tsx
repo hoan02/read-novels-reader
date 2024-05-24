@@ -3,9 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { IconButton } from "@mui/material";
+
 import { createComment } from "@/lib/actions/comment.action";
 import AvatarFrame from "@/components/custom-ui/AvatarFrame";
 import useUserInfoClient from "@/lib/hooks/useUserInfoClient";
+import { X } from "lucide-react";
 
 interface CommentDataType {
   novelSlug: string;
@@ -48,7 +51,7 @@ const FormComment = ({
     onSuccess: (res) => {
       toast.success(res.message);
       queryClient.invalidateQueries({
-        queryKey: [`comment-${novelSlug}`],
+        queryKey: parentId ? [`replies-${parentId}`] : [`comment-${novelSlug}`],
       });
     },
     onError: (error) => {
@@ -74,7 +77,14 @@ const FormComment = ({
       <div className="flex gap-2 text-gray-700 p-2 rounded space-y-2">
         {avatar && <AvatarFrame src={avatar} frame={frameAvatar} />}
         <div className="flex flex-col flex-1 gap-1">
-          <p className="text-sm font-semibold">{fullName}</p>
+          <div className="flex justify-between">
+            <p className="text-sm font-semibold">{fullName}</p>
+            {openReply && setOpenReply && (
+              <IconButton size="small" onClick={() => setOpenReply(!openReply)}>
+                <X />
+              </IconButton>
+            )}
+          </div>
           <div className="flex flex-1 gap-2">
             <textarea
               className="p-1 w-full active:outline-none focus:outline-none rounded border-[1px] overflow-hidden"
