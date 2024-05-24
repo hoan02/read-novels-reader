@@ -22,9 +22,7 @@ const commentSchema = new mongoose.Schema(
     },
     likes: [
       {
-        clerkId: {
-          type: String,
-        },
+        type: String,
       },
     ],
   },

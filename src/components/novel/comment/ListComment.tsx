@@ -18,7 +18,7 @@ import { useAuth } from "@clerk/nextjs";
 
 const ListComment = ({ novelSlug }: { novelSlug: string }) => {
   const queryClient = useQueryClient();
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, userId } = useAuth();
   const [openReply, setOpenReply] = useState<Record<string, boolean>>({});
   const [ascending, setAscending] = useState(true);
 
@@ -109,7 +109,11 @@ const ListComment = ({ novelSlug }: { novelSlug: string }) => {
                   <p className="">{formatTimeAgo(comment.createdAt)}</p>
                   <div
                     onClick={() => handleLike(comment._id)}
-                    className="font-semibold cursor-pointer"
+                    className={`font-semibold cursor-pointer ${
+                      comment.likes.includes(userId)
+                        ? "text-sky-500"
+                        : "text-gray-700"
+                    }`}
                   >
                     Thích
                   </div>

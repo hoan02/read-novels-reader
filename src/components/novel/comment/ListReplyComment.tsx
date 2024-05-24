@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { useAuth } from "@clerk/nextjs";
 import { LinearProgress } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -20,7 +21,7 @@ const ListReplyComment = ({
   parentId: string;
 }) => {
   const queryClient = useQueryClient();
-  const [openLoadMore, setOpenLoadMore] = useState(false);
+  const { isSignedIn, userId } = useAuth();
 
   const {
     data: replyComments,
@@ -44,6 +45,10 @@ const ListReplyComment = ({
   });
 
   const handleLike = (commentId: string) => {
+    if (!isSignedIn) {
+      toast.error("Bạn cần đăng nhập để thực hiện chức năng này!");
+      return;
+    }
     likeMutation.mutate(commentId);
   };
 
@@ -76,7 +81,11 @@ const ListReplyComment = ({
                 <p className="">{formatTimeAgo(replyComment.createdAt)}</p>
                 <div
                   onClick={() => handleLike(replyComment._id)}
-                  className="font-semibold cursor-pointer"
+                  className={`font-semibold cursor-pointer ${
+                    replyComment.likes.includes(userId)
+                      ? "text-sky-500"
+                      : "text-gray-700"
+                  }`}
                 >
                   Thích
                 </div>

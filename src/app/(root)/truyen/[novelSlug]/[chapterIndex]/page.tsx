@@ -3,6 +3,7 @@ import { getChapter } from "@/lib/data/chapter.data";
 import { getNovel } from "@/lib/data/novel.data";
 import PageChapterCustom from "@/components/custom-ui/PageChapterCustom";
 import getUserInfoServer from "@/utils/getUserInfoServer";
+import Comment from "@/components/novel/comment/Comment";
 
 const SingleChapterPage = async ({
   params,
@@ -25,7 +26,12 @@ const SingleChapterPage = async ({
         />
       );
     }
-    return <PageChapterCustom novel={novel} chapter={chapter} />;
+    return (
+      <div className="space-y-4">
+        <PageChapterCustom novel={novel} chapter={chapter} />
+        <Comment novelSlug={params.novelSlug} />
+      </div>
+    );
   } else {
     return <Error message={message} status={status} />;
   }

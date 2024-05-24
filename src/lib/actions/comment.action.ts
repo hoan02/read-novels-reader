@@ -55,14 +55,12 @@ export const updateLikeComment = async (commentId: string) => {
       throw new Error("Không tìm thấy bình luận!");
     }
 
-    const index = comment.likes.findIndex(
-      (like: any) => like.clerkId === userId
-    );
+    const index = comment.likes.indexOf(userId);
 
     if (index !== -1) {
       comment.likes.splice(index, 1);
     } else {
-      comment.likes.push({ clerkId: userId });
+      comment.likes.push(userId);
     }
 
     await comment.save();
@@ -70,11 +68,11 @@ export const updateLikeComment = async (commentId: string) => {
     return {
       commentId,
       success: true,
-      message: "Cập nhật bình luận thành công!",
+      message: "Like bình luận thành công!",
     };
   } catch (error) {
     console.error("Update Comment Error:", error);
-    throw new Error("Không thể cập nhật bình luận!");
+    throw new Error("Không thể like bình luận!");
   }
 };
 
