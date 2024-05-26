@@ -22,4 +22,11 @@ declare global {
     permission: "org:reader:vip" | "org:writer:create";
     role: "org:admin" | "org:writer" | "org:reader";
   }
+
+  interface Window {
+    readAloudInit: (
+      audioElement: HTMLAudioElement,
+      playerElement: HTMLElement
+    ) => void;
+  }
 }

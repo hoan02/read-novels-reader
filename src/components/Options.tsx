@@ -16,6 +16,7 @@ import {
   ArrowLeft,
   ArrowRight,
   BookmarkCheck,
+  Volume2,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import MenuChapter from "./novel/MenuChapter";
@@ -111,6 +112,24 @@ const Options = ({
     };
   }, [handlePrevChapter, handleNextChapter]);
 
+  // Define readAloud function directly in the component
+  const readAloud = (audioElement: any, playerElement: any) => {
+    const s = "https://assets.readaloudwidget.com/embed/";
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      audioElement.src = s + "sound/silence.mp3";
+      audioElement.play();
+      if (typeof speechSynthesis !== "undefined") {
+        speechSynthesis.speak(new SpeechSynthesisUtterance(" "));
+      }
+    }
+    const script = document.createElement("script");
+    script.onload = () => {
+      window.readAloudInit(audioElement, playerElement);
+    };
+    script.src = s + "js/readaloud.min.js";
+    document.head.appendChild(script);
+  };
+
   return (
     <div className="flex justify-center">
       <div className="flex gap-2 p-1 border-2 rounded-full bg-white">
@@ -125,6 +144,7 @@ const Options = ({
           </span>
         </Tooltip>
         <Divider orientation="vertical" />
+
         <Tooltip title="Cấu hình">
           <IconButton onClick={() => setOpenSetting(true)}>
             <Settings />
@@ -137,6 +157,7 @@ const Options = ({
           </IconButton>
         </Tooltip>
         <Divider orientation="vertical" />
+
         <Tooltip title="Đánh dấu">
           <IconButton onClick={() => handleClickBookmark.mutate()}>
             {bookmarkState ? (
@@ -151,6 +172,21 @@ const Options = ({
           </IconButton>
         </Tooltip>
         <Divider orientation="vertical" />
+
+        <Tooltip title="Nghe kể truyện">
+          <IconButton
+            onClick={() =>
+              readAloud(
+                document.getElementById("ra-audio"),
+                document.getElementById("ra-player")
+              )
+            }
+          >
+            <Volume2 />
+          </IconButton>
+        </Tooltip>
+        <Divider orientation="vertical" />
+
         <Tooltip title="Chương sau">
           <span>
             <IconButton
@@ -172,6 +208,7 @@ const Options = ({
           <MenuChapter novelSlug={novel.novelSlug} />
         </DialogContent>
       </Dialog>
+
       <Dialog open={openSetting} onClose={() => setOpenSetting(false)}>
         <DialogContent className="md:w-[600px] md:h-[800px] min-w-[320px]">
           <div className="font-bold text-xl mb-2">Cấu hình</div>

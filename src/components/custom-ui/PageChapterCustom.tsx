@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { ChapterType, NovelType } from "@/types/types";
 import Options from "../Options";
 import { defaultSettings } from "@/lib/constants";
@@ -67,6 +66,7 @@ const PageChapterCustom = ({
       <div className="sticky top-2">
         <Options novel={novel} settings={settings} setSettings={setSettings} />
       </div>
+
       <h1 className="text-base lg:text-lg font-semibold py-4 text-center text-green-700">
         <Link href={`/truyen/${novel.novelSlug}`}>
           [{novel.novelName}] - {novel.author}
@@ -90,6 +90,22 @@ const PageChapterCustom = ({
           }}
         />
       </div>
+      <div className="sticky bottom-2">
+        <div className="flex justify-center">
+          <div
+            className="min-w-[300px] lg:w-[500px]"
+            id="ra-player"
+            data-skin="https://assets.readaloudwidget.com/embed/skins/default"
+          ></div>
+        </div>
+      </div>
+
+      <audio
+        id="ra-audio"
+        data-lang="vi-VN"
+        data-voice="free"
+        data-key="6acd27b2a608b22126ed36bd22dbb420"
+      />
     </div>
   );
 };
