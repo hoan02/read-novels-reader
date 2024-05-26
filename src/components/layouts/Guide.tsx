@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Guide = () => {
   return (
-    <div>
-      <h2 className="mb-2 text-lg font-semibold">Hướng dẫn</h2>
+    <div className="bg-gray-50 rounded-lg">
+      <h2 className="p-2">HƯỚNG DẪN</h2>
       <ul className="list-disc">
         {questions.map(({ id, question }) => (
           <li key={id} className="ml-6 mb-2 text-sm">

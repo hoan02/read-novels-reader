@@ -30,6 +30,13 @@ type UserType = {
       endDate?: Date;
     };
   };
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type Genre = {
+  label: string;
+  value: string;
 };
 
 type NovelType = {
@@ -37,7 +44,7 @@ type NovelType = {
   novelName: string;
   novelSlug: string;
   author: string;
-  genres: string[];
+  genres: Genre[];
   tags: string[];
   urlCover: string;
   uploader: string;
@@ -75,6 +82,12 @@ type ChapterType = {
   isLock: boolean;
   isPublic: boolean;
   publishedDate: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type ChapterWithNovelType = ChapterType & {
+  novelInfo: NovelType;
 };
 
 type SettingsType = {

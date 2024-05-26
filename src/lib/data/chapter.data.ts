@@ -28,3 +28,36 @@ export const getChapters = async (novelSlug: string) => {
     return createResponse(null, "Error", 500);
   }
 };
+
+export const getNewChapters = async (limit?: number) => {
+  try {
+    await connectToDB();
+
+    const pipeline: any[] = [
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $lookup: {
+          from: "novels",
+          localField: "novelSlug",
+          foreignField: "novelSlug",
+          as: "novelInfo",
+        },
+      },
+      {
+        $unwind: "$novelInfo",
+      },
+    ];
+
+    if (limit) {
+      pipeline.push({ $limit: limit });
+    }
+
+    const chapters = await Chapter.aggregate(pipeline);
+    return createResponse(chapters, "Success!", 200);
+  } catch (err) {
+    console.log(err);
+    return createResponse(null, "Error", 500);
+  }
+};

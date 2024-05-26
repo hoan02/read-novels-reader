@@ -51,7 +51,7 @@ const ListBookmark = () => {
     <div className="pb-4 border-b-2 border-gray-100">
       <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
         {bookmarks?.data?.map((novel: any, index: number) => (
-          <div key={index} className="flex bg-gray-100 p-2 rounded relative">
+          <div key={index} className="flex bg-gray-50 p-2 rounded relative">
             <div
               className="absolute right-1 top-1 p-1 rounded-full cursor-pointer hover:bg-red-50 text-red-500"
               onClick={() => handleDeleteBookmark.mutate(novel.novelSlug)}

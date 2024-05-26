@@ -14,7 +14,7 @@ const Loading = () => {
       {[...Array(8)].map((_, index: number) => (
         <div
           key={index}
-          className="flex items-center justify-center bg-gray-100 p-4 rounded"
+          className="flex items-center justify-center bg-gray-50 p-4 rounded"
         >
           <Skeleton variant="rectangular" width={108} height={144} />
           <div className="ml-4">
@@ -37,7 +37,7 @@ const NovelGrid = async () => {
         {novels.slice(0, 8).map((novel: NovelType, index: number) => (
           <div
             key={index}
-            className="flex justify-center bg-gray-100 p-4 rounded"
+            className="flex justify-center bg-gray-50 p-4 rounded"
           >
             <Image
               src={novel.urlCover}
@@ -91,12 +91,9 @@ const NovelGrid = async () => {
 
 const ListNovel = async () => {
   return (
-    <div>
-      <h2 className="mb-4 text-lg font-semibold">Biên tập viên đề cử</h2>
-      <Suspense fallback={<Loading />}>
-        <NovelGrid />
-      </Suspense>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <NovelGrid />
+    </Suspense>
   );
 };
 

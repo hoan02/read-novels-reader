@@ -19,7 +19,7 @@ const TableSearch = async ({ searchParams }: { searchParams: any }) => {
         {novels.map((novel: NovelType, index: number) => (
           <div
             key={index}
-            className="flex justify-center bg-gray-100 p-4 rounded"
+            className="flex justify-center bg-gray-50 p-4 rounded"
           >
             <Image
               src={novel.urlCover}

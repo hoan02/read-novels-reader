@@ -4,17 +4,21 @@ import { getNovel } from "@/lib/data/novel.data";
 import PageChapterCustom from "@/components/custom-ui/PageChapterCustom";
 import getUserInfoServer from "@/utils/getUserInfoServer";
 import Comment from "@/components/novel/comment/Comment";
+import Loading from "@/app/(root)/loading";
+import { Suspense } from "react";
 
-const SingleChapterPage = async ({
-  params,
+const Chapter = async ({
+  novelSlug,
+  chapterIndex,
 }: {
-  params: { novelSlug: string; chapterIndex: number };
+  novelSlug: string;
+  chapterIndex: number;
 }) => {
   const { premiumState } = getUserInfoServer();
   const [{ data: chapter, message, status }, { data: novel }] =
     await Promise.all([
-      getChapter(params.novelSlug, params.chapterIndex),
-      getNovel(params.novelSlug),
+      getChapter(novelSlug, chapterIndex),
+      getNovel(novelSlug),
     ]);
 
   if (status === 200) {
@@ -29,12 +33,27 @@ const SingleChapterPage = async ({
     return (
       <div className="space-y-4">
         <PageChapterCustom novel={novel} chapter={chapter} />
-        <Comment novelSlug={params.novelSlug} />
+        <Comment novelSlug={novelSlug} />
       </div>
     );
   } else {
     return <Error message={message} status={status} />;
   }
+};
+
+const SingleChapterPage = async ({
+  params,
+}: {
+  params: { novelSlug: string; chapterIndex: number };
+}) => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <Chapter
+        novelSlug={params.novelSlug}
+        chapterIndex={params.chapterIndex}
+      />
+    </Suspense>
+  );
 };
 
 export default SingleChapterPage;

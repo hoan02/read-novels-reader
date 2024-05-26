@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { Tab } from "@mui/material";
+import { useSearchParams } from "next/navigation";
 import { TabPanel, TabContext, TabList } from "@mui/lab";
 
 import ListReading from "@/components/layouts/ListReading";
 import ListBookmark from "@/components/novel/ListBookmark";
 
 const NovelShelfPage = () => {
-  const [value, setValue] = useState("1");
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab") || "dang-doc";
+  const [value, setValue] = useState(tab);
 
   const handleChange = (event: any, newValue: string) => {
     setValue(newValue);
@@ -18,13 +21,13 @@ const NovelShelfPage = () => {
     <div className="border-[1px] rounded-lg">
       <TabContext value={value}>
         <TabList onChange={handleChange} className="border-b-2">
-          <Tab label="Đang đọc" value="1" />
-          <Tab label="Đánh dấu" value="2" />
+          <Tab label="Đang đọc" value="dang-doc" />
+          <Tab label="Đánh dấu" value="danh-dau" />
         </TabList>
-        <TabPanel value="1">
+        <TabPanel value="dang-doc">
           <ListReading />
         </TabPanel>
-        <TabPanel value="2">
+        <TabPanel value="danh-dau">
           <ListBookmark />
         </TabPanel>
       </TabContext>

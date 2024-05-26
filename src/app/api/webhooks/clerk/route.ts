@@ -84,8 +84,7 @@ export async function POST(req: Request) {
         });
       }
 
-      const resUser = await createOrUpdateUser({
-        clerkId: id,
+      const params = {
         username: username,
         firstName: first_name,
         lastName: last_name,
@@ -101,9 +100,9 @@ export async function POST(req: Request) {
               }
             : {},
         },
-      });
+      };
 
-      console.log(resUser);
+      const resUser = await createOrUpdateUser(params);
 
       return new Response("User is created or updated", {
         status: 200,

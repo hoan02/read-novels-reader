@@ -1,6 +1,5 @@
 import User from "@/lib/models/user.model";
 import connectToDB from "@/lib/mongodb/mongoose";
-import { UserType } from "../../types/types";
 
 export const getUserById = async (id: string) => {
   try {
@@ -24,31 +23,16 @@ export const getUsers = async () => {
   }
 };
 
-export const createOrUpdateUser = async ({
-  clerkId,
-  firstName,
-  lastName,
-  username,
-  email,
-  avatar,
-  publicMetadata,
-}: UserType) => {
+export const createOrUpdateUser = async (params: any) => {
   try {
     await connectToDB();
 
     const user = await User.findOneAndUpdate(
-      { clerkId },
+      { clerkId: params.clerkId },
       {
-        $set: {
-          username,
-          firstName,
-          lastName,
-          avatar,
-          email,
-          publicMetadata,
-        },
+        $set: params,
       },
-      { upsert: true, new: true } // if user doesn't exist, create a new one
+      { upsert: true, new: true }
     );
     await user.save();
     return user;
