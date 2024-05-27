@@ -2,13 +2,15 @@
 
 import { Bookmark } from "lucide-react";
 import { Button } from "@mui/material";
+import { useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { checkBookmark } from "@/lib/data/bookmark.data";
 import { createBookmark, deleteBookmark } from "@/lib/actions/bookmark.action";
-import toast from "react-hot-toast";
 
 const BookmarkButton = ({ novelSlug }: { novelSlug: string }) => {
+  const { isSignedIn } = useUser();
   const queryClient = useQueryClient();
   const { data: bookmarkState, isLoading } = useQuery({
     queryKey: ["bookmark", novelSlug],
@@ -18,7 +20,7 @@ const BookmarkButton = ({ novelSlug }: { novelSlug: string }) => {
     enabled: !!novelSlug,
   });
 
-  const handleClickBookmark = useMutation({
+  const bookmarkMutation = useMutation({
     mutationFn: () => {
       if (bookmarkState) {
         return deleteBookmark(novelSlug);
@@ -31,13 +33,19 @@ const BookmarkButton = ({ novelSlug }: { novelSlug: string }) => {
       queryClient.invalidateQueries({
         queryKey: ["bookmark"],
       });
-      // revalidatePath("/");
     },
     onError: (res) => {
       toast.error(res.message);
-      // revalidatePath("/");
     },
   });
+
+  const handleClickBookmark = () => {
+    if (!isSignedIn) {
+      toast.error("Bạn cần đăng nhập thể thực hiện chức năng này!");
+      return;
+    }
+    bookmarkMutation.mutate();
+  };
 
   return (
     <Button
@@ -49,7 +57,7 @@ const BookmarkButton = ({ novelSlug }: { novelSlug: string }) => {
       }}
       className="w-full lg:w-[168px]"
       startIcon={<Bookmark size={24} />}
-      onClick={() => handleClickBookmark.mutate()}
+      onClick={handleClickBookmark}
     >
       {bookmarkState ? "Đã đánh dấu" : "Đánh dấu"}
     </Button>

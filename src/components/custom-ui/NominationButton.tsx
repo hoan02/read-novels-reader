@@ -2,6 +2,8 @@
 
 import { Trophy } from "lucide-react";
 import { Button } from "@mui/material";
+import { useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { checkNomination } from "@/lib/data/nomination.data";
@@ -9,9 +11,9 @@ import {
   createNomination,
   deleteNomination,
 } from "@/lib/actions/nomination.action";
-import toast from "react-hot-toast";
 
 const NominationButton = ({ novelSlug }: { novelSlug: string }) => {
+  const { isSignedIn } = useUser();
   const queryClient = useQueryClient();
   const { data: nominationState, isLoading } = useQuery({
     queryKey: ["nomination", novelSlug],
@@ -21,7 +23,7 @@ const NominationButton = ({ novelSlug }: { novelSlug: string }) => {
     enabled: !!novelSlug,
   });
 
-  const handleClickNomination = useMutation({
+  const nominationMutation = useMutation({
     mutationFn: () => {
       if (nominationState) {
         return deleteNomination(novelSlug);
@@ -38,6 +40,14 @@ const NominationButton = ({ novelSlug }: { novelSlug: string }) => {
     },
   });
 
+  const handleClickNomination = () => {
+    if (!isSignedIn) {
+      toast.error("Bạn cần đăng nhập thể thực hiện chức năng này!");
+      return;
+    }
+    nominationMutation.mutate();
+  };
+
   return (
     <Button
       variant={nominationState ? "contained" : "outlined"}
@@ -48,7 +58,7 @@ const NominationButton = ({ novelSlug }: { novelSlug: string }) => {
       }}
       className="w-full lg:w-[168px]"
       startIcon={<Trophy size={24} />}
-      onClick={() => handleClickNomination.mutate()}
+      onClick={handleClickNomination}
     >
       {nominationState ? "Đã đề cử" : "Đề cử"}
     </Button>

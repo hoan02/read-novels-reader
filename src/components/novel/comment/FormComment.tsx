@@ -10,7 +10,7 @@ import AvatarFrame from "@/components/custom-ui/AvatarFrame";
 import useUserInfoClient from "@/lib/hooks/useUserInfoClient";
 import { X } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
-import Link from "next/link";
+import FallbackLogin from "@/components/custom-ui/FallbackLogin";
 
 interface CommentDataType {
   novelSlug: string;
@@ -79,53 +79,42 @@ const FormComment = ({
     if (openReply && setOpenReply) setOpenReply(!openReply);
   };
 
+  if (!isSignedIn)
+    return <FallbackLogin message="Hãy đăng nhập để được bình luận!" />;
+
   return (
-    <div>
-      {isSignedIn ? (
-        <form onSubmit={handleSubmit}>
-          <div className="flex gap-2 text-gray-700 p-2 rounded space-y-2">
-            {avatar && <AvatarFrame src={avatar} frame={frameAvatar} />}
-            <div className="flex flex-col flex-1 gap-1">
-              <div className="flex justify-between">
-                <p className="text-sm font-semibold">{fullName}</p>
-                {openReply && setOpenReply && (
-                  <IconButton
-                    size="small"
-                    onClick={() => setOpenReply(!openReply)}
-                  >
-                    <X />
-                  </IconButton>
-                )}
-              </div>
-              <div className="flex flex-1 gap-2">
-                <textarea
-                  className="p-1 w-full active:outline-none focus:outline-none rounded border-[1px] overflow-hidden"
-                  value={message}
-                  onChange={handleChange}
-                  rows={2}
-                  ref={textAreaRef}
-                />
-                <div className="flex flex-col justify-end">
-                  <button
-                    type="submit"
-                    className="text-white text-sm px-2 h-8 bg-green-500 rounded"
-                  >
-                    Đăng
-                  </button>
-                </div>
-              </div>
+    <form onSubmit={handleSubmit}>
+      <div className="flex gap-2 text-gray-700 p-2 rounded space-y-2">
+        {avatar && <AvatarFrame src={avatar} frame={frameAvatar} />}
+        <div className="flex flex-col flex-1 gap-1">
+          <div className="flex justify-between">
+            <p className="text-sm font-semibold">{fullName}</p>
+            {openReply && setOpenReply && (
+              <IconButton size="small" onClick={() => setOpenReply(!openReply)}>
+                <X />
+              </IconButton>
+            )}
+          </div>
+          <div className="flex flex-1 gap-2">
+            <textarea
+              className="p-1 w-full active:outline-none focus:outline-none rounded border-[1px] overflow-hidden"
+              value={message}
+              onChange={handleChange}
+              rows={2}
+              ref={textAreaRef}
+            />
+            <div className="flex flex-col justify-end">
+              <button
+                type="submit"
+                className="text-white text-sm px-2 h-8 bg-green-500 rounded"
+              >
+                Đăng
+              </button>
             </div>
           </div>
-        </form>
-      ) : (
-        <div className="w-full h-10">
-          Hãy đăng nhập để được bình luận!{" "}
-          <Link href={`/sign-in`} className="text-blue-500">
-            Đăng nhập ngay
-          </Link>
         </div>
-      )}
-    </div>
+      </div>
+    </form>
   );
 };
 

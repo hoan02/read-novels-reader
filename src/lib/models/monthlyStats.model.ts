@@ -5,6 +5,7 @@ const monthlyStats = new mongoose.Schema(
     clerkId: {
       type: String,
       required: true,
+      index: true,
     },
     month: {
       type: Number,

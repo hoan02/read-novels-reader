@@ -12,6 +12,9 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import { useUser } from "@clerk/nextjs";
+import { toast } from "react-hot-toast";
+
 import {
   SendHorizontal,
   Angry,
@@ -27,8 +30,8 @@ import {
   createOrUpdateReview,
   deleteReview,
 } from "@/lib/actions/review.action";
-import { toast } from "react-hot-toast";
 import { getReview } from "@/lib/data/review.data";
+import FallbackLogin from "@/components/custom-ui/FallbackLogin";
 
 interface StateType {
   label: string;
@@ -95,6 +98,7 @@ const states: StateType[] = [
 ];
 
 const FormReview = ({ novelSlug }: { novelSlug: string }) => {
+  const { isSignedIn } = useUser();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -215,6 +219,9 @@ const FormReview = ({ novelSlug }: { novelSlug: string }) => {
     formData.valueWorld,
     isLoading,
   ]);
+
+  if (!isSignedIn)
+    return <FallbackLogin message="Đăng nhập ngay để được đánh giá!" />;
 
   return (
     <form
