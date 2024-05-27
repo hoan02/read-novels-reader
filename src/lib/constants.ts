@@ -77,7 +77,7 @@ export const menuAccount: MenuIconType[] = [
   // },
   {
     icon: MessageSquareWarning,
-    name: "Trợ giúp & Báo lỗi",
+    name: "Trợ giúp & Báo cáo",
     slug: "/tai-khoan/ho-tro",
   },
 ];

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const issueSchema = new mongoose.Schema(
+const reportSchema = new mongoose.Schema(
   {
     clerkId: {
       type: String,
@@ -18,6 +18,9 @@ const issueSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    messageReply: {
+      type: String,
+    },
     isResolved: {
       type: Boolean,
       default: false,
@@ -26,6 +29,7 @@ const issueSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Bookmark = mongoose.models?.Issue || mongoose.model("Issue", issueSchema);
+const Report =
+  mongoose.models?.Report || mongoose.model("Report", reportSchema);
 
-export default Bookmark;
+export default Report;

@@ -8,6 +8,7 @@ import {
   LinearProgress,
   Skeleton,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 
 import Error from "@/components/layouts/Error";
@@ -16,6 +17,7 @@ import { getNovel } from "@/lib/data/novel.data";
 import ReadingButton from "@/components/custom-ui/ReadingButton";
 import BookmarkButton from "@/components/custom-ui/BookmarkButton";
 import NominationButton from "@/components/custom-ui/NominationButton";
+import ReportButton from "@/components/custom-ui/ReportButton";
 
 const Loading = () => {
   return (
@@ -56,11 +58,7 @@ const NovelDetails = async ({ novelSlug }: { novelSlug: string }) => {
             <h1 className="text-2xl font-semibold text-green-800">
               {novel.novelName}
             </h1>
-            <Link href="/tai-khoan/ho-tro">
-              <IconButton>
-                <Flag />
-              </IconButton>
-            </Link>
+            <ReportButton novelSlug={novelSlug} />
           </div>
           <div className="flex flex-wrap gap-2 lg:gap-4 items-center my-4 lg:my-6">
             {novel.genres.map((genre: any) => {
