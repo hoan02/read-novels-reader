@@ -27,6 +27,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "server.js"
-  ],
+, "src/app/(root)/template.jsx"  ],
   "exclude": ["node_modules"]
 }

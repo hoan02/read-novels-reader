@@ -23,10 +23,13 @@ declare global {
     role: "org:admin" | "org:writer" | "org:reader";
   }
 
+
   interface Window {
+    CozeWebSDK: any;
     readAloudInit: (
       audioElement: HTMLAudioElement,
       playerElement: HTMLElement
     ) => void;
   }
 }
+

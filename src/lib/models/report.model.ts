@@ -20,6 +20,7 @@ const reportSchema = new mongoose.Schema(
     },
     messageReply: {
       type: String,
+      default: "",
     },
     isResolved: {
       type: Boolean,

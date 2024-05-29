@@ -1,14 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Suspense } from "react";
-import { Flag } from "lucide-react";
 import {
   Chip,
   Rating,
   LinearProgress,
   Skeleton,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
 
 import Error from "@/components/layouts/Error";

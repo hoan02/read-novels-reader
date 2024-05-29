@@ -49,6 +49,7 @@ export default function RootLayout({
                     </div>
                   </ClerkLoaded>
                   <ToasterProvider />
+                  
                 </body>
               </html>
             </FbProvider>
