@@ -45,7 +45,7 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
   if (isLoading) return <LinearProgress />;
 
   return (
-    <div className="p-4 font-source-sans-pro">
+    <div className="p-4 font-source-sans-pro max-h-[540px] overflow-auto">
       <div className="flex justify-between items-center mb-4">
         <p className="text-lg font-semibold">Danh sách chương</p>
         <button

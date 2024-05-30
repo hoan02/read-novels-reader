@@ -21,7 +21,7 @@ export const getChapters = async (novelSlug: string) => {
     await connectToDB();
     const chapters = await Chapter.find({
       novelSlug,
-    });
+    }).sort({ chapterIndex: 1 });
     return createResponse(chapters, "Success!", 200);
   } catch (err) {
     console.log(err);

@@ -16,7 +16,7 @@ export default function Template({ children }) {
                 bot_id: "7374387242338746375",
               },
               componentProps: {
-                title: "Coze",
+                title: "Novel Guru",
               },
             });
           }
