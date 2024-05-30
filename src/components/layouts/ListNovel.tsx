@@ -37,7 +37,7 @@ const NovelGrid = async () => {
         {novels.slice(0, 8).map((novel: NovelType, index: number) => (
           <div
             key={index}
-            className="flex justify-center bg-gray-50 p-4 rounded"
+            className="flex bg-gray-50 p-4 rounded"
           >
             <Image
               src={novel.urlCover}
@@ -60,12 +60,9 @@ const NovelGrid = async () => {
               <p className="mt-1 flex-1 text-sm text-gray-500">
                 <span
                   dangerouslySetInnerHTML={{
-                    __html: novel.description.substring(0, 150),
+                    __html: novel.shortDescription?.substring(0, 120) || "",
                   }}
                 />
-                {/* {novel.description.length > 100
-                  ? novel.description.substring(0, 100) + "..."
-                  : novel.description} */}
               </p>
               <div className="space-y-2">
                 <div className="text-xs text-gray-600 flex items-center gap-2">
