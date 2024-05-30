@@ -14,7 +14,7 @@ const ListNewChapters = async () => {
   }
   return (
     <div className="bg-gray-50 rounded-lg p-2">
-      {newChapters.map((chapter: ChapterWithNovelType) => {
+      {newChapters?.map((chapter: ChapterWithNovelType) => {
         return (
           <div
             className="flex gap-4 w-full border-b-[1px] p-2 text-sm text-gray-500"

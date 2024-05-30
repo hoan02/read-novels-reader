@@ -43,10 +43,27 @@ export const getNewChapters = async (limit?: number) => {
           localField: "novelSlug",
           foreignField: "novelSlug",
           as: "novelInfo",
+          pipeline: [
+            {
+              $project: {
+                novelSlug: 1,
+                novelName: 1,
+              },
+            },
+          ],
         },
       },
       {
         $unwind: "$novelInfo",
+      },
+      {
+        $project: {
+          createdAt: 1,
+          novelSlug: 1,
+          novelInfo: 1,
+          chapterIndex: 1,
+          chapterName: 1,
+        },
       },
     ];
 
@@ -54,7 +71,7 @@ export const getNewChapters = async (limit?: number) => {
       pipeline.push({ $limit: limit });
     }
 
-    const chapters = await Chapter.aggregate(pipeline);
+    const chapters = await Chapter.aggregate(pipeline).allowDiskUse(true);
     return createResponse(chapters, "Success!", 200);
   } catch (err) {
     console.log(err);
