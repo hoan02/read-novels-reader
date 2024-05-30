@@ -39,7 +39,7 @@ const MenuChapter = ({ novelSlug }: { novelSlug: string }) => {
       );
       return;
     }
-    route.push(`/truyen/${chapter.novelSlug}/${chapter.chapterIndex}`);
+    route.push(`/truyen/${novelSlug}/${chapter.chapterIndex}`);
   };
 
   if (isLoading) return <LinearProgress />;
