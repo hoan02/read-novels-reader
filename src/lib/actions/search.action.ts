@@ -15,7 +15,7 @@ export const getNovelSearch = async (input: string) => {
           fuzzy: {
             maxEdits: 2,
             prefixLength: 1,
-            maxExpansions: 256,
+            maxExpansions: 50,
           },
         },
       },

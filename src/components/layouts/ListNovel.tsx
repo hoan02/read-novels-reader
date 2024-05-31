@@ -6,7 +6,7 @@ import { Chip, Skeleton } from "@mui/material";
 
 import { NovelType } from "@/types/types";
 import Error from "@/components/layouts/Error";
-import { getNovels } from "@/lib/data/novel.data";
+import { getNovels, getNovelsByParams } from "@/lib/data/novel.data";
 
 const Loading = () => {
   return (
@@ -29,16 +29,20 @@ const Loading = () => {
 };
 
 const NovelGrid = async () => {
-  const { data: novels, message, status } = await getNovels();
+  const {
+    data: novels,
+    message,
+    status,
+  } = await getNovelsByParams({
+    rank: "thinh-hanh",
+    limit: 8,
+  });
 
   if (status === 200) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {novels.slice(0, 8).map((novel: NovelType, index: number) => (
-          <div
-            key={index}
-            className="flex bg-gray-50 p-4 rounded"
-          >
+          <div key={index} className="flex bg-gray-50 p-4 rounded">
             <Image
               src={novel.urlCover}
               alt={novel.novelName}
