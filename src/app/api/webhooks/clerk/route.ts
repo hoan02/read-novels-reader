@@ -85,6 +85,7 @@ export async function POST(req: Request) {
       }
 
       const params = {
+        clerkId: id,
         username: username,
         firstName: first_name,
         lastName: last_name,

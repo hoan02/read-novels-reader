@@ -70,7 +70,7 @@ const ListReplyComment = ({
             <div className="flex flex-col gap-2">
               <div className="max-w-max min-w-[160px] p-2 bg-slate-50 rounded-lg">
                 <div className="text-sm font-bold">
-                  {replyComment.userInfo.firstName}{" "}
+                  {replyComment.userInfo?.firstName}{" "}
                   {replyComment.userInfo.lastName}
                 </div>
                 <div className="mt-2 text-gray-500 text-sm font-mono">

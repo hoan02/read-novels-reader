@@ -53,15 +53,16 @@ export const getReviews = async (novelSlug: string) => {
           },
         },
       },
-      // {
-      //   $project: {
-      //     reviewContent: 1,
-      //     updatedAt: 1,
-      //     userInfo: 1,
-      //   },
-      // },
+      {
+        $project: {
+          reviewContent: 1,
+          updatedAt: 1,
+          userInfo: 1,
+        },
+      },
     ];
     const reviews = await Review.aggregate(aggregation);
+    console.log(reviews);
     return createResponse(reviews, "Success!", 200);
   } catch (err) {
     console.log(err);

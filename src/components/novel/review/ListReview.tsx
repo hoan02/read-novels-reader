@@ -9,13 +9,19 @@ import { getReviews } from "@/lib/data/review.data";
 import formatTimeAgo from "@/utils/formatTimeAgo";
 
 const ListReview = ({ novelSlug }: { novelSlug: string }) => {
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: review,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: [`review-${novelSlug}`, novelSlug],
     queryFn: async () => {
       return await getReviews(novelSlug);
     },
     enabled: !!novelSlug,
   });
+
+  console.log("review", review?.data);
 
   if (isLoading) return <LinearProgress />;
   if (isError) return <Error />;
@@ -25,7 +31,7 @@ const ListReview = ({ novelSlug }: { novelSlug: string }) => {
       <div className="mb-2 ml-2 text-lg font-semibold">Tất cả đánh giá:</div>
 
       <div className="space-y-2">
-        {data?.data?.map((review: any, index: number) => (
+        {review?.data?.map((review: any, index: number) => (
           <div key={index} className="p-2 md:p-4 pb-6 bg-slate-50 rounded-lg">
             <div className="flex gap-2 lg:gap-4 justify-between">
               <AvatarFrame
@@ -34,7 +40,7 @@ const ListReview = ({ novelSlug }: { novelSlug: string }) => {
               />
               <div className="flex-1">
                 <div className="text-sm font-bold">
-                  {review.userInfo.firstName} {review.userInfo.lastName}
+                  {review.userInfo?.firstName} {review.userInfo?.lastName}
                 </div>
                 <div className="mt-2 font-mono">{review.reviewContent}</div>
               </div>
