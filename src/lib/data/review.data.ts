@@ -58,11 +58,11 @@ export const getReviews = async (novelSlug: string) => {
           reviewContent: 1,
           updatedAt: 1,
           userInfo: 1,
+          avgScore: 1,
         },
       },
     ];
     const reviews = await Review.aggregate(aggregation);
-    console.log(reviews);
     return createResponse(reviews, "Success!", 200);
   } catch (err) {
     console.log(err);
