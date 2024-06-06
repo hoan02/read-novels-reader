@@ -11,7 +11,6 @@ import TanstackQueryProvider from "@/lib/providers/TanstackQueryProvider";
 import CustomThemeProvider from "@/lib/providers/CustomThemeProvider";
 import "../globals.css";
 import { ClerkLoaded } from "@clerk/nextjs";
-import FbProvider from "@/lib/providers/FbProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -29,30 +28,27 @@ export default function RootLayout({
       <TanstackQueryProvider>
         <AppRouterCacheProvider>
           <CustomThemeProvider>
-            <FbProvider>
-              <html
-                lang="vi"
-                suppressHydrationWarning
-                className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-green-200"
-              >
-                <body className={inter.className}>
-                  <ClerkLoaded>
-                    <div className="max-lg:flex-col w-full relative">
-                      <Header />
-                      <div className="hidden lg:block">
-                        <Banner />
-                      </div>
-                      <main className="max-w-7xl mx-auto lg:p-4 p-1 relative lg:top-52">
-                        {children}
-                      </main>
-                      <Footer />
+            <html
+              lang="vi"
+              suppressHydrationWarning
+              className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-green-200"
+            >
+              <body className={inter.className}>
+                <ClerkLoaded>
+                  <div className="max-lg:flex-col w-full relative">
+                    <Header />
+                    <div className="hidden lg:block">
+                      <Banner />
                     </div>
-                  </ClerkLoaded>
-                  <ToasterProvider />
-                  
-                </body>
-              </html>
-            </FbProvider>
+                    <main className="max-w-7xl mx-auto lg:p-4 p-1 relative lg:top-52">
+                      {children}
+                    </main>
+                    <Footer />
+                  </div>
+                </ClerkLoaded>
+                <ToasterProvider />
+              </body>
+            </html>
           </CustomThemeProvider>
         </AppRouterCacheProvider>
       </TanstackQueryProvider>
