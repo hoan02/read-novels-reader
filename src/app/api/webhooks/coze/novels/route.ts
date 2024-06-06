@@ -7,7 +7,7 @@ export async function GET() {
   try {
     await connectToDB();
     const novels = await Novel.find({ isPublic: true }).select(
-      "novelName novelSlug chapterCount reviews.count nominationCount readCount commentCount"
+      "novelName novelSlug chapterCount reviews nominationCount readCount commentCount"
     );
     return NextResponse.json(novels, { status: 200 });
   } catch (err) {
