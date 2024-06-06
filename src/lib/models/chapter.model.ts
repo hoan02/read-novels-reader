@@ -43,6 +43,8 @@ const chapterSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+chapterSchema.index({ novelSlug: 1, chapterIndex: 1 });
+
 const Chapter =
   mongoose.models?.Chapter || mongoose.model("Chapter", chapterSchema);
 
