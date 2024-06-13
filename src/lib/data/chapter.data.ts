@@ -21,6 +21,7 @@ export const getChapters = async (novelSlug: string) => {
     await connectToDB();
     const chapters = await Chapter.find({
       novelSlug,
+      isPublic: true,
     })
       .select("chapterIndex chapterName publishedDate isLock")
       .sort({ chapterIndex: 1 });

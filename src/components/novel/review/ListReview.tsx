@@ -21,8 +21,6 @@ const ListReview = ({ novelSlug }: { novelSlug: string }) => {
     enabled: !!novelSlug,
   });
 
-  console.log("review", review?.data);
-
   if (isLoading) return <LinearProgress />;
   if (isError) return <Error />;
 

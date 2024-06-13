@@ -2,25 +2,39 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { LinearProgress } from "@mui/material";
+import { IconButton, LinearProgress, Menu, MenuItem } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useAuth } from "@clerk/nextjs";
 
 import Error from "@/components/layouts/Error";
 import AvatarFrame from "@/components/custom-ui/AvatarFrame";
 import { getComments } from "@/lib/data/comment.data";
 import formatTimeAgo from "@/utils/formatTimeAgo";
-import toast from "react-hot-toast";
-import { updateLikeComment } from "@/lib/actions/comment.action";
+import {
+  deleteComment,
+  updateComment,
+  updateLikeComment,
+} from "@/lib/actions/comment.action";
 import FormComment from "./FormComment";
 import ListReplyComment from "./ListReplyComment";
-import { ArrowDownUp } from "lucide-react";
-import { useAuth } from "@clerk/nextjs";
+import { ArrowDownUp, EllipsisVertical } from "lucide-react";
 
 const ListComment = ({ novelSlug }: { novelSlug: string }) => {
   const queryClient = useQueryClient();
   const { isSignedIn, userId } = useAuth();
   const [openReply, setOpenReply] = useState<Record<string, boolean>>({});
   const [ascending, setAscending] = useState(true);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const {
     data: comments,
@@ -51,6 +65,25 @@ const ListComment = ({ novelSlug }: { novelSlug: string }) => {
       return;
     }
     likeMutation.mutate(commentId);
+  };
+
+  const deleteMutation = useMutation({
+    mutationFn: (commentId: string) => deleteComment(commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [`comment-${novelSlug}`],
+      });
+      toast.success("Xóa bình luận thành công");
+    },
+    onError: (error) => {
+      console.error("Error delete comment:", error);
+      toast.error("Đã có lỗi xảy ra. Vui lòng thử lại!");
+    },
+  });
+
+  const handleDelete = (commentId: string) => {
+    handleClose();
+    deleteMutation.mutate(commentId);
   };
 
   const toggleReply = (commentId: string) => {
@@ -96,12 +129,32 @@ const ListComment = ({ novelSlug }: { novelSlug: string }) => {
                   frame={comment.userInfo?.publicMetadata?.frameAvatar}
                 />
               </div>
+
               <div className="flex flex-1 flex-col gap-2">
                 <div className="max-w-max min-w-[220px] p-2 bg-slate-50 rounded-lg">
-                  <div className="text-sm font-bold">
-                    {comment.userInfo.firstName} {comment.userInfo.lastName}
+                  <div className="flex justify-between items-center">
+                    <div className="text-sm font-bold">
+                      {comment.userInfo.firstName} {comment.userInfo.lastName}
+                    </div>
+                    {comment.userInfo.clerkId === userId && (
+                      <>
+                        <IconButton size="small" onClick={handleClick}>
+                          <EllipsisVertical size={12} />
+                        </IconButton>
+                        <Menu
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                        >
+                          <MenuItem onClick={() => handleDelete(comment._id)}>
+                            <span className="text-xs">Xóa</span>
+                          </MenuItem>
+                        </Menu>
+                      </>
+                    )}
                   </div>
-                  <div className="mt-2 text-gray-500 text-sm font-mono">
+
+                  <div className="text-gray-500 text-sm font-mono">
                     {comment.message}
                   </div>
                 </div>

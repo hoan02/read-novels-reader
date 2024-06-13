@@ -34,10 +34,10 @@ export const createComment = async (params: any) => {
   }
 };
 
-export const updateComment = async (commentId: string, params: any) => {
+export const updateComment = async (commentId: string, msgEdit: string) => {
   try {
     await connectToDB();
-    await Comment.findByIdAndUpdate(commentId, params);
+    await Comment.findByIdAndUpdate(commentId, { message: msgEdit });
     return { success: true, message: "Cập nhật bình luận thành công!" };
   } catch (error) {
     console.error("Update Comment Error:", error);
