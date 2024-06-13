@@ -13,7 +13,6 @@ import { getComments } from "@/lib/data/comment.data";
 import formatTimeAgo from "@/utils/formatTimeAgo";
 import {
   deleteComment,
-  updateComment,
   updateLikeComment,
 } from "@/lib/actions/comment.action";
 import FormComment from "./FormComment";

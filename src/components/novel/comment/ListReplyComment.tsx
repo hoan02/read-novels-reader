@@ -1,17 +1,21 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
-import { LinearProgress } from "@mui/material";
+import { EllipsisVertical } from "lucide-react";
+import { IconButton, LinearProgress, Menu, MenuItem } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import AvatarFrame from "@/components/custom-ui/AvatarFrame";
 import Error from "@/components/layouts/Error";
-import { updateLikeComment } from "@/lib/actions/comment.action";
+import {
+  deleteReplyComment,
+  updateLikeComment,
+} from "@/lib/actions/comment.action";
 import { getReplyComment } from "@/lib/data/comment.data";
 import formatTimeAgo from "@/utils/formatTimeAgo";
-import { useState } from "react";
 
 const ListReplyComment = ({
   novelSlug,
@@ -22,6 +26,16 @@ const ListReplyComment = ({
 }) => {
   const queryClient = useQueryClient();
   const { isSignedIn, userId } = useAuth();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const {
     data: replyComments,
@@ -52,6 +66,25 @@ const ListReplyComment = ({
     likeMutation.mutate(commentId);
   };
 
+  const deleteMutation = useMutation({
+    mutationFn: (commentId: string) => deleteReplyComment(commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [`replies-${parentId}`],
+      });
+      toast.success("Xóa bình luận thành công");
+    },
+    onError: (error) => {
+      console.error("Error delete comment:", error);
+      toast.error("Đã có lỗi xảy ra. Vui lòng thử lại!");
+    },
+  });
+
+  const handleDelete = (commentId: string) => {
+    handleClose();
+    deleteMutation.mutate(commentId);
+  };
+
   if (isLoading) return <LinearProgress />;
   if (isError) return <Error />;
 
@@ -69,9 +102,29 @@ const ListReplyComment = ({
             </div>
             <div className="flex flex-col gap-2">
               <div className="max-w-max min-w-[160px] p-2 bg-slate-50 rounded-lg">
-                <div className="text-sm font-bold">
-                  {replyComment.userInfo?.firstName}{" "}
-                  {replyComment.userInfo.lastName}
+                <div className="flex justify-between items-center">
+                  <div className="text-sm font-bold">
+                    {replyComment.userInfo?.firstName}{" "}
+                    {replyComment.userInfo.lastName}
+                  </div>
+                  {replyComment.userInfo.clerkId === userId && (
+                    <>
+                      <IconButton size="small" onClick={handleClick}>
+                        <EllipsisVertical size={12} />
+                      </IconButton>
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                      >
+                        <MenuItem
+                          onClick={() => handleDelete(replyComment._id)}
+                        >
+                          <span className="text-xs">Xóa</span>
+                        </MenuItem>
+                      </Menu>
+                    </>
+                  )}
                 </div>
                 <div className="mt-2 text-gray-500 text-sm font-mono">
                   {replyComment.message}

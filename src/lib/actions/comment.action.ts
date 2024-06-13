@@ -64,7 +64,7 @@ export const updateLikeComment = async (commentId: string) => {
     }
 
     await comment.save();
-
+    revalidatePath(`/truyen/${comment.novelSlug}`);
     return {
       commentId,
       success: true,
@@ -78,15 +78,52 @@ export const updateLikeComment = async (commentId: string) => {
 
 export const deleteComment = async (commentId: string) => {
   try {
+    // Find and count all child comments with parentId equal to commentId
+    const childComments = await Comment.find({ parentId: commentId });
+    const childCommentCount = childComments.length;
+
+    // Delete all child comments
+    await Comment.deleteMany({ parentId: commentId });
+
+    // Delete the main comment
     const comment = await Comment.findByIdAndDelete(commentId);
-    await Novel.findOneAndUpdate(
-      {
-        novelSlug: comment.novelSlug,
-      },
-      {
-        $inc: { commentCount: -1 },
-      }
-    );
+
+    // Update the novel's comment count if the main comment was deleted
+    if (comment) {
+      await Novel.findOneAndUpdate(
+        {
+          novelSlug: comment.novelSlug,
+        },
+        {
+          $inc: { commentCount: -(childCommentCount + 1) },
+        }
+      );
+    }
+    revalidatePath(`/truyen/${comment.novelSlug}`);
+    return { success: true, message: "Xóa bình luận thành công!" };
+  } catch (error) {
+    console.error("Delete Comment Error:", error);
+    throw new Error("Không thể xóa bình luận!");
+  }
+};
+
+export const deleteReplyComment = async (commentId: string) => {
+  try {
+    const comment = await Comment.findByIdAndDelete(commentId);
+
+    // Update the novel's comment count if the main comment was deleted
+    if (comment) {
+      await Novel.findOneAndUpdate(
+        {
+          novelSlug: comment.novelSlug,
+        },
+        {
+          $inc: { commentCount: -1 },
+        }
+      );
+    }
+
+    revalidatePath(`/truyen/${comment.novelSlug}`);
     return { success: true, message: "Xóa bình luận thành công!" };
   } catch (error) {
     console.error("Delete Comment Error:", error);
