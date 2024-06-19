@@ -1,11 +1,23 @@
 "use server";
 
+import { headers } from "next/headers";
 import connectToDB from "@/lib/mongodb/mongoose";
 import Chapter from "@/lib/models/chapter.model";
 import createResponse from "@/utils/createResponse";
+import { rateLimiter } from "../ratelimit/rateLimiter";
 
 export const getChapter = async (novelSlug: string, chapterIndex: number) => {
   try {
+    const headersList = headers();
+    const ip = headersList.get("x-forwarded-for");
+    const {
+      remaining,
+      limit,
+      success: limitReached,
+    } = await rateLimiter.limit(ip!);
+    if (limitReached) {
+      return createResponse(null, "Error", 429);
+    }
     await connectToDB();
     const chapter = await Chapter.findOne({ novelSlug, chapterIndex });
     if (!chapter) return createResponse(null, "Không tìm thấy chương!", 404);
