@@ -15,7 +15,7 @@ export const getChapter = async (novelSlug: string, chapterIndex: number) => {
       limit,
       success: limitReached,
     } = await rateLimiter.limit(ip!);
-    if (limitReached) {
+    if (!limitReached) {
       return createResponse(null, "Error", 429);
     }
     await connectToDB();
