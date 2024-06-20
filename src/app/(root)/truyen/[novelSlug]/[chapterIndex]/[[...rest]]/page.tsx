@@ -21,7 +21,7 @@ const Chapter = async ({
       getNovel(novelSlug),
     ]);
 
-  if (status === 200) {
+  if (status === 200 || status === 429) {
     if (chapter?.isLock && !premiumState) {
       return (
         <Error
@@ -30,7 +30,13 @@ const Chapter = async ({
         />
       );
     }
-    return <PageChapterCustom novel={novel} chapter={chapter} />;
+    return (
+      <PageChapterCustom
+        checkBot={status === 429}
+        novel={novel}
+        chapter={chapter}
+      />
+    );
   } else {
     return <Error message={message} status={status} />;
   }

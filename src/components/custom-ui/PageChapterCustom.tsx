@@ -14,16 +14,18 @@ import { createOrUpdateReading } from "@/lib/actions/reading.action";
 import { updateReadNovel } from "@/lib/actions/novel.action";
 
 const PageChapterCustom = ({
+  checkBot = false,
   novel,
   chapter,
 }: {
+  checkBot?: boolean;
   novel: NovelType;
   chapter: ChapterType;
 }) => {
   const queryClient = useQueryClient();
   const [settings, setSettings] = useLocalStorage("settings", defaultSettings);
   const [hasRead, setHasRead] = useState(false);
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState(checkBot);
 
   const handleReading = useMutation({
     mutationFn: () =>
