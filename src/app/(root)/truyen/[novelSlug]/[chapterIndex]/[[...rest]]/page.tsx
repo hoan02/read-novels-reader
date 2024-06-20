@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import Script from "next/script";
+
 import Error from "@/components/layouts/Error";
 import { getChapter } from "@/lib/data/chapter.data";
 import { getNovel } from "@/lib/data/novel.data";
@@ -5,7 +8,6 @@ import PageChapterCustom from "@/components/custom-ui/PageChapterCustom";
 import getUserInfoServer from "@/utils/getUserInfoServer";
 import Comment from "@/components/novel/comment/Comment";
 import Loading from "@/app/(root)/loading";
-import { Suspense } from "react";
 
 const Chapter = async ({
   novelSlug,
@@ -20,6 +22,21 @@ const Chapter = async ({
       getChapter(novelSlug, chapterIndex),
       getNovel(novelSlug),
     ]);
+
+  if (status === 429) {
+    return (
+      <div className="h-full w-full flex items-center justify-center">
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          strategy="lazyOnload"
+        />
+        <div
+          className="cf-turnstile"
+          data-sitekey="0x4AAAAAAAc37VBmXfbLsHlk"
+        ></div>
+      </div>
+    );
+  }
 
   if (status === 200) {
     if (chapter?.isLock && !premiumState) {
