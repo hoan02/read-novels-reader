@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ClerkLoaded } from "@clerk/nextjs";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import Header from "@/components/layouts/Header";
@@ -10,7 +11,6 @@ import { ToasterProvider } from "@/lib/providers/ToasterProvider";
 import TanstackQueryProvider from "@/lib/providers/TanstackQueryProvider";
 import CustomThemeProvider from "@/lib/providers/CustomThemeProvider";
 import "../globals.css";
-import { ClerkLoaded } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
