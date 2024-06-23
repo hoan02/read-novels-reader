@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 
 import Error from "@/components/layouts/Error";
 import { getChapter } from "@/lib/data/chapter.data";
@@ -6,6 +7,23 @@ import { getNovel } from "@/lib/data/novel.data";
 import PageChapterCustom from "@/components/custom-ui/PageChapterCustom";
 import getUserInfoServer from "@/utils/getUserInfoServer";
 import Loading from "@/app/(root)/loading";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { novelSlug: string; chapterIndex: number };
+}): Promise<Metadata> {
+  const novelSlug = params.novelSlug;
+  const chapterIndex = Number(params.chapterIndex);
+  const [{ data: chapter }, { data: novel }] = await Promise.all([
+    getChapter(novelSlug, chapterIndex),
+    getNovel(novelSlug),
+  ]);
+
+  return {
+    title: `${novel.novelName} - Chương ${chapterIndex}: ${chapter.chapterName}`,
+  };
+}
 
 const Chapter = async ({
   novelSlug,

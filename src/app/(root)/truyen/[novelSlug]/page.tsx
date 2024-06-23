@@ -1,11 +1,7 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { Suspense } from "react";
-import {
-  Chip,
-  Rating,
-  LinearProgress,
-  Skeleton,
-} from "@mui/material";
+import { Chip, Rating, LinearProgress, Skeleton } from "@mui/material";
 
 import Error from "@/components/layouts/Error";
 import TabsDetailsNovel from "@/components/novel/TabsDetailsNovel";
@@ -14,6 +10,20 @@ import ReadingButton from "@/components/custom-ui/ReadingButton";
 import BookmarkButton from "@/components/custom-ui/BookmarkButton";
 import NominationButton from "@/components/custom-ui/NominationButton";
 import ReportButton from "@/components/custom-ui/ReportButton";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { novelSlug: string };
+}): Promise<Metadata> {
+  const novelSlug = params.novelSlug;
+  const { data: novel } = await getNovel(novelSlug);
+
+  return {
+    title: novel.novelName,
+    description: novel.description,
+  };
+}
 
 const Loading = () => {
   return (
