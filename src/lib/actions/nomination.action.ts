@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 import connectToDB from "@/lib/mongodb/mongoose";
 import Nomination from "../models/nomination.model";
@@ -37,6 +38,7 @@ export const createNomination = async (novelSlug: string) => {
       { new: true, upsert: true }
     );
 
+    revalidatePath(`/truyen/${novelSlug}`);
     return { success: true, message: "Đề cử thành công!" };
   } catch (error) {
     console.error("Create Nomination Error:", error);
@@ -66,6 +68,7 @@ export const deleteNomination = async (novelSlug: string) => {
       { new: true }
     );
 
+    revalidatePath(`/truyen/${novelSlug}`);
     return { success: true, message: "Xóa đề cử thành công!" };
   } catch (error) {
     console.error("Delete Nomination Error:", error);

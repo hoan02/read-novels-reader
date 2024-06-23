@@ -5,7 +5,6 @@ import { auth } from "@clerk/nextjs/server";
 
 import connectToDB from "@/lib/mongodb/mongoose";
 import Bookmark from "../models/bookmark.model";
-import Novel from "../models/novel.model";
 
 export const createBookmark = async (novelSlug: string) => {
   try {
