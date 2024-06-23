@@ -33,15 +33,6 @@ export default function RootLayout({
               suppressHydrationWarning
               className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-green-200"
             >
-              <script
-                async
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4651272415173333"
-                crossOrigin="anonymous"
-              />
-              <meta
-                name="google-adsense-account"
-                content="ca-pub-4651272415173333"
-              />
               <body className={inter.className}>
                 <ClerkLoaded>
                   <div className="max-lg:flex-col w-full relative">
