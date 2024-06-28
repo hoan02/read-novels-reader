@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkLoaded } from "@clerk/nextjs";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import Header from "@/components/layouts/Header";
@@ -47,6 +48,7 @@ export default function RootLayout({
                   </div>
                 </ClerkLoaded>
                 <ToasterProvider />
+                <GoogleAnalytics gaId="G-0711KTC4XR" />
               </body>
             </html>
           </CustomThemeProvider>
