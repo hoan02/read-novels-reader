@@ -19,6 +19,7 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.15",
     "@mui/material-nextjs": "^5.15.11",
+    "@next/third-parties": "^14.2.4",
     "@payos/node": "^1.0.6",
     "@tanstack/react-query": "^5.35.1",
     "@upstash/ratelimit": "^1.2.1",
