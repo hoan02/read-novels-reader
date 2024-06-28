@@ -48,7 +48,7 @@ export default function RootLayout({
                   </div>
                 </ClerkLoaded>
                 <ToasterProvider />
-                <GoogleAnalytics gaId="G-HSE9G7B9Z1" />
+                <GoogleAnalytics gaId="G-0711KTC4XR" />
               </body>
             </html>
           </CustomThemeProvider>
