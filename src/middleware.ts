@@ -6,7 +6,12 @@ const isProtectedRoute = createRouteMatcher([
   "/premium(.*)",
 ]);
 
-export default clerkMiddleware();
+export default clerkMiddleware(
+  (auth, req) => {
+    if (isProtectedRoute(req)) auth().protect();
+  },
+  { debug: process.env.NODE_ENV === "development" }
+);
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
