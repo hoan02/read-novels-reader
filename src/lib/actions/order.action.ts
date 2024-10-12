@@ -12,8 +12,8 @@ export const createOrder = async (order: string) => {
       orderCode: Number(String(new Date().getTime()).slice(-6)),
       amount: order === "month" ? 29000 : 259000,
       description: order === "month" ? "PREMIUM1T" : "PREMIUM1Y",
-      cancelUrl: `${process.env.PUBLIC_URL}payment/result`,
-      returnUrl: `${process.env.PUBLIC_URL}payment/result`,
+      cancelUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/result`,
+      returnUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/result`,
     };
     const { userId } = auth();
     const paymentLinkRes = await PayOs.createPaymentLink(body);
