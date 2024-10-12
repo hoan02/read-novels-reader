@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/tai-khoan/', 'payment'],
+      disallow: ['/tai-khoan/', '/payment'],
     },
     sitemap: 'https://doctruyen.io.vn/sitemap.xml',
   }
