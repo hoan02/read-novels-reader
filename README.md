@@ -2,6 +2,11 @@
 
 Read Novel Reader is an innovative platform designed for reading and managing novels online. This platform provides a seamless experience for readers and writers, offering a wide range of features from reading novels to account management and social interactions.
 
+## 📄 Graduation Report
+
+You can view the full graduation thesis here:  
+👉 [DoAnTotNghiep-doctruyen.io.vn-LeCongHoan.pdf](docs/DoAnTotNghiep-doctruyen.io.vn-LeCongHoan.pdf)
+
 ## Features
 
 - **User Registration and Authentication**: Users can register and log in using their email, username, phone number, or via social media accounts like Google and Facebook.
